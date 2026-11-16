@@ -77,6 +77,7 @@ class PipelineConfig:
     device: str = "cpu"
     mosaic: bool = True
     face_weights: str = str(MODEL_DIR / "face.pt")
+    extensions: list = field(default_factory=list)   # 켜 둔 확장 기능 key 목록 (extensions/__init__.py)
 
     def to_dict(self):
         return asdict(self)
@@ -98,6 +99,8 @@ class TrackRow:
     distance: float = 0.0
     speed: float = 0.0
     trail: tuple = ()
+    source: str = "main"   # "main" = 기본 추적, 그 외 = 확장 기능 key
+    label: str = ""        # 화면에 함께 보일 글자 (예: 인식한 한글)
 
 
 class Detector:
@@ -163,6 +166,11 @@ class TrackingPipeline:
         self.tracker = ByteTracker(self.tracker_config, fps)
         self.motion = MotionRecorder(fps)
         self.frame_index = 0
+        self.extensions = []
+        if config.extensions:
+            import extensions
+
+            self.extensions = [extensions.load(key)(config.device, fps) for key in config.extensions]
 
     def process(self, frame):
         """프레임 하나를 처리합니다. 모자이크는 ``frame``에 직접 적용됩니다.
@@ -185,6 +193,13 @@ class TrackingPipeline:
         tracks = self.tracker.update(boxes, scores, classes, features, (width, height))
         timings["track"] = (perf_counter() - started) * 1000
 
+        # 확장 기능은 모자이크 전 원본 프레임을 봅니다.
+        extension_rows = []
+        started = perf_counter()
+        for extension in self.extensions:
+            extension_rows.extend(extension.process(frame, self.frame_index + 1))
+        timings["extensions"] = (perf_counter() - started) * 1000
+
         timings["mosaic"] = 0.0
         if self.mosaic is not None:
             started = perf_counter()
@@ -206,5 +221,10 @@ class TrackingPipeline:
                                     tuple(float(v) for v in track.box), track.score, track.status,
                                     state.direction if state else "—",
                                     state.distance if state else 0.0, 0.0, ()))
-        timings["total"] = timings["detect"] + timings["track"] + timings["mosaic"]
-        return sorted(rows, key=lambda r: r.track_id), sorted(waiting, key=lambda r: r.track_id), timings
+        timings["total"] = timings["detect"] + timings["track"] + timings["extensions"] + timings["mosaic"]
+        rows = sorted(rows, key=lambda r: r.track_id) + extension_rows
+        return rows, sorted(waiting, key=lambda r: r.track_id), timings
+
+    def close(self):
+        for extension in self.extensions:
+            extension.close()

@@ -1,7 +1,8 @@
 """추적 결과 파일 저장·불러오기 (요구 사항 10).
 
-* CSV: ``frame, time_ms, id, class, x1, y1, x2, y2, score, status, direction, distance_px, speed_px_s``
-  한 줄이 한 프레임의 한 객체입니다. 엑셀에서 바로 열 수 있도록 UTF-8 BOM으로 저장합니다.
+* CSV: ``frame, time_ms, id, class, x1, y1, x2, y2, score, status, direction, distance_px, speed_px_s, source, label``
+  한 줄이 한 프레임의 한 객체입니다. ``source``는 ``main``(기본 추적) 또는 확장 기능 key, ``label``은 확장 기능이 붙인 글자입니다.
+  ``source``·``label`` 열이 없는 이전 CSV도 불러올 수 있습니다. 엑셀에서 바로 열 수 있도록 UTF-8 BOM으로 저장합니다.
 * 같은 이름의 ``.json``: 원본 영상 경로, FPS, 모델·추적기 설정을 함께 저장해 결과를 재현할 수 있게 합니다.
 * MOT txt: MOTChallenge/TrackEval 형식 ``frame,id,left,top,width,height,conf,-1,-1,-1``.
 """
@@ -12,6 +13,7 @@ from pathlib import Path
 
 COLUMNS = ["frame", "time_ms", "id", "class", "x1", "y1", "x2", "y2", "score", "status",
            "direction", "distance_px", "speed_px_s"]
+OPTIONAL_COLUMNS = ["source", "label"]
 
 
 class ResultWriter:
@@ -23,7 +25,8 @@ class ResultWriter:
             x1, y1, x2, y2 = t.box
             self.rows.append([frame, time_ms, t.track_id, t.cls_name, f"{x1:.1f}", f"{y1:.1f}",
                               f"{x2:.1f}", f"{y2:.1f}", f"{t.score:.3f}", t.status, t.direction,
-                              f"{t.distance:.1f}", f"{t.speed:.1f}"])
+                              f"{t.distance:.1f}", f"{t.speed:.1f}", getattr(t, "source", "main"),
+                              getattr(t, "label", "")])
 
     def __len__(self):
         return len(self.rows)
@@ -32,7 +35,7 @@ class ResultWriter:
         path = Path(path)
         with path.open("w", encoding="utf-8-sig", newline="") as target:
             writer = csv.writer(target)
-            writer.writerow(COLUMNS)
+            writer.writerow(COLUMNS + OPTIONAL_COLUMNS)
             writer.writerows(self.rows)
         path.with_suffix(".json").write_text(
             json.dumps(metadata, ensure_ascii=False, indent=2), encoding="utf-8")
@@ -54,6 +57,7 @@ def load_results(path):
                 "score": float(row["score"]), "status": row["status"],
                 "direction": row["direction"], "distance": float(row["distance_px"]),
                 "speed": float(row["speed_px_s"]),
+                "source": row.get("source") or "main", "label": row.get("label") or "",
             })
     sidecar = path.with_suffix(".json")
     metadata = json.loads(sidecar.read_text(encoding="utf-8")) if sidecar.is_file() else {}

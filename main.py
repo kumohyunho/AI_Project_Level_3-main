@@ -19,6 +19,7 @@ from PySide6.QtWidgets import (
     QTableWidgetItem, QTabWidget, QVBoxLayout, QWidget,
 )
 
+import extensions
 from pipeline import (MODEL_DIR, ROOT, TRACKABLE_CLASSES, PipelineConfig, available_weights,
                       default_weights, tracker_choices)
 from results_io import ResultWriter, load_results
@@ -57,8 +58,18 @@ def tracker_label(name):
     return name if "+" in name else f"튜닝: {name}"
 
 
-def track_color(track_id):
-    return QColor.fromHsv((track_id * 137) % 360, 175, 255)
+def track_color(track_id, source="main"):
+    offset = 0 if source == "main" else 60 + 97 * sum(map(ord, source))
+    return QColor.fromHsv((track_id * 137 + offset) % 360, 175, 255)
+
+
+SOURCE_TAGS = extensions.source_tags()
+
+
+def id_text(row):
+    """기본 추적은 숫자만, 확장 기능은 짧은 표시를 붙입니다 (예: 글3)."""
+    source = getattr(row, "source", "main")
+    return str(row.track_id) if source == "main" else f"{SOURCE_TAGS.get(source, source)}{row.track_id}"
 
 
 class TrackingView(QWidget):
@@ -99,7 +110,7 @@ class TrackingView(QWidget):
 
         for row in self.rows:
             x1, y1, x2, y2 = row.box
-            color = track_color(row.track_id)
+            color = track_color(row.track_id, row.source)
             pen = QPen(color)
             pen.setWidthF(2 / scale)
             painter.setPen(pen)
@@ -111,9 +122,11 @@ class TrackingView(QWidget):
                     painter.setPen(pen)
                 painter.drawRect(QRectF(x1, y1, x2 - x1, y2 - y1))
             if self.display.get("ID"):
-                label = f"ID {row.track_id}"
-                if row.cls_name != "person":
+                label = f"ID {id_text(row)}"
+                if row.source == "main" and row.cls_name != "person":
                     label += f" {CLASS_LABELS.get(row.cls_name, row.cls_name)}"
+                if row.label:
+                    label += f" {row.label}"
                 if row.status in (STATUS_REAPPEARED, STATUS_REENTERED):
                     label += f" · {row.status}"
                 label_height = metrics.height() + 2 * padding
@@ -214,13 +227,24 @@ class Window(QMainWindow):
             model_bar.addWidget(check)
             self.class_checks[name] = check
         self.mosaic_check = QCheckBox("얼굴 모자이크")
-        self.mosaic_check.setChecked((MODEL_DIR / "face.pt").is_file())
-        self.mosaic_check.setEnabled((MODEL_DIR / "face.pt").is_file())
+        face_ready = (MODEL_DIR / "face.pt").is_file()
+        self.mosaic_check.setChecked(face_ready)
+        self.mosaic_check.setProperty("available", face_ready)
         model_bar.addWidget(self.mosaic_check)
+        # 확장 기능: extensions/__init__.py의 REGISTRY에 등록된 것만 자동으로 나타납니다.
+        model_bar.addWidget(QLabel("확장"))
+        self.extension_checks = {}
+        for key, label, reason in extensions.available_extensions():
+            check = QCheckBox(label)
+            check.setProperty("available", reason is None)
+            check.setToolTip(reason or extensions.load(key).description)
+            model_bar.addWidget(check)
+            self.extension_checks[key] = check
         model_bar.addStretch()
         main.addLayout(model_bar)
         self.setting_widgets = [self.model, self.model_file_button, self.tracker, self.mosaic_check,
-                                *self.class_checks.values()]
+                                *self.class_checks.values(), *self.extension_checks.values()]
+        self.set_settings_enabled(True)
 
         body = QHBoxLayout()
         left = QVBoxLayout()
@@ -322,6 +346,11 @@ class Window(QMainWindow):
                 table.setItem(r, c, item)
 
     # ------------------------------------------------------------------ 입력 선택
+    def set_settings_enabled(self, enabled):
+        """설정 위젯을 켜고 끕니다. 가중치가 없는 기능(available=False)은 항상 꺼 둡니다."""
+        for widget in self.setting_widgets:
+            widget.setEnabled(enabled and widget.property("available") is not False)
+
     def enable_controls(self, enabled):
         for widget in (self.play_button, self.pause_button, self.stop_button, self.slider):
             widget.setEnabled(enabled)
@@ -356,8 +385,10 @@ class Window(QMainWindow):
         classes = [name for name, check in self.class_checks.items() if check.isChecked()]
         if not classes:
             raise ValueError("추적할 대상을 하나 이상 선택하세요.")
+        enabled = [key for key, check in self.extension_checks.items() if check.isChecked() and check.isEnabled()]
         return PipelineConfig(weights=self.model.currentData(), classes=classes,
-                              tracker=self.tracker.currentData(), mosaic=self.mosaic_check.isChecked())
+                              tracker=self.tracker.currentData(), mosaic=self.mosaic_check.isChecked(),
+                              extensions=enabled)
 
     def mode_changed(self):
         self.player.stop()
@@ -372,8 +403,7 @@ class Window(QMainWindow):
         original = mode == MODE_ORIGINAL
         self.video_stack.setCurrentWidget(self.video if original else self.preview)
         self.slider.setEnabled(original and self.source is not None)
-        for widget in self.setting_widgets:
-            widget.setEnabled(mode == MODE_TRACK)
+        self.set_settings_enabled(mode == MODE_TRACK)
         self.player.setSource(QUrl.fromLocalFile(self.source) if original and self.source else QUrl())
 
     # ------------------------------------------------------------------ 재생 제어
@@ -460,10 +490,12 @@ class Window(QMainWindow):
             if timings:
                 n = max(1, self.timing_frames)
                 average = self.timing_sum["total"] / n
+                extension_ms = self.timing_sum.get("extensions", 0.0) / n
                 values[2] = f"{1000 / max(timings['total'], 1e-6):.1f}"
                 values[3] = f"{1000 / max(average, 1e-6):.1f}\n{average:.1f} ms"
                 values[4] = (f"검출 {self.timing_sum['detect'] / n:.0f} · 추적 {self.timing_sum['track'] / n:.1f}"
-                             f"\n모자이크 {self.timing_sum['mosaic'] / n:.0f} ms")
+                             f"\n모자이크 {self.timing_sum['mosaic'] / n:.0f}"
+                             + (f" · 확장 {extension_ms:.0f}" if extension_ms else "") + " ms")
         labels = ("추적 중", "가림·이탈", "현재 FPS", "평균 FPS", "평균 단계별 시간")
         for widget, label, value in zip(self.stats, labels, values):
             widget.setText(f"{label}\n\n{value}")
@@ -503,7 +535,8 @@ class Window(QMainWindow):
             else:
                 self.clock.setText(f"실시간 · {self.time_text(position)}")
             self.set_stats(len(rows), len(waiting), timings)
-            table_rows = [(str(row.track_id), CLASS_LABELS.get(row.cls_name, row.cls_name),
+            table_rows = [(id_text(row), CLASS_LABELS.get(row.cls_name, row.cls_name)
+                           + (f" · {row.label}" if row.label else ""),
                            row.status, row.direction, f"{row.distance:.1f}",
                            f"{row.speed:.0f}" if index < len(rows) else "—")
                           for index, row in enumerate(rows + waiting)]
@@ -534,9 +567,7 @@ class Window(QMainWindow):
         for widget in (self.open_button, self.camera_button, self.mode, self.load_button,
                        self.load_result_button, self.play_button):
             widget.setEnabled(True)
-        for widget in self.setting_widgets:
-            widget.setEnabled(self.mode.currentText() == MODE_TRACK)
-        self.mosaic_check.setEnabled(self.mosaic_check.isEnabled() and (MODEL_DIR / "face.pt").is_file())
+        self.set_settings_enabled(self.mode.currentText() == MODE_TRACK)
         self.pause_button.setEnabled(False)
         self.stop_button.setEnabled(True)
         self.save_result_button.setEnabled(bool(len(self.results)))
@@ -657,6 +688,8 @@ class Window(QMainWindow):
                 for name, check in self.class_checks.items():
                     check.setChecked(name in config.classes)
                 self.mosaic_check.setChecked(config.mosaic and self.mosaic_check.isEnabled())
+                for key, check in self.extension_checks.items():
+                    check.setChecked(key in config.extensions and check.isEnabled())
                 self.camera_index.setValue(int(data.get("camera", 0)))
                 mode = data.get("mode", MODE_TRACK)
                 self.mode.setCurrentText(mode if mode != MODE_REPLAY else MODE_TRACK)

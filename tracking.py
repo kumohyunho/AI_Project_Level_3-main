@@ -60,12 +60,12 @@ class TrackingThread(QThread):
 
     def track_video(self):
         capture, fps, duration, camera = self._open()
+        pipeline = None
         try:
             ok, frame = capture.read()
             if not ok:
                 raise ValueError("영상 프레임을 읽을 수 없습니다.")
             self.metadata.emit(duration, fps, camera)
-            pipeline = None
             motion = MotionRecorder(fps)
             if self.replay is None:
                 pipeline = TrackingPipeline(self.config, fps)
@@ -94,6 +94,8 @@ class TrackingThread(QThread):
                 ok, frame = capture.read()
         finally:
             capture.release()
+            if pipeline is not None:
+                pipeline.close()
 
     def _replay_rows(self, index, motion):
         """저장된 행을 화면용 트랙으로 바꿉니다. 가림·화면 이탈 상태는 대기 목록으로 분리합니다."""
@@ -103,7 +105,11 @@ class TrackingThread(QThread):
                 waiting.append(TrackRow(item["id"], item["class"], item["box"], item["score"],
                                         item["status"], item["direction"], item["distance"], 0.0, ()))
                 continue
-            state = motion.update(item["id"], item["box"], index)
+            source = item.get("source", "main")
+            # 확장 기능 트랙은 ID가 따로 매겨지므로 궤적도 (source, id)로 구분합니다.
+            key = item["id"] if source == "main" else (source, item["id"])
+            state = motion.update(key, item["box"], index)
             rows.append(TrackRow(item["id"], item["class"], item["box"], item["score"], item["status"],
-                                 item["direction"], item["distance"], item["speed"], tuple(state.trail)))
+                                 item["direction"], item["distance"], item["speed"], tuple(state.trail),
+                                 source, item.get("label", "")))
         return rows, waiting
