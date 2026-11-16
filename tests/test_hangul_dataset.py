@@ -75,7 +75,7 @@ class GeneratorTest(unittest.TestCase):
         backgrounds = hangul_dataset.Backgrounds(rng, video="없는 파일")
         partial = clipped = total = 0
         for _ in range(40):
-            image, items = hangul_dataset.make_image(rng, backgrounds, FONTS[:3], 45.0)
+            image, items = hangul_dataset.make_image(rng, backgrounds, FONTS[:3], 45.0, hard_cases=True)
             height, width = image.shape[:2]
             for item in items:
                 x1, y1, x2, y2 = item["box"]
@@ -86,6 +86,16 @@ class GeneratorTest(unittest.TestCase):
                 clipped += x1 == 0 or y1 == 0 or x2 == width or y2 == height
         self.assertGreater(partial, 0.05 * total)
         self.assertGreater(clipped, 0)
+
+    def test_default_images_have_only_whole_jamo(self):
+        # 기본값은 현재 가중치를 학습한 데이터와 같아야 합니다: 잘리거나 가려진 자모가 없습니다.
+        import random
+
+        rng = random.Random(5)
+        backgrounds = hangul_dataset.Backgrounds(rng, video="없는 파일")
+        for _ in range(20):
+            _, items = hangul_dataset.make_image(rng, backgrounds, FONTS[:3], 45.0)
+            self.assertTrue(all(item["visible"] == 1.0 for item in items))
 
     def test_tracking_sequence(self):
         folder = self.output / "tracking" / "test" / "jamo-01"

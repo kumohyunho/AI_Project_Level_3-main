@@ -5,7 +5,8 @@
 
 1. 검출 학습용 이미지 (YOLO 형식, 40클래스) — ``images/<split>``, ``labels/<split>``
    * 자모 하나 = 박스 하나. 색·크기·글꼴·외곽선·바탕 판·**회전(기본 ±45°)**을 무작위로 바꿉니다.
-   * 일부 자모는 화면 경계에 걸리거나(15%) 가림막에 가려집니다(이미지의 35%). 떠다니는 영상에서 검출이 가장 많이 빠지던 상황입니다.
+   * ``--hard-cases``를 주면 일부 자모가 화면 경계에 걸리거나(15%) 가림막에 가려집니다(이미지의 35%).
+     떠다니는 영상에서 검출이 가장 많이 빠지던 상황입니다. 현재 가중치는 이 옵션 없이 학습했습니다.
    * ``annotations/<split>.jsonl``: 박스별 자모와 회전 각도 (회전 각도별 정확도 분석용)
 2. 추적 평가용 "떠다니는 자모" 영상 (MOTChallenge 형식) — ``tracking/<split>/<seq>``
    * 자모 여러 개가 떠다니며 천천히 회전하고, 서로 교차하고, 가림막에 가려지고, 화면 밖으로 나갔다 다시 들어옵니다.
@@ -265,8 +266,11 @@ def add_occluders(image, rng):
     return mask
 
 
-def make_image(rng, backgrounds, fonts, rotation):
-    """검출 학습 이미지 한 장. 일부 자모는 화면 경계에 걸리거나 가림막에 가려집니다 (떠다니는 영상에서 흔한 상황).
+def make_image(rng, backgrounds, fonts, rotation, hard_cases=False):
+    """검출 학습 이미지 한 장.
+
+    ``hard_cases=True``이면 일부 자모가 화면 경계에 걸리거나 가림막에 가려지고, 작은 크기를 더 자주 뽑습니다
+    (떠다니는 영상에서 검출이 가장 많이 빠지던 상황). 기본값(False)은 ``models/hangul_jamo.pt``를 학습한 데이터와 같습니다.
 
     라벨 규칙: 경계에 걸린 자모는 **보이는 부분의 박스**, 가림막에 가려진 자모는 **전체 박스**이며
     (추적 정답과 같은 기준), 70% 넘게 가려진 자모는 라벨에서 뺍니다.
@@ -277,10 +281,12 @@ def make_image(rng, backgrounds, fonts, rotation):
     items, boxes = [], []
     for _ in range(rng.randint(3, 14)):
         name = rng.choice(CLASS_NAMES)
-        # 떠다니는 영상의 자모는 화면에서 20~60픽셀 정도라 작은 크기를 더 자주 뽑습니다.
-        size = int(rng.choice([rng.uniform(20, 34), rng.uniform(22, 40), rng.uniform(40, 80), rng.uniform(80, 140)]))
+        sizes = [rng.uniform(22, 40), rng.uniform(40, 80), rng.uniform(80, 140)]
+        if hard_cases:  # 떠다니는 영상의 자모는 화면에서 20~60픽셀 정도라 작은 크기를 더 자주 뽑습니다.
+            sizes.append(rng.uniform(20, 34))
+        size = int(rng.choice(sizes))
         angle = rng.uniform(-rotation, rotation) if rng.random() < 0.85 else 0.0
-        truncated = rng.random() < 0.15
+        truncated = hard_cases and rng.random() < 0.15
         for _attempt in range(8):
             x, y = rng.randint(0, width - 20), rng.randint(0, height - 20)
             sprite = render_jamo(CHAR[name], rng.choice(fonts), size, rng, float(luma[y:y + size, x:x + size].mean()))
@@ -301,7 +307,8 @@ def make_image(rng, backgrounds, fonts, rotation):
                 else:
                     y = height - sprite.height + int(sprite.height * shift)
             box = (max(0, x), max(0, y), min(width, x + sprite.width), min(height, y + sprite.height))
-            if box[2] - box[0] < 8 or box[3] - box[1] < 8 or covered_ratio(box, boxes) > 0.15:  # 살짝 겹치는 것까지만 허용
+            too_small = truncated and (box[2] - box[0] < 8 or box[3] - box[1] < 8)
+            if too_small or covered_ratio(box, boxes) > 0.15:  # 살짝 겹치는 것까지만 허용
                 continue
             paste(image, sprite, x, y)
             boxes.append(box)
@@ -309,7 +316,7 @@ def make_image(rng, backgrounds, fonts, rotation):
             items.append({"box": list(box), "class": name, "char": CHAR[name], "angle": round(angle, 1),
                           "visible": round(visible, 2)})
             break
-    if rng.random() < 0.35:
+    if hard_cases and rng.random() < 0.35:
         mask = add_occluders(image, rng)
         kept = []
         for item in items:
@@ -326,7 +333,7 @@ def make_image(rng, backgrounds, fonts, rotation):
     return image, items
 
 
-def write_detection_split(rng, backgrounds, fonts, output, split, count, rotation):
+def write_detection_split(rng, backgrounds, fonts, output, split, count, rotation, hard_cases=False):
     import cv2
 
     (output / "images" / split).mkdir(parents=True, exist_ok=True)
@@ -335,7 +342,7 @@ def write_detection_split(rng, backgrounds, fonts, output, split, count, rotatio
     per_class = dict.fromkeys(CLASS_NAMES, 0)
     with (output / "annotations" / f"{split}.jsonl").open("w", encoding="utf-8") as notes:
         for index in range(count):
-            image, items = make_image(rng, backgrounds, fonts, rotation)
+            image, items = make_image(rng, backgrounds, fonts, rotation, hard_cases)
             name = f"{split}_{index:06d}"
             cv2.imwrite(str(output / "images" / split / f"{name}.jpg"), image, [cv2.IMWRITE_JPEG_QUALITY, rng.randint(70, 95)])
             height, width = image.shape[:2]
@@ -474,7 +481,8 @@ def main(args):
     summary = {"detection": {}, "tracking": {}}
     for split, count in (("train", args.train), ("val", args.val), ("test", args.test)):
         summary["detection"][split] = write_detection_split(
-            rng, backgrounds, font_splits[split], output, split, count, args.rotation)
+            rng, backgrounds, font_splits[split], output, split, count, args.rotation,
+            getattr(args, "hard_cases", False))
     for split in ("val", "test"):
         for index in range(1, args.sequences + 1):
             name = f"jamo-{index:02d}"
@@ -488,7 +496,8 @@ def main(args):
         f"path: {json.dumps(output.as_posix(), ensure_ascii=False)}\n"
         f"train: images/train\nval: images/val\ntest: images/test\nnames: {{{listing}}}\n", encoding="utf-8")
     (output / "splits.json").write_text(json.dumps(dict(
-        kind="hangul-jamo-synthetic", seed=args.seed, rotation=args.rotation, classes=CLASS_NAMES,
+        kind="hangul-jamo-synthetic", seed=args.seed, rotation=args.rotation,
+        hard_cases=bool(getattr(args, "hard_cases", False)), classes=CLASS_NAMES,
         chars=[CHAR[n] for n in CLASS_NAMES], counts=summary,
         fonts={k: [Path(f).name for f in v] for k, v in font_splits.items()},
         backgrounds=[str(Path(b)) for b in (args.backgrounds or [])] + ["sample.mp4", "무늬 배경"],
@@ -510,6 +519,9 @@ if __name__ == "__main__":
     parser.add_argument("--backgrounds", nargs="*", help="배경 사진 폴더 (선택, 예: datasets/raw/coco/val2017)")
     parser.add_argument("--fonts", nargs="*", help="추가 글꼴 폴더 (선택)")
     parser.add_argument("--seed", type=int, default=0)
+    parser.add_argument("--hard-cases", action="store_true",
+                        help="학습 이미지에 화면 경계에 걸린 자모(15%%)와 가림막(이미지의 35%%)을 넣고 작은 크기를 더 자주 만듭니다.\n"
+                             "검출 누락을 줄이기 위한 옵션이며, 기본값(끔)은 models/hangul_jamo.pt를 학습한 데이터와 같습니다.")
     parser.add_argument("--tracking-only", action="store_true",
                         help="검출 학습 이미지는 만들지 않고 떠다니는 자모 영상만 만듭니다 (회전 범위별 평가용).\n"
                              "seed가 같으면 회전 범위만 다르고 자모·출발 위치·속도·배경이 같은 영상이 만들어집니다.")
