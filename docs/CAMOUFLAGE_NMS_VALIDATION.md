@@ -63,7 +63,10 @@ git switch feature/camouflage-nms-validation
 ```
 
 로컬 수정 내용이 있다고 경고되면 강제 전환하지 마세요. 로컬에서 직접 바꾼 파일은 자동으로 GitHub에 포함되지 않습니다.
-새 폴더에는 기존에 사용한 `camouflage.pt`와 같은 학습의 `camouflage.json`을 `models`로 복사합니다.
+현재 이 브랜치에는 사용자가 제공한 첫 학습 모델 `models/camouflage.pt`와 같은 학습의 `models/camouflage.json`이 포함되어 있습니다.
+새로 clone하거나 브랜치를 ZIP으로 내려받으면 두 파일도 함께 받아지므로 Drive에서 매번 복사할 필요가 없습니다.
+가중치는 5,447,834바이트이며 JSON에 기록된 SHA256과 일치합니다. 3에폭 모델로 추가 재학습한 파일이 아닙니다.
+기존 Git 작업 폴더에 같은 이름의 미추적 모델 파일이 있으면 업데이트를 막을 수 있으므로 먼저 별도 폴더에 보관하세요.
 테스트 원본 영상 `cuttlefish_test.mp4`는 프로젝트 최상위에 복사합니다.
 기존 `C:\AI\camouflage-venv\Scripts\python.exe` 환경을 재사용할 수 있고 새 의존성 설치는 필요 없습니다.
 VS Code의 인터프리터도 이 경로를 선택하고 '터미널에서 Python 파일 실행'을 사용합니다.
@@ -159,4 +162,6 @@ Rename-Item models/camouflage.inference.json camouflage.inference.json.bak
 
 이 작업 환경에서 전체 unittest 104개가 통과했습니다. 변경 Python 파일의 Ruff F/E9 검사와 diff 공백 검사도 통과했습니다.
 설치된 Ultralytics 8.3.233의 기본 NMS IoU가 0.7, max_det이 300인 것도 실제 설정으로 확인했습니다.
-검사한 범위에서 새 코드의 미사용 import·변수는 발견되지 않았고 생성 데이터·모델·테스트 영상은 커밋하지 않습니다.
+검사한 범위에서 새 코드의 미사용 import·변수는 발견되지 않았고 생성 데이터·테스트 영상은 커밋하지 않습니다.
+이후 사용자가 제공한 모델·설정 쌍을 같은 브랜치에 추가했습니다. 원본 바이트를 보존하고 모델 SHA256·체크포인트 ZIP CRC를 검사했습니다.
+해당 실제 모델을 CPU에서 로드하고 빈 640×640 프레임 1장의 검출·추적 실행까지 확인했습니다. 이는 실제 동물 영상의 정확도 평가가 아닙니다.
