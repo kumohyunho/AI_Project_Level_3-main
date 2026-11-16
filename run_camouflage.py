@@ -10,19 +10,19 @@ from time import perf_counter
 
 import numpy as np
 
-from extensions.camouflage import CamouflageExtension, read_tracker_config, validate_tracker
+from extensions.camouflage import CamouflageExtension, read_tracker_config, validate_nms, validate_tracker
 from results_io import ResultWriter
 
 ROOT = Path(__file__).resolve().parent
 
 
-def make_extension(weights, device="cpu", fps=30.0, tracker=None):
+def make_extension(weights, device="cpu", fps=30.0, tracker=None, nms_iou=None):
     class Selected(CamouflageExtension):
         @classmethod
         def weights_path(cls):
             return Path(weights).resolve()
 
-    extension = Selected(device=device, fps=fps)
+    extension = Selected(device=device, fps=fps, nms_iou=nms_iou)
     if tracker is not None:
         from tracker import ByteTracker
 
@@ -50,6 +50,9 @@ def run(args):
     output = Path(args.output).resolve()
     if output.exists():
         raise FileExistsError(f"기존 결과를 보존합니다. 다른 출력 폴더를 지정하세요: {output}")
+    nms_iou = getattr(args, "nms_iou", None)
+    if nms_iou is not None:
+        validate_nms(nms_iou)
     source = args.camera if args.camera is not None else str(args.video)
     if args.camera is None and not Path(source).is_file():
         raise FileNotFoundError(f"영상이 없습니다: {source}")
@@ -63,7 +66,7 @@ def run(args):
         fps = capture.get(cv2.CAP_PROP_FPS)
         fps = fps if math.isfinite(fps) and 0 < fps < 240 else 30.0
         config = read_tracker_config(args.tracker_config, args.weights) if args.tracker_config else None
-        extension = make_extension(args.weights, args.device, fps, config)
+        extension = make_extension(args.weights, args.device, fps, config, nms_iou=nms_iou)
         output.mkdir(parents=True)
         while args.frames is None or frames < args.frames:
             ok, frame = capture.read()
@@ -86,6 +89,7 @@ def run(args):
         meta = dict(source=str(Path(source).resolve()) if args.camera is None else str(source),
                     fps=fps, frames=frames, pipeline=dict(extensions=["camouflage"], weights=str(args.weights)),
                     tracker=extension.tracker_config.to_dict(),
+                    detection=getattr(extension, "inference_config", None),
                     processing_ms=elapsed * 1000 / frames, processing_fps=frames / max(elapsed, 1e-9),
                     timing_scope="모델 초기화·파일 입출력·화면 그리기를 제외한 검출+추적 평균",
                     note="검출된 트랙만 저장. 완전 가림 중의 예측은 실제 검출 결과로 저장하지 않음.")
@@ -109,6 +113,7 @@ def parser():
     p.add_argument("--output", type=Path, default=ROOT / "results" / "camouflage" / "video")
     p.add_argument("--device", default="cpu")
     p.add_argument("--tracker-config", type=Path, help="검증 영상에서 고른 추적 설정 JSON")
+    p.add_argument("--nms-iou", type=float, help="보호색 NMS 명시값. 생략 시 모델 옆 실행 설정 또는 기존 기본값")
     p.add_argument("--frames", type=int, help="동작 확인 시 처리 프레임 제한")
     return p
 
