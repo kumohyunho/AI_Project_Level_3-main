@@ -5,6 +5,7 @@ YOLO11n으로 사람(및 고양이·개·새)을 검출하고, **직접 구현�
 
 * 과제 요구 사항 10개와 구현 대응표: [`docs/REQUIREMENTS.md`](docs/REQUIREMENTS.md)
 * ByteTrack 원리와 개선 내용: [`docs/BYTETRACK.md`](docs/BYTETRACK.md)
+* 협업 규칙(두 사람·두 AI)과 확장 기능 만드는 법: [`docs/COLLABORATION.md`](docs/COLLABORATION.md), [`AGENTS.md`](AGENTS.md)
 
 | 데이터셋 | 용도 | 결과 가중치 |
 |---|---|---|
@@ -54,6 +55,7 @@ python -m venv .venv
 | `benchmark_speed.py` | 처리 시간·FPS와 속도 영향 요인 측정 | 8 |
 | `metrics.py` | HOTA·MOTA·IDF1·IDSW 계산 (TrackEval과 같은 값 확인) | 7 |
 | `evaluate_mot.py` | 공식 TrackEval 교차 확인 (선택) | 7 |
+| `extensions/` | 확장 기능 (한글 인식, 보호색 동물). 파일 하나 + `REGISTRY` 한 줄로 GUI·결과 파일에 자동 연결 | 확장 |
 | `tests/` | 단위 테스트와 정답을 아는 합성 장면 | — |
 
 ## 전체 실행 순서
