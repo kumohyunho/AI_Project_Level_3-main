@@ -179,3 +179,10 @@ python -m unittest discover -s tests -t .
 MOT17-02-FRCNN 첫 60프레임에서 Ultralytics 내장 ByteTrack으로 측정한 HOTA는 기본 YOLO11n 38.40%, CrowdHuman 소량 학습본 10.29%였습니다.
 CrowdHuman 가중치(`models/person_crowdhuman.pt`)는 이 결과 때문에 기본값으로 쓰지 않으며, GUI 모델 목록에서 직접 고를 수 있습니다.
 얼굴 가중치는 [akanametov/yolo-face](https://github.com/akanametov/yolo-face/releases/tag/1.0.0)의 YOLO11n 얼굴 가중치에서 시작했습니다.
+
+## 확장: 보호색 동물 추적 (kumohyunho / Codex)
+
+COD10K 마스크·MoCA 박스를 단일 클래스 YOLO 라벨로 바꾸고, 전용 YOLO 검출기 + ByteTrack으로 ID와 이동 궤적을 표시합니다.
+전처리·학습·영상 실행·희소 주석 추적 평가 절차는 [`docs/CAMOUFLAGE.md`](docs/CAMOUFLAGE.md),
+GPU 학습 예시는 [`colab/train_camouflage.ipynb`](colab/train_camouflage.ipynb)를 참고하세요.
+실제 데이터 학습·실영상 성능 측정은 **미실행**이며, `models/camouflage.pt`와 학습 설정 `.json`을 설치하면 GUI 확장이 활성화됩니다.
