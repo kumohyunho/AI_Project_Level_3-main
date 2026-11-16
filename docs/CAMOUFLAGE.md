@@ -113,6 +113,15 @@ datasets/camouflage/
 
 ## 4. YOLO 추가 학습
 
+학습 전에 데이터와 정답이 일치하는지 검사하세요.
+
+```bash
+python inspect_camouflage_data.py datasets/camouflage --check-hashes --output results/camouflage/data-check
+```
+
+`index.html`에서 정답 박스·기록된 ID를 확인하고 `report.json`의 오류를 수정합니다.
+검사 범위와 한계는 [`CAMOUFLAGE_DATA_CHECK.md`](CAMOUFLAGE_DATA_CHECK.md)에 있습니다.
+
 COCO 사전학습 `yolo11n.pt`를 시작점으로 사용하므로 COCO 전체를 다시 학습하지 않습니다.
 학습 결과는 **동물 종 분류가 아닌 보호색 동물 한 클래스 검출기**입니다.
 
