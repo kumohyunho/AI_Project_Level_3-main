@@ -44,7 +44,7 @@
 | 1 | 합성 데이터 생성기, 40클래스 검출기 학습 경로(`train_models.py hangul`), Colab 노트북 | 완료 (본 학습은 미실행) |
 | 2 | `extensions/hangul.py`: 클래스 무관 추적 + 트랙별 다수결, GUI 표시(`자3 ㄱ`) | 완료 (정식 가중치로는 미확인) |
 | 3 | 평가 스크립트 `evaluate_hangul.py`: HOTA·IDF1·MOTA·IDSW, 프레임 단위/다수결 분류 정확도, 회전 각도별 정확도, 혼동이 잦은 쌍 | 완료 (정식 가중치 수치는 미실행) |
-| 4 | 기본판·개선판 비교, 회전 범위(0°·±45°)에 따른 성능 변화, 실패 사례 분석 | 예정 |
+| 4 | 개선 항목별 비교, 회전 범위(0°·45°·90°)에 따른 성능 변화, 실패 사례 분석 | 도구 완료 (`evaluate_hangul.py --images`, `--summarize`), 정식 수치는 미실행 |
 | 선택 | 가까워진 자음+모음을 글자로 조합해 보여 주기 (ㄱ + ㅏ → 가) | 미정 |
 
 ## 5. 추적과 자모 판정 방법 (`extensions/hangul.py`)
@@ -83,7 +83,24 @@ python evaluate_hangul.py datasets/hangul/tracking/test --trackers baseline impr
 > 아직 정식 가중치가 없어 보고서용 수치는 없습니다. 스크립트는 정답 박스를 검출로 쓰는 단위 테스트와,
 > CPU에서 소량(500장·12에폭) 학습한 확인용 가중치로 끝까지 실행되는 것만 확인했습니다.
 
-## 7. 실행
+## 7. 분석 실험 (4단계)
+
+정식 가중치로 아래 세 가지를 실행해 보고서용 수치를 만듭니다. `colab/train_hangul.ipynb`의 7~8절이 그대로 실행합니다.
+
+| 실험 | 명령 | 확인하려는 것 |
+|---|---|---|
+| 개선 항목별 효과 | `evaluate_hangul.py <test> --name ablation --images 12 --trackers baseline baseline+appearance baseline+recover_lost baseline+reid_buffer baseline+freeze_out_of_frame improved` | 외형 연결·가림 후 재연결·재진입 ID 복원·화면 밖 위치 고정 중 어느 것이 자모 추적에 효과가 있는가 |
+| 실패 사례 | 위 명령의 `--images` | ID 변경·끊김의 원인이 교차(같은 자모/다른 자모)·가림·화면 경계 중 무엇인가, 최종 자모가 틀린 트랙은 어떤 자모인가 |
+| 회전 범위 | `hangul_dataset.py --tracking-only --rotation {0,45,90} --seed 100` 후 각각 평가, `evaluate_hangul.py --summarize rot0 rot45 rot90` | 회전이 없을 때, 학습 범위(±45°), 학습 범위 밖(±90°)에서 검출률·분류 정확도·ID 유지가 어떻게 달라지는가 |
+
+* 회전 범위별 영상은 seed가 같으면 자모·출발 위치·속도·배경이 같고 회전만 다릅니다.
+* "교차(같은 자모)"는 모양이 같은 객체끼리 스친 경우입니다. 외형으로 구분할 수 없어 움직임 예측에만 의존합니다.
+
+### 결과
+
+미실행 (정식 가중치 학습 후 채웁니다).
+
+## 8. 실행
 
 ```powershell
 python hangul_dataset.py --output datasets/hangul
@@ -92,7 +109,7 @@ python train_models.py hangul --data datasets/hangul/dataset.yaml --fliplr 0 --e
 
 GPU 학습은 `colab/train_hangul.ipynb`를 씁니다. 결과는 `models/hangul_jamo.pt`와 학습 설정·성능 `models/hangul_jamo.json`입니다.
 
-## 8. 한계
+## 9. 한계
 
 * 합성 데이터로만 학습·평가하므로 실제 촬영 영상(손글씨, 조명 변화 등)에서의 성능은 확인하지 못합니다.
 * 회전이 ±45°를 넘는 자모는 다른 자모로 분류될 수 있습니다.
