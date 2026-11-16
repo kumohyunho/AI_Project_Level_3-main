@@ -83,8 +83,8 @@ class GeneratorTest(unittest.TestCase):
         for frame, track_id, x, y, w, h, flag, cls, visibility in rows:
             self.assertIn(track_id, texts)
             self.assertTrue(1 <= int(frame) <= 40)
-            self.assertTrue(int(x) >= 0 and int(y) >= 0 and int(w) > 0 and int(h) > 0)
-            self.assertTrue(int(x) + int(w) <= sequence.width and int(y) + int(h) <= sequence.height)
+            self.assertTrue(int(x) >= 1 and int(y) >= 1 and int(w) > 0 and int(h) > 0)  # 1부터 시작하는 좌표
+            self.assertTrue(int(x) - 1 + int(w) <= sequence.width and int(y) - 1 + int(h) <= sequence.height)
             self.assertTrue(0 <= float(visibility) <= 1)
 
     def test_dataset_yaml_and_splits(self):

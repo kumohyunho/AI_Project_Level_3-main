@@ -56,6 +56,7 @@ python -m venv .venv
 | `metrics.py` | HOTA·MOTA·IDF1·IDSW 계산 (TrackEval과 같은 값 확인) | 7 |
 | `evaluate_mot.py` | 공식 TrackEval 교차 확인 (선택) | 7 |
 | `extensions/` | 확장 기능 (한글 인식, 보호색 동물). 파일 하나 + `REGISTRY` 한 줄로 GUI·결과 파일에 자동 연결 | 확장 |
+| `hangul_dataset.py`, `evaluate_hangul.py` | 한글 자모 확장 기능의 합성 데이터 생성, 추적·분류 평가 (`docs/HANGUL.md`) | 확장 |
 | `tests/` | 단위 테스트와 정답을 아는 합성 장면 | — |
 
 ## 전체 실행 순서
@@ -121,6 +122,7 @@ MOT17 내려받기, 전처리, Fine-tuning 전 성능 측정, 학습, 학습 전
 ```powershell
 python hangul_dataset.py --output datasets/hangul        # 검출 이미지 + 떠다니는 자모 영상 (40클래스, 회전 ±45°)
 python train_models.py hangul --data datasets/hangul/dataset.yaml --fliplr 0 --epochs 50 --install   # → models/hangul_jamo.pt
+python evaluate_hangul.py datasets/hangul/tracking/test --trackers baseline improved --name test      # 추적 지표 + 자모 분류 정확도
 ```
 
 * 좌우를 뒤집으면 ㅏ가 ㅓ가 되므로 학습할 때 반드시 `--fliplr 0`을 줍니다.

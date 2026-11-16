@@ -9,7 +9,7 @@
 2. 추적 평가용 "떠다니는 자모" 영상 (MOTChallenge 형식) — ``tracking/<split>/<seq>``
    * 자모 여러 개가 떠다니며 천천히 회전하고, 서로 교차하고, 가림막에 가려지고, 화면 밖으로 나갔다 다시 들어옵니다.
    * **같은 자모가 여러 개** 함께 나옵니다 (모양이 같은 객체끼리 ID가 섞이지 않는지 확인).
-   * ``gt/gt.txt``: ``frame,id,left,top,width,height,1,1,visibility`` (MOT17과 같은 형식, 기존 지표 코드와 호환)
+   * ``gt/gt.txt``: ``frame,id,left,top,width,height,1,1,visibility`` (MOT17과 같은 형식·1부터 시작하는 좌표, 기존 지표 코드와 호환)
    * ``gt/objects.json``: ID별 자모(클래스 이름·글자), ``gt/angles.csv``: ``frame,id,angle`` (프레임별 회전 각도)
 
 회전 범위를 ±45°로 제한하는 이유: 자모는 돌리면 다른 글자가 됩니다 (ㅏ를 180° 돌리면 ㅓ, ㅗ↔ㅜ, ㄱ↔ㄴ, ㅡ를 90° 돌리면 ㅣ).
@@ -375,7 +375,8 @@ def write_sequence(rng, backgrounds, fonts, folder, name, length, rotation, fps=
             if x2 - x1 < 4 or y2 - y1 < 4:
                 continue
             visibility = (x2 - x1) * (y2 - y1) / (w * h) * (1 - cover[y1:y2, x1:x2].mean())
-            gt_lines.append(f"{frame},{obj['id']},{x1},{y1},{x2 - x1},{y2 - y1},1,1,{visibility:.3f}\n")
+            # MOTChallenge 관례대로 좌표는 1부터 시작합니다 (결과 파일 results_io.write_mot과 같은 기준).
+            gt_lines.append(f"{frame},{obj['id']},{x1 + 1},{y1 + 1},{x2 - x1},{y2 - y1},1,1,{visibility:.3f}\n")
             angle_lines.append(f"{frame},{obj['id']},{angle:.1f}\n")
         if bx1 + bar["w"] > 0 and bx1 < width:
             image[:, max(0, bx1):min(width, bx1 + bar["w"])] = bar["color"]
