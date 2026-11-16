@@ -12,3 +12,12 @@
 | ablation | yolo11n.pt | baseline+reid_buffer | 40.54 | 43.17 | 29.09 | 43 | 79 | 18.8 | 53.2 |
 | ablation | yolo11n.pt | baseline+freeze_out_of_frame | 40.61 | 43.64 | 29.04 | 51 | 76 | 18.8 | 53.1 |
 | ablation | yolo11n.pt | improved | 41.10 | 43.92 | 29.21 | 47 | 82 | 18.8 | 53.2 |
+| finetuned | person_mot17.pt | baseline | 51.46 | 61.89 | 48.35 | 82 | 133 | 19.3 | 51.9 |
+| finetuned | person_mot17.pt | improved | 51.03 | 61.16 | 47.49 | 115 | 185 | 19.2 | 52.2 |
+| finetuned | person_mot17.pt | tuned_person | 50.91 | 61.28 | 47.97 | 113 | 168 | 19.2 | 52.2 |
+| ablation_finetuned | person_mot17.pt | baseline | 51.46 | 61.89 | 48.35 | 82 | 133 | 19.3 | 51.9 |
+| ablation_finetuned | person_mot17.pt | baseline+appearance | 51.22 | 61.88 | 47.61 | 114 | 183 | 19.1 | 52.4 |
+| ablation_finetuned | person_mot17.pt | baseline+recover_lost | 51.76 | 62.46 | 48.54 | 80 | 144 | 19.2 | 52.0 |
+| ablation_finetuned | person_mot17.pt | baseline+reid_buffer | 51.45 | 61.97 | 48.39 | 77 | 135 | 19.3 | 51.9 |
+| ablation_finetuned | person_mot17.pt | baseline+freeze_out_of_frame | 51.20 | 61.54 | 48.34 | 93 | 135 | 19.3 | 51.9 |
+| ablation_finetuned | person_mot17.pt | improved | 51.03 | 61.16 | 47.49 | 115 | 185 | 19.1 | 52.2 |
