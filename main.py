@@ -20,6 +20,7 @@ from PySide6.QtWidgets import (
 )
 
 import extensions
+from camouflage_tracking_page import CamouflagePage
 from pipeline import (MODEL_DIR, ROOT, TRACKABLE_CLASSES, PipelineConfig, available_weights,
                       default_weights, tracker_choices)
 from results_io import ResultWriter, load_results
@@ -157,15 +158,16 @@ class Window(QMainWindow):
         layout = QVBoxLayout(root)
         title = QLabel("지능형 객체 추적 시스템")
         title.setObjectName("title")
-        header = QHBoxLayout()
-        header.addWidget(title)
-        header.addStretch()
-        self.learning_button = self.button(header, "보호색 학습 비교", self.open_learning_comparison)
-        layout.addLayout(header)
+        layout.addWidget(title)
         self.tabs = QTabWidget()
         layout.addWidget(self.tabs)
         self.tabs.addTab(self.build_tracking_tab(), "실시간 추적")
         self.tabs.addTab(self.build_comparison_tab(), "성능 비교")
+        self.camouflage_page = CamouflagePage(self, on_learning=self.open_learning_comparison)
+        self.tabs.addTab(self.camouflage_page, "보호색 추적")
+        self.learning_button = self.camouflage_page.learning_button
+        self.setting_widgets.append(self.learning_button)
+        self.camouflage_page.processing_finished.connect(self.camouflage_processing_finished)
         self.tabs.currentChanged.connect(lambda index: index == 1 and self.load_comparison())
 
         self.player = QMediaPlayer(self)
@@ -246,7 +248,7 @@ class Window(QMainWindow):
             self.extension_checks[key] = check
         model_bar.addStretch()
         main.addLayout(model_bar)
-        self.setting_widgets = [self.learning_button, self.model, self.model_file_button, self.tracker, self.mosaic_check,
+        self.setting_widgets = [self.model, self.model_file_button, self.tracker, self.mosaic_check,
                                 *self.class_checks.values(), *self.extension_checks.values()]
         self.set_settings_enabled(True)
 
@@ -354,6 +356,8 @@ class Window(QMainWindow):
         """설정 위젯을 켜고 끕니다. 가중치가 없는 기능(available=False)은 항상 꺼 둡니다."""
         for widget in self.setting_widgets:
             widget.setEnabled(enabled and widget.property("available") is not False)
+        if hasattr(self, "camouflage_page"):
+            self.camouflage_page.set_external_busy(not enabled)
 
     def enable_controls(self, enabled):
         for widget in (self.play_button, self.pause_button, self.stop_button, self.slider):
@@ -381,10 +385,19 @@ class Window(QMainWindow):
     def open_learning_comparison(self):
         from camouflage_learning_gui import LearningRateDialog
 
+        if self.worker or self.camouflage_page.is_busy():
+            self.statusBar().showMessage("진행 중인 추적을 중지한 뒤 학습 비교를 열어 주세요.")
+            return
+        self.camouflage_page.player.pause()
         self.learning_dialog = LearningRateDialog(self)
+        self.camouflage_page.apply_learning_inputs(self.learning_dialog)
         self.learning_dialog.setAttribute(Qt.WA_DeleteOnClose)
         self.learning_dialog.setModal(True)
         self.learning_dialog.show()
+
+    def camouflage_processing_finished(self):
+        if self.closing:
+            self.close()
 
     def choose_model_file(self):
         path, _ = QFileDialog.getOpenFileName(self, "검출 가중치 선택", str(MODEL_DIR), "YOLO 가중치 (*.pt)")
@@ -758,11 +771,17 @@ class Window(QMainWindow):
         self.fill(self.speed, speed_rows)
 
     def closeEvent(self, event):
+        if self.camouflage_page.is_busy():
+            self.closing = True
+            self.camouflage_page.stop_processing()
+            event.ignore()
+            return
         if self.worker:
             self.closing = True
             self.stop()
             event.ignore()
             return
+        self.camouflage_page.player.stop()
         self.player.stop()
         super().closeEvent(event)
 
