@@ -157,7 +157,11 @@ class Window(QMainWindow):
         layout = QVBoxLayout(root)
         title = QLabel("지능형 객체 추적 시스템")
         title.setObjectName("title")
-        layout.addWidget(title)
+        header = QHBoxLayout()
+        header.addWidget(title)
+        header.addStretch()
+        self.learning_button = self.button(header, "보호색 학습 비교", self.open_learning_comparison)
+        layout.addLayout(header)
         self.tabs = QTabWidget()
         layout.addWidget(self.tabs)
         self.tabs.addTab(self.build_tracking_tab(), "실시간 추적")
@@ -242,7 +246,7 @@ class Window(QMainWindow):
             self.extension_checks[key] = check
         model_bar.addStretch()
         main.addLayout(model_bar)
-        self.setting_widgets = [self.model, self.model_file_button, self.tracker, self.mosaic_check,
+        self.setting_widgets = [self.learning_button, self.model, self.model_file_button, self.tracker, self.mosaic_check,
                                 *self.class_checks.values(), *self.extension_checks.values()]
         self.set_settings_enabled(True)
 
@@ -373,6 +377,14 @@ class Window(QMainWindow):
         self.mode_changed()
         name = f"카메라 {source}" if isinstance(source, int) else Path(source).name
         self.statusBar().showMessage(f"{name} · 시작을 눌러 주세요.")
+
+    def open_learning_comparison(self):
+        from camouflage_learning_gui import LearningRateDialog
+
+        self.learning_dialog = LearningRateDialog(self)
+        self.learning_dialog.setAttribute(Qt.WA_DeleteOnClose)
+        self.learning_dialog.setModal(True)
+        self.learning_dialog.show()
 
     def choose_model_file(self):
         path, _ = QFileDialog.getOpenFileName(self, "검출 가중치 선택", str(MODEL_DIR), "YOLO 가중치 (*.pt)")
