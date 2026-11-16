@@ -10,7 +10,7 @@ from time import perf_counter
 
 import numpy as np
 
-from extensions.camouflage import CamouflageExtension, validate_tracker
+from extensions.camouflage import CamouflageExtension, read_tracker_config, validate_tracker
 from results_io import ResultWriter
 
 ROOT = Path(__file__).resolve().parent
@@ -62,7 +62,8 @@ def run(args):
             raise ValueError("영상 또는 카메라를 열 수 없습니다.")
         fps = capture.get(cv2.CAP_PROP_FPS)
         fps = fps if math.isfinite(fps) and 0 < fps < 240 else 30.0
-        extension = make_extension(args.weights, args.device, fps)
+        config = read_tracker_config(args.tracker_config, args.weights) if args.tracker_config else None
+        extension = make_extension(args.weights, args.device, fps, config)
         output.mkdir(parents=True)
         while args.frames is None or frames < args.frames:
             ok, frame = capture.read()
@@ -107,6 +108,7 @@ def parser():
     p.add_argument("--weights", type=Path, default=ROOT / "models" / "camouflage.pt")
     p.add_argument("--output", type=Path, default=ROOT / "results" / "camouflage" / "video")
     p.add_argument("--device", default="cpu")
+    p.add_argument("--tracker-config", type=Path, help="검증 영상에서 고른 추적 설정 JSON")
     p.add_argument("--frames", type=int, help="동작 확인 시 처리 프레임 제한")
     return p
 

@@ -1,13 +1,38 @@
 """MoCA의 주석 프레임에서만 HOTA·IDF1·MOTA·IDSW 평가. 전체 프레임은 순서대로 추적합니다."""
 import argparse
 import json
+import math
 from pathlib import Path
 from time import perf_counter
 
+from extensions.camouflage import read_tracker_config
 from metrics import combine, evaluate_files
 from mot_data import find_sequences
 from results_io import write_mot
 from run_camouflage import ROOT, make_extension
+
+
+def load_evaluation_annotations(sequences, expected_split=None):
+    """평가·튜닝이 같은 주석 프레임 검사를 사용합니다. 튜닝은 val만 허용합니다."""
+    annotations = {}
+    # 정답 ID가 없는 영상을 1번 개체로 간주해 성능을 부풀리지 않습니다.
+    for seq in sequences:
+        if min(seq.length, seq.width, seq.height) < 1 or not math.isfinite(seq.fps) or seq.fps <= 0:
+            raise ValueError(f"{seq.name}: 시퀀스 길이·크기·FPS가 올바르지 않습니다.")
+        info = json.loads((seq.folder / "annotations.json").read_text(encoding="utf-8"))
+        if info.get("ids_verified") is not True or not seq.gt_path.is_file():
+            raise ValueError(f"{seq.name}: 추적 ID 정답이 없습니다. ID 주석 또는 단일 개체 확인이 필요합니다.")
+        frames = info["evaluated_frames"]
+        if (not isinstance(frames, list) or not frames
+                or any(type(frame) is not int for frame in frames)
+                or frames != sorted(set(frames)) or not set(frames) <= set(seq.frames)):
+            raise ValueError(f"{seq.name}: 평가 프레임 목록이 올바르지 않습니다.")
+        if seq.name in annotations:
+            raise ValueError(f"중복 시퀀스 이름: {seq.name}")
+        if expected_split is not None and (info.get("split") != expected_split or seq.folder.parent.name != expected_split):
+            raise ValueError(f"{seq.name}: 튜닝에는 {expected_split} 분할만 사용하세요. test/train 사용은 금지합니다.")
+        annotations[seq.name] = info
+    return annotations
 
 
 def evaluate(args):
@@ -15,19 +40,8 @@ def evaluate(args):
     if output.exists():
         raise FileExistsError(f"다른 출력 폴더를 지정하세요: {output}")
     sequences = find_sequences([args.sequences])
-    annotations = {}
-    # 정답 ID가 없는 영상을 1번 개체로 간주해 성능을 부풀리지 않습니다.
-    for seq in sequences:
-        info = json.loads((seq.folder / "annotations.json").read_text(encoding="utf-8"))
-        if not info.get("ids_verified") or not seq.gt_path.is_file():
-            raise ValueError(f"{seq.name}: 추적 ID 정답이 없습니다. ID 주석 또는 단일 개체 확인이 필요합니다.")
-        frames = info["evaluated_frames"]
-        if not frames or frames != sorted(set(frames)) or not set(frames) <= set(seq.frames):
-            raise ValueError(f"{seq.name}: 평가 프레임 목록이 올바르지 않습니다.")
-        annotations[seq.name] = info
-    config = json.loads(Path(args.tracker_config).read_text(encoding="utf-8")) if args.tracker_config else None
-    if config is not None:
-        config = config.get("tracker", config)
+    annotations = load_evaluation_annotations(sequences)
+    config = read_tracker_config(args.tracker_config, args.weights) if args.tracker_config else None
     output.mkdir(parents=True)
     raw, per_sequence, all_events = [], [], []
     for seq in sequences:
