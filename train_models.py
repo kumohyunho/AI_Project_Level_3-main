@@ -6,7 +6,7 @@
 | crowd | prepare_dataset.py crowd       | models/person.pt   | 붐비는 장면의 사람 검출          |
 | mot   | prepare_dataset.py mot         | models/person.pt   | 길거리 보행자 검출 (MOT 영상)    |
 | face  | prepare_dataset.py face        | models/face.pt     | 얼굴 모자이크 (확장 기능)        |
-| hangul | hangul_dataset.py (합성)     | models/hangul_text.pt | 한글 글자 영역 검출 (확장 기능) |
+| hangul | hangul_dataset.py (합성)     | models/hangul_jamo.pt | 한글 자모 40클래스 검출 (확장 기능, --fliplr 0) |
 
 학습이 끝나면 **test 분할**로 최종 성능을 측정하고, ``--install``을 주면 best.pt를 위 경로로 복사하면서
 학습 설정과 성능을 같은 이름의 ``.json``으로 함께 저장합니다.
@@ -21,7 +21,7 @@ from datetime import datetime
 from pathlib import Path
 
 INSTALL = {"coco": "coco.pt", "crowd": "person.pt", "mot": "person.pt", "face": "face.pt",
-           "hangul": "hangul_text.pt"}
+           "hangul": "hangul_jamo.pt"}
 
 
 def train(args):

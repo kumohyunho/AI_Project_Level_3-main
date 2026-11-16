@@ -112,20 +112,18 @@ MOT17 내려받기, 전처리, Fine-tuning 전 성능 측정, 학습, 학습 전
 이 폴더의 내용을 내 PC 프로젝트 폴더에 같은 경로로 복사하면 GUI의 모델 목록·추적기 목록·성능 비교 탭에 그대로 나타납니다.
 처리 속도(요구 사항 8)는 발표 PC에서 `benchmark_speed.py`로 따로 측정하세요.
 
-### 확장: 한글 인식 (담당 Pdint)
+### 확장: 떠다니는 한글 자모 추적 (담당 Pdint)
 
-움직이는 한글 글자를 검출·추적하고 읽는 확장 기능입니다 (`extensions/hangul.py`, 진행 중).
-학습·평가 데이터는 정답을 아는 **합성 데이터**를 직접 만듭니다 (`hangul_dataset.py`).
+화면을 떠다니는 한글 자음·모음을 하나씩 검출·추적하고 어떤 자모인지 표시하는 확장 기능입니다 (진행 중).
+설계와 진행 상황은 [`docs/HANGUL.md`](docs/HANGUL.md)에 있습니다. 학습·평가 데이터는 정답을 아는 **합성 데이터**를 직접 만듭니다.
 
 ```powershell
-python hangul_dataset.py --output datasets/hangul                     # 검출 이미지 + 떠다니는 한글 영상
-python train_models.py hangul --data datasets/hangul/dataset.yaml --epochs 40 --install   # → models/hangul_text.pt
+python hangul_dataset.py --output datasets/hangul        # 검출 이미지 + 떠다니는 자모 영상 (40클래스, 회전 ±45°)
+python train_models.py hangul --data datasets/hangul/dataset.yaml --fliplr 0 --epochs 50 --install   # → models/hangul_jamo.pt
 ```
 
-* 검출 학습 이미지: `images/`·`labels/`(YOLO, 클래스 `text`), 박스별 정답 문자열 `annotations/<split>.jsonl`
-* 추적 평가 영상: `tracking/{val,test}/hangul-XX` (MOT 형식, 교차·가림막·화면 이탈 후 재진입 포함), ID별 문자열 `gt/texts.json`
-* 글꼴이 5개 이상이면 약 20%를 test 전용으로 떼어 둡니다. Windows는 맑은 고딕 등 기본 글꼴, Linux·Colab은 `fonts-nanum`을 씁니다.
-* GPU 학습은 [`colab/train_hangul.ipynb`](colab/train_hangul.ipynb)를 쓰세요.
+* 좌우를 뒤집으면 ㅏ가 ㅓ가 되므로 학습할 때 반드시 `--fliplr 0`을 줍니다.
+* Windows는 맑은 고딕 등 기본 글꼴, Linux·Colab은 `fonts-nanum`을 씁니다. GPU 학습은 [`colab/train_hangul.ipynb`](colab/train_hangul.ipynb)를 쓰세요.
 
 ### 3) 추적 성능 비교와 튜닝 (요구 사항 3·6·7)
 

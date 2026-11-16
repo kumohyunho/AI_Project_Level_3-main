@@ -161,5 +161,5 @@ ID가 보존된 `gt.txt`와 `seqinfo.ini`가 생성되는 것을 확인했습니
 * **다중 클래스 추적**: COCO의 고양이·개·새도 사람과 함께 추적합니다. 클래스가 다른 객체끼리는 연결하지 않습니다.
 * **결과 재생**: 저장한 추적 결과를 모델 없이 다시 재생해 검토합니다. 재생 화면에는 원본 영상이 나오므로 얼굴 모자이크는 적용되지 않습니다.
 * **진행 중인 확장 기능** (`extensions/`, 규칙은 `docs/COLLABORATION.md`)
-  * 한글 글자 검출·추적·인식 (`extensions/hangul.py`, 담당 Pdint)
+  * 떠다니는 한글 자음·모음(40종) 검출·추적 (`extensions/hangul.py`, 설계 `docs/HANGUL.md`, 담당 Pdint)
   * 보호색 동물 검출·추적 (`extensions/camouflage.py`, 담당 kumohyunho)

@@ -1,4 +1,4 @@
-"""한글 합성 데이터 생성기 테스트 (한글 글꼴이 없으면 건너뜁니다).  실행: ``python -m unittest discover -s tests -t .``"""
+"""한글 자모 합성 데이터 생성기 테스트 (한글 글꼴이 없으면 건너뜁니다).  실행: ``python -m unittest discover -s tests -t .``"""
 import json
 import sys
 import tempfile
@@ -9,9 +9,19 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 
 import hangul_dataset  # noqa: E402
+from extensions.hangul import CHAR, CLASS_NAMES, JAMO  # noqa: E402
 from mot_data import Sequence  # noqa: E402
 
 FONTS = hangul_dataset.find_fonts()
+
+
+class JamoTableTest(unittest.TestCase):
+    def test_forty_distinct_jamo(self):
+        self.assertEqual(len(JAMO), 40)
+        self.assertEqual(len(set(CLASS_NAMES)), 40)
+        self.assertEqual(len(set(CHAR.values())), 40)
+        self.assertEqual(sum(kind == "자음" for _, _, kind in JAMO), 19)
+        self.assertTrue(all(name.isascii() and 0x3131 <= ord(char) <= 0x3163 for name, char, _ in JAMO))
 
 
 class FontSplitTest(unittest.TestCase):
@@ -34,7 +44,7 @@ class GeneratorTest(unittest.TestCase):
         cls.folder = tempfile.TemporaryDirectory()
         cls.output = Path(cls.folder.name) / "hangul"
         hangul_dataset.main(Namespace(output=str(cls.output), train=6, val=2, test=2, sequences=1, length=40,
-                                      backgrounds=None, fonts=None, seed=1))
+                                      backgrounds=None, fonts=None, seed=1, rotation=45.0))
 
     @classmethod
     def tearDownClass(cls):
@@ -50,18 +60,24 @@ class GeneratorTest(unittest.TestCase):
                 self.assertTrue(image.is_file())
                 lines = (self.output / "labels" / split / f"{image.stem}.txt").read_text().splitlines()
                 self.assertEqual(len(lines), len(note["items"]))
-                for line in lines:
+                for line, item in zip(lines, note["items"]):
                     cls, *values = line.split()
-                    self.assertEqual(cls, "0")
+                    self.assertEqual(CLASS_NAMES[int(cls)], item["class"])
+                    self.assertEqual(CHAR[item["class"]], item["char"])
                     self.assertTrue(all(0 <= float(v) <= 1 for v in values))
-                self.assertTrue(all(item["text"].strip() for item in note["items"]))
+                    self.assertLessEqual(abs(item["angle"]), 45.0)
 
     def test_tracking_sequence(self):
-        folder = self.output / "tracking" / "test" / "hangul-01"
+        folder = self.output / "tracking" / "test" / "jamo-01"
         sequence = Sequence(folder)
         self.assertEqual(sequence.length, 40)
         self.assertTrue(sequence.frame_path(40).is_file())
-        texts = json.loads((folder / "gt" / "texts.json").read_text(encoding="utf-8"))
+        texts = json.loads((folder / "gt" / "objects.json").read_text(encoding="utf-8"))
+        self.assertTrue(all(CHAR[value["class"]] == value["char"] for value in texts.values()))
+        chars = [value["char"] for value in texts.values()]
+        self.assertLess(len(set(chars)), len(chars))  # 같은 자모가 여러 개 나와야 합니다.
+        angles = (folder / "gt" / "angles.csv").read_text().splitlines()[1:]
+        self.assertTrue(all(abs(float(line.split(",")[2])) <= 45.0 for line in angles))
         rows = [line.split(",") for line in (folder / "gt" / "gt.txt").read_text().splitlines()]
         self.assertTrue(rows)
         for frame, track_id, x, y, w, h, flag, cls, visibility in rows:
@@ -73,14 +89,17 @@ class GeneratorTest(unittest.TestCase):
 
     def test_dataset_yaml_and_splits(self):
         yaml = (self.output / "dataset.yaml").read_text(encoding="utf-8")
-        self.assertIn("names: {0: text}", yaml)
+        self.assertIn("0: giyeok", yaml)
+        self.assertIn("39: ui", yaml)
         splits = json.loads((self.output / "splits.json").read_text(encoding="utf-8"))
         self.assertEqual(splits["counts"]["detection"]["train"]["images"], 6)
+        self.assertEqual(len(splits["classes"]), 40)
+        self.assertEqual(splits["rotation"], 45.0)
 
     def test_existing_output_is_not_overwritten(self):
         with self.assertRaises(FileExistsError):
             hangul_dataset.main(Namespace(output=str(self.output), train=1, val=1, test=1, sequences=1, length=5,
-                                          backgrounds=None, fonts=None, seed=1))
+                                          backgrounds=None, fonts=None, seed=1, rotation=45.0))
 
 
 if __name__ == "__main__":
