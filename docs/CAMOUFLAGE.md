@@ -96,6 +96,8 @@ python camouflage_dataset.py --cod10k datasets/raw/COD10K-v3 --moca-frames datas
 * MoCA: 최소 3개 영상을 준비하고 **영상 단위** 약 70%/15%/15% 분할. 작은 데이터에서도 각 분할에 최소 한 영상 확보.
 * 같은 seed와 입력이면 같은 분할. 서로 다른 분할에 파일 내용이 동일한 이미지가 있으면 오류로 중단.
   재인코딩·유사 장면 중복까지 탐지하는 것은 아니므로 COD10K/MoCA의 원본 영상 출처 중복도 확인해야 합니다.
+  COD10K 원본 Train/Test 중복을 처리하려면 `--cod10k-duplicates prefer-test`를 명시하세요.
+  Test 우선 보존·중복 Train 제외·Train 해시 그룹 분할과 제외 내역 기록을 수행하며, 원본과 최종 누수 검사는 유지합니다.
 * 잘못된 박스·누락 마스크·크기 불일치·중복 ID·기존 출력 경로는 오류로 중단. 성공할 때만 최종 폴더로 이동.
 
 ```text
@@ -112,6 +114,15 @@ datasets/camouflage/
 ```
 
 ## 4. YOLO 추가 학습
+
+학습 전에 데이터와 정답이 일치하는지 검사하세요.
+
+```bash
+python inspect_camouflage_data.py datasets/camouflage --check-hashes --output results/camouflage/data-check
+```
+
+`index.html`에서 정답 박스·기록된 ID를 확인하고 `report.json`의 오류를 수정합니다.
+검사 범위와 한계는 [`CAMOUFLAGE_DATA_CHECK.md`](CAMOUFLAGE_DATA_CHECK.md)에 있습니다.
 
 COCO 사전학습 `yolo11n.pt`를 시작점으로 사용하므로 COCO 전체를 다시 학습하지 않습니다.
 학습 결과는 **동물 종 분류가 아닌 보호색 동물 한 클래스 검출기**입니다.
@@ -165,6 +176,9 @@ python evaluate_camouflage.py datasets/camouflage/tracking/test --output results
 정답 ID가 없는 영상은 오류로 중단합니다. 출력은 영상별 MOT 결과, 전체/영상별 `metrics.json`, ID 변경·단절 이벤트입니다.
 희소 주석 사이에서 생겼다가 사라진 실패는 측정되지 않을 수 있으므로, 촘촘한 주석 평가와 같은 조건으로 비교하면 안 됩니다.
 평가 파일의 class=1은 기존 MOT 지표 코드의 대상 표시로, 동물을 사람으로 학습한다는 뜻이 아닙니다.
+
+자동 설정 탐색은 [`CAMOUFLAGE_TUNING.md`](CAMOUFLAGE_TUNING.md)를 참고하세요. val 영상에서 선택한 설정을
+`evaluate_camouflage.py`와 `run_camouflage.py`의 `--tracker-config`로 적용할 수 있습니다.
 
 다른 설정 비교: `--tracker-config configs/camouflage_candidate.json`으로 `TrackerConfig` 필드 JSON을 지정하고,
 검증 영상에서만 임계값·유지 시간을 조정한 뒤 test에서 최종 평가하세요.

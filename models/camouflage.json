@@ -1,0 +1,72 @@
+{
+  "extension": "camouflage",
+  "classes": [
+    "camouflaged_animal"
+  ],
+  "created": "2026-11-16T11:35:40.010570+00:00",
+  "base_weights": "/content/AI_Project_Level_3-main/yolo11n.pt",
+  "train_options": {
+    "data": "/content/AI_Project_Level_3-main/datasets/camouflage/dataset.yaml",
+    "epochs": 3,
+    "imgsz": 640,
+    "batch": 8,
+    "device": "0",
+    "workers": 0,
+    "seed": 42,
+    "optimizer": "AdamW",
+    "lr0": 0.0005,
+    "freeze": 0,
+    "project": "/content/drive/MyDrive/camouflage_learning/training_runs",
+    "name": "camouflage",
+    "patience": 15
+  },
+  "scores": {
+    "val": {
+      "mAP50": 0.635351238372031,
+      "mAP50-95": 0.3965565225466162
+    },
+    "test": {
+      "mAP50": 0.5297902671994829,
+      "mAP50-95": 0.290434708592347
+    }
+  },
+  "counts": {
+    "train": {
+      "images": 8096,
+      "boxes": 8096
+    },
+    "val": {
+      "images": 1382,
+      "boxes": 1382
+    },
+    "test": {
+      "images": 3198,
+      "boxes": 3198
+    }
+  },
+  "dataset_manifest_sha256": "954d8dfbcf6e4fb97a769888c7a39e2125c00e9aa54b9c3fe9dfda9fcdb7057f",
+  "tracker": {
+    "high_thresh": 0.4,
+    "low_thresh": 0.05,
+    "new_track_thresh": 0.5,
+    "match_thresh": 0.8,
+    "second_match_thresh": 0.5,
+    "unconfirmed_match_thresh": 0.7,
+    "track_buffer": 60,
+    "min_box_area": 10.0,
+    "appearance": false,
+    "appearance_weight": 0.3,
+    "appearance_gate": 0.4,
+    "feature_momentum": 0.9,
+    "recover_lost": false,
+    "recover_thresh": 0.25,
+    "reid_buffer": 0,
+    "reid_thresh": 0.2,
+    "freeze_out_of_frame": false,
+    "damp_lost_velocity": false
+  },
+  "tracker_status": "시작값, 실영상 튜닝 미실행",
+  "tracking_evaluation": "미실행",
+  "best": "/content/drive/MyDrive/camouflage_learning/training_runs/camouflage/weights/best.pt",
+  "weights_sha256": "70e33df61fe18b90efff06bec2974cd8ca681b7675e7d3b316b8c8d07ae7336d"
+}
