@@ -108,6 +108,51 @@ class JamoTrackingTest(unittest.TestCase):
         self.assertEqual([(row.track_id, row.label) for row in rows], [(1, "ㅏ")])
         self.assertEqual(extension.votes.disagree[1], 0)
 
+    def reentry_scenario(self, returning_class, verify="reentry"):
+        """ㅏ가 오른쪽 밖으로 나간 뒤, 같은 색의 객체가 같은 자리로 다시 들어옵니다 (추적기는 이전 ID를 돌려줌)."""
+        def script(index):
+            if index <= 20:                      # 오른쪽으로 나가는 ㅏ
+                x = 300 + 9 * index
+            elif index <= 70:                    # 화면 밖 (Lost → 삭제되어 외형이 보관됨)
+                return [], [], []
+            else:                                # 다시 들어오는 객체
+                x = 480 - 9 * (index - 70)
+            x1, x2 = max(0, x), min(480, x + 40)
+            if x2 - x1 < 16:                     # 거의 다 나간 객체는 검출되지 않습니다.
+                return [], [], []
+            return [[x1, 80, x2, 140]], [0.9], [A if index <= 20 else returning_class]
+
+        extension = make_extension(script)
+        extension.verify = verify
+        history = []
+        for index in range(1, 91):
+            boxes, _, _ = script(index)
+            history.append(extension.process(colored_frame(boxes, [(40, 40, 220)]), index))
+        before = {(r.track_id, r.label) for rows in history[:20] for r in rows}
+        after = {(r.track_id, r.label) for rows in history[84:] for r in rows}   # 판단(검출 8번)이 끝난 뒤
+        return extension, before, after
+
+    def test_restored_id_kept_for_same_jamo(self):
+        extension, before, after = self.reentry_scenario(A)
+        self.assertEqual(before, {(1, "ㅏ")})
+        if extension.byte_tracker.next_id > 2:
+            self.skipTest("이 장면에서 추적기가 이전 ID를 복원하지 않았습니다.")
+        self.assertEqual(after, {(1, "ㅏ")})
+        self.assertEqual(extension.rejected, 0)
+
+    def test_restored_id_rejected_for_different_jamo(self):
+        extension, before, after = self.reentry_scenario(GIYEOK)
+        self.assertEqual(before, {(1, "ㅏ")})
+        self.assertEqual(after, {(2, "ㄱ")})      # 이전 ID 1과 ㅏ가 따라오지 않아야 합니다.
+        if extension.byte_tracker.next_id == 2:  # 추적기는 이전 ID를 돌려줬고, 확장 기능이 취소한 경우
+            self.assertEqual(extension.rejected, 1)
+
+    def test_without_check_votes_follow_the_restored_id(self):
+        extension, before, after = self.reentry_scenario(GIYEOK, verify="off")
+        if extension.byte_tracker.next_id > 2:
+            self.skipTest("이 장면에서 추적기가 이전 ID를 복원하지 않았습니다.")
+        self.assertIn((1, "ㅏ"), after)           # 확인을 끄면 틀린 자모가 표시됩니다 (고치려는 문제).
+
     def test_no_detections(self):
         extension = make_extension(lambda index: ([], [], []))
         self.assertEqual(extension.process(np.zeros((100, 100, 3), dtype=np.uint8), 1), [])

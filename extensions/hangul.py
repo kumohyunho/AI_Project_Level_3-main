@@ -51,6 +51,11 @@ class JamoVotes:
         if class_name != self.best(track_id):
             self.disagree[track_id] += 1
 
+    def share(self, track_id, class_name):
+        """``class_name``이 이 트랙의 전체 표에서 차지하는 비율 (0~1)."""
+        votes = self.scores.get(track_id)
+        return votes.get(class_name, 0.0) / sum(votes.values()) if votes else 0.0
+
     def best(self, track_id):
         votes = self.scores.get(track_id)
         return max(votes, key=votes.get) if votes else None
@@ -73,10 +78,18 @@ class HangulJamoExtension(DetectTrackExtension):
     # 가림 후 재연결과 재진입 ID 복원에는 외형이 도움이 되어 그대로 씁니다.
     tracker = {"preset": "improved", "appearance": False}
     match_iou = 0.3            # 트랙과 이번 프레임 검출을 같은 것으로 보는 최소 IoU (투표용)
+    # (실험 기능, 기본 꺼짐) ID를 되돌려 받은 뒤 ``verify_frames``번 검출된 자모가 그 ID의 이전 자모와 다르면,
+    # 다른 자모로 보고 새 ID를 줍니다. 이전 ID가 다른 자모에게 가면 이전 표가 따라와 틀린 자모가 표시되는 것을 막으려는 것입니다.
+    # 검증 영상에서는 어떤 설정도 끈 것보다 좋지 않아 기본값을 "off"로 둡니다 (docs/HANGUL.md 7절).
+    #   "off": 확인하지 않음 (기본),  "reentry": 화면 밖에서 돌아와 이전 ID를 받은 경우(재진입)만 확인,
+    #   "all": 가림 뒤 다시 연결된 경우(재등장)도 확인
+    verify = "off"
+    verify_frames = 8          # 판단에 쓰는 검출 횟수 (1이면 되돌려 받은 그 프레임만 보고 판단)
+    verify_share = 0.2         # 이전 표에서 이 비율 이상을 받은 자모면 같은 자모로 인정 (자주 헷갈리는 쌍 허용)
 
     def __init__(self, device="cpu", fps=30.0):
         super().__init__(device, fps)
-        self.votes = JamoVotes()
+        self.reset()
 
     def detect(self, frame):
         """(boxes, scores, class_ids). 같은 자모가 ㅏ·ㅓ 두 클래스로 겹쳐 검출되지 않도록 클래스와 무관하게 NMS합니다."""
@@ -102,17 +115,40 @@ class HangulJamoExtension(DetectTrackExtension):
         self.byte_tracker = ByteTracker(self.tracker_config, self.fps)
         self.motion = MotionRecorder(self.fps)
         self.votes = JamoVotes()
+        self.display_ids = {}      # 추적기 ID → 화면·결과에 쓰는 ID
+        self.next_display_id = 1
+        self.rejected = 0          # 자모가 달라 ID 복원을 취소한 횟수
+        self.pending = {}          # 추적기 ID → 되돌려 받은 뒤 모으는 중인 표 (JamoVotes)
+
+    def _display_id(self, track_id, renew=False):
+        if renew or track_id not in self.display_ids:
+            self.display_ids[track_id] = self.next_display_id
+            self.next_display_id += 1
+        return self.display_ids[track_id]
+
+    def _restored_now(self, track):
+        """이번 프레임에 이전 ID를 되돌려 받은 트랙인지 (확인 대상인 경우만)."""
+        from tracker import STATUS_REAPPEARED, STATUS_REENTERED
+
+        if self.verify == "off" or track.status_since != self.byte_tracker.frame_id:
+            return False
+        if track.status == STATUS_REENTERED:
+            return True
+        return self.verify == "all" and track.status == STATUS_REAPPEARED
 
     def track(self, boxes, scores, class_ids, features, frame_size):
         """한 프레임의 검출로 추적·투표합니다.
 
-        반환: ``[(트랙, 다수결 자모 이름 또는 None, 이번 프레임에 검출된 자모 이름 또는 None), ...]``
+        반환: ``[(트랙, 표시 ID, 다수결 자모 이름 또는 None, 이번 프레임에 검출된 자모 이름 또는 None), ...]``
+
+        표시 ID는 보통 추적기 ID와 같은 순서로 매겨지지만, 추적기가 이전 ID를 **다른 자모**에게 되돌려 준 경우에는
+        새 번호를 줍니다. 그러지 않으면 이전 자모의 표가 따라와 틀린 자모가 표시됩니다.
         """
         from tracker.matching import iou_matrix
 
         # 추적기에는 모든 검출을 같은 클래스(0)로 넘깁니다. 클래스가 프레임마다 바뀌어도 ID가 끊기지 않습니다.
         tracks = self.byte_tracker.update(boxes, scores, np.zeros(len(boxes), dtype=int), features, frame_size)
-        observed = {}
+        observed, observed_score = {}, {}
         if tracks and len(boxes):
             overlap = iou_matrix([t.box for t in tracks], boxes)
             # 높은 신뢰도 검출만 투표합니다 (2차 연결용 낮은 신뢰도 검출은 분류가 불안정).
@@ -121,8 +157,31 @@ class HangulJamoExtension(DetectTrackExtension):
                 column = int(overlap[row].argmax())
                 if overlap[row, column] >= self.match_iou:
                     observed[track.track_id] = self.class_name(class_ids[column])
-                    self.votes.add(track.track_id, observed[track.track_id], scores[column])
-        return [(t, self.votes.best(t.track_id), observed.get(t.track_id)) for t in tracks]
+                    observed_score[track.track_id] = scores[column]
+        result = []
+        for track in tracks:
+            name = observed.get(track.track_id)
+            known = track.track_id in self.display_ids
+            display = self._display_id(track.track_id)
+            if known and self._restored_now(track):
+                self.pending[track.track_id] = JamoVotes()   # 판단이 끝날 때까지 표를 따로 모읍니다.
+            trial = self.pending.get(track.track_id)
+            if trial is None:
+                if name is not None:
+                    self.votes.add(display, name, observed_score[track.track_id])
+            elif name is not None:
+                trial.add(0, name, observed_score[track.track_id])
+                if trial.frames[0] >= self.verify_frames:
+                    del self.pending[track.track_id]
+                    if self.votes.share(display, trial.best(0)) < self.verify_share:
+                        # 다른 자모: 새 ID로 바꾸고, 모아 둔 표만 가지고 시작합니다.
+                        display = self._display_id(track.track_id, renew=True)
+                        self.rejected += 1
+                    for class_name, score in trial.scores[0].items():   # 같은 자모: 모아 둔 표를 합칩니다.
+                        self.votes.scores[display][class_name] += score
+                    self.votes.frames[display] += trial.frames[0]
+            result.append((track, display, self.votes.best(display), name))
+        return result
 
     def process(self, frame, frame_index):
         from pipeline import TrackRow, needs_features
@@ -132,12 +191,12 @@ class HangulJamoExtension(DetectTrackExtension):
         features = extract_features(frame, boxes) if needs_features(self.tracker_config) and len(boxes) else None
         height, width = frame.shape[:2]
         rows = []
-        for track, name, _ in self.track(boxes, scores, class_ids, features, (width, height)):
+        for track, display, name, _ in self.track(boxes, scores, class_ids, features, (width, height)):
             if name is None:   # 아직 높은 신뢰도 검출과 만나지 못한 트랙
                 continue
             box = tuple(float(v) for v in track.box)
-            state = self.motion.update(track.track_id, box, frame_index)
-            rows.append(TrackRow(track.track_id, KIND.get(name, name), box, track.score, track.status,
+            state = self.motion.update(display, box, frame_index)
+            rows.append(TrackRow(display, KIND.get(name, name), box, track.score, track.status,
                                  state.direction, state.distance, state.speed, tuple(state.trail),
                                  source=self.key, label=CHAR.get(name, name)))
         return sorted(rows, key=lambda r: r.track_id)
