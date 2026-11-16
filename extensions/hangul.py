@@ -68,8 +68,10 @@ class HangulJamoExtension(DetectTrackExtension):
     description = "떠다니는 한글 자음·모음을 하나씩 검출·추적하고 어떤 자모인지 표시합니다."
     weights = "hangul_jamo.pt"
     classes = CLASS_NAMES      # 가중치에 40개 자모 클래스가 모두 있어야 합니다.
-    # 자모는 색이 서로 달라 외형(색 히스토그램) 연결이 도움이 됩니다. 평가로 기본판과 비교합니다 (docs/HANGUL.md).
-    tracker = "improved"
+    # 개선판에서 외형(색 히스토그램) 연결만 끈 설정입니다. 검증 영상 비교에서 가장 좋았습니다 (docs/HANGUL.md 7절).
+    # 자모는 회전하면 박스 안의 배경 비율이 달라져 색 히스토그램이 흔들리므로, 매 프레임 연결에 외형을 쓰면 ID가 더 자주 바뀝니다.
+    # 가림 후 재연결과 재진입 ID 복원에는 외형이 도움이 되어 그대로 씁니다.
+    tracker = {"preset": "improved", "appearance": False}
     match_iou = 0.3            # 트랙과 이번 프레임 검출을 같은 것으로 보는 최소 IoU (투표용)
 
     def __init__(self, device="cpu", fps=30.0):
