@@ -87,6 +87,65 @@ class EvaluationTest(unittest.TestCase):
         self.assertGreater(summary["shown_accuracy_voting_frames"], summary["frame_accuracy"])
         self.assertTrue(confusion_frame)
 
+    def test_same_scene_for_every_rotation_range(self):
+        # --tracking-only: 검출 이미지는 만들지 않고, seed가 같으면 회전 범위만 다른 같은 장면이 나와야 합니다.
+        objects, angles = {}, {}
+        for rotation in (0.0, 90.0):
+            output = Path(self.folder.name) / f"rot{rotation:g}"
+            hangul_dataset.main(Namespace(output=str(output), train=5, val=5, test=5, sequences=1, length=30,
+                                          backgrounds=None, fonts=None, seed=3, rotation=rotation, tracking_only=True))
+            self.assertEqual(list((output / "images" / "train").glob("*.jpg")), [])
+            folder = output / "tracking" / "test" / "jamo-01" / "gt"
+            objects[rotation] = (folder / "objects.json").read_text(encoding="utf-8")
+            rows = (folder / "angles.csv").read_text().splitlines()[1:]
+            angles[rotation] = max(abs(float(row.split(",")[2])) for row in rows)
+        self.assertEqual(objects[0.0], objects[90.0])
+        self.assertEqual(angles[0.0], 0.0)
+        self.assertGreater(angles[90.0], 45.0)
+
+    def test_failure_events_split_crossings_by_jamo(self):
+        frames, chars, _ = self.truth
+        # 실제 정답에서 서로 겹치는 두 객체를 찾아, 그 프레임에 ID 변경이 났다고 가정합니다.
+        from tracker.matching import iou_matrix
+        found = None
+        for number, items in frames.items():
+            boxes = [box for _, box, _ in items]
+            overlap = iou_matrix(boxes, boxes)
+            np.fill_diagonal(overlap, 0)
+            if overlap.max() >= 0.3:
+                a, b = np.unravel_index(overlap.argmax(), overlap.shape)
+                found = (number, items[a][0], items[b][0])
+                break
+        if found is None:
+            self.skipTest("이 장면에는 겹치는 자모가 없습니다.")
+        number, first, second = found
+        events = [dict(type="IDSW", frame=number, gt_id=first, old_id=1, new_id=2)]
+        evaluate_hangul.classify_events(events, self.sequence, chars)
+        expected = "교차(같은 자모)" if chars[first] == chars[second] else "교차(다른 자모)"
+        self.assertEqual(events[0]["category"], expected)
+        self.assertEqual(events[0]["char"], chars[first])
+        self.assertIn(events[0]["category"], evaluate_hangul.FAILURE_CATEGORIES)
+
+    def test_wrong_tracks_and_run_comparison(self):
+        record = dict(sequence="s", matched=True, track_id=1, char="ㅏ", shown="ㅓ", observed="ㅓ", final="ㅓ", angle=30.0)
+        good = dict(record, track_id=2, shown="ㅏ", observed="ㅏ", final="ㅏ")
+        wrong = evaluate_hangul.wrong_tracks([record, record, good])
+        self.assertEqual([(w["track_id"], w["char"], w["final"], w["frames"]) for w in wrong], [(1, "ㅏ", "ㅓ", 2)])
+
+        _, (summary, per_jamo, _, _) = self.run_oracle(wrong_every=0)
+        root = Path(self.folder.name) / "runs"
+        tracking = dict(HOTA=50.0, IDF1=60.0, MOTA=70.0, IDSW=1)
+        for name in ("rot0", "rot90"):
+            (root / name).mkdir(parents=True)
+            (root / name / "summary.json").write_text(json.dumps(
+                {"results": {"baseline": {"tracking": tracking, "classification": summary}}}), encoding="utf-8")
+        text = evaluate_hangul.summarize_runs(["rot0", "rot90"], root)
+        self.assertIn("| rot0 | baseline | 50.00 |", text)
+        self.assertIn("| rot90 | baseline |", text)
+        self.assertTrue((root / "comparison.md").is_file())
+        with self.assertRaises(FileNotFoundError):
+            evaluate_hangul.summarize_runs(["없는평가"], root)
+
     def test_report_is_written(self):
         _, (summary, per_jamo, confusion_frame, confusion_shown) = self.run_oracle(wrong_every=4)
         tracking = dict(HOTA=1.0, IDF1=2.0, MOTA=3.0, IDSW=0, Frag=0, GT_IDs=5, IDs=5)

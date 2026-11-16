@@ -24,6 +24,7 @@ train / val / test는 처음부터 따로 생성하므로 겹치지 않습니다
     python hangul_dataset.py --output datasets/hangul
     python hangul_dataset.py --output datasets/hangul --backgrounds datasets/raw/coco/val2017 --train 8000
     python train_models.py hangul --data datasets/hangul/dataset.yaml --fliplr 0 --epochs 50 --install
+    python hangul_dataset.py --output datasets/hangul_rot90 --tracking-only --rotation 90   # 회전 범위별 평가용 영상
 
 글꼴: Windows는 맑은 고딕·굴림·바탕, Linux·Colab은 ``apt-get install fonts-nanum``(나눔 글꼴)을 자동으로 찾습니다.
 다른 글꼴은 ``--fonts <폴더>``로 추가합니다.
@@ -305,6 +306,11 @@ def write_detection_split(rng, backgrounds, fonts, output, split, count, rotatio
     return {"images": count, "boxes": sum(counts), "min_per_class": min(counts), "max_per_class": max(counts)}
 
 
+def angle_wave(amplitude, phase, omega, frame):
+    """프레임별 회전 각도: ±amplitude 안에서 천천히 흔들립니다."""
+    return amplitude * math.sin(phase + omega * frame)
+
+
 # ---------------------------------------------------------------------- 2. 떠다니는 자모 영상
 def write_sequence(rng, backgrounds, fonts, folder, name, length, rotation, fps=30, width=960, height=540):
     """자모들이 떠다니며 회전·교차·가림·화면 이탈 후 재진입하는 영상과 MOT 형식 정답을 만듭니다."""
@@ -329,7 +335,7 @@ def write_sequence(rng, backgrounds, fonts, folder, name, length, rotation, fps=
                             cx=rng.uniform(60, width - 60), cy=rng.uniform(60, height - 60),
                             vx=speed * math.cos(heading), vy=speed * math.sin(heading),
                             # 회전: ±amplitude 안에서 천천히 흔들립니다.
-                            amplitude=rng.uniform(0, rotation), omega=rng.uniform(0.02, 0.08),
+                            amplitude=rng.random() * rotation, omega=rng.uniform(0.02, 0.08),
                             phase=rng.uniform(0, 2 * math.pi),
                             leave=rng.random() < 0.4, outside=0, wait=rng.randint(20, 50)))
     # 가림막: 화면을 가로지르는 기둥 (가림 상황)
@@ -355,7 +361,7 @@ def write_sequence(rng, backgrounds, fonts, folder, name, length, rotation, fps=
                 continue
             obj["cx"] += obj["vx"]
             obj["cy"] += obj["vy"]
-            angle = obj["amplitude"] * math.sin(obj["phase"] + obj["omega"] * frame)
+            angle = angle_wave(obj["amplitude"], obj["phase"], obj["omega"], frame)
             sprite = rotate(obj["sprite"], angle)
             w, h = sprite.size
             for axis, half, limit in (("cx", w / 2, width), ("cy", h / 2, height)):
@@ -405,6 +411,8 @@ def main(args):
     output = Path(args.output).resolve()
     if output.exists() and any(output.iterdir()):
         raise FileExistsError(f"출력 폴더가 비어 있지 않습니다: {output}")
+    if getattr(args, "tracking_only", False):
+        args.train = args.val = args.test = 0
     fonts = find_fonts(args.fonts or [])
     if not fonts:
         raise FileNotFoundError("자모를 그릴 한글 글꼴을 찾지 못했습니다. Linux·Colab: apt-get install fonts-nanum, "
@@ -454,4 +462,7 @@ if __name__ == "__main__":
     parser.add_argument("--backgrounds", nargs="*", help="배경 사진 폴더 (선택, 예: datasets/raw/coco/val2017)")
     parser.add_argument("--fonts", nargs="*", help="추가 글꼴 폴더 (선택)")
     parser.add_argument("--seed", type=int, default=0)
+    parser.add_argument("--tracking-only", action="store_true",
+                        help="검출 학습 이미지는 만들지 않고 떠다니는 자모 영상만 만듭니다 (회전 범위별 평가용).\n"
+                             "seed가 같으면 회전 범위만 다르고 자모·출발 위치·속도·배경이 같은 영상이 만들어집니다.")
     main(parser.parse_args())

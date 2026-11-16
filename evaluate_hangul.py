@@ -11,8 +11,16 @@
    * 트랙 단위: 영상이 끝났을 때 트랙의 최종 자모가 정답과 같은 비율
 3. **회전 각도별**(0~15°, 15~30°, 30~45°) 검출률과 정확도, **자주 헷갈리는 자모 쌍**, **자모별** 검출률·정확도
 
+4. **실패 사례**(``--images N``): ID 변경·끊김을 교차(같은 자모/다른 자모)·가림·화면 경계·기타로 분류하고 사례 이미지를 저장,
+   최종 자모가 틀린 트랙 목록
+5. **여러 평가 비교**(``--summarize``): 회전 범위별 평가 결과 등을 표 하나로 모읍니다 (``results/hangul/comparison.md``)
+
 예)
     python evaluate_hangul.py datasets/hangul/tracking/test --trackers baseline improved --name test
+    python evaluate_hangul.py datasets/hangul/tracking/test --name ablation --images 12 \
+        --trackers baseline baseline+appearance baseline+recover_lost baseline+reid_buffer improved
+    python evaluate_hangul.py datasets/hangul_rot90/tracking/test --name rot90
+    python evaluate_hangul.py --summarize rot0 test rot90
     python evaluate_hangul.py datasets/hangul/tracking/test --weights training_runs/hangul/weights/best.pt --device 0
 
 결과: ``results/hangul/<name>/summary.md``·``summary.json``, 추적기별 ``confusion_<tracker>.csv``·``per_jamo_<tracker>.csv``,
@@ -29,7 +37,7 @@ from time import perf_counter
 import numpy as np
 
 from extensions.hangul import CHAR, KIND, HangulJamoExtension
-from metrics import combine, evaluate_files
+from metrics import combine, evaluate_files, load_ground_truth
 from mot_data import find_sequences
 from pipeline import ROOT, needs_features
 from results_io import write_mot
@@ -200,6 +208,71 @@ def fmt(value, digits=1):
     return "—" if value != value else f"{value:.{digits}f}"   # NaN → —
 
 
+def classify_events(events, sequence, chars):
+    """ID 변경·끊김 사례에 원인 분류를 붙입니다. 교차는 상대가 같은 자모인지 다른 자모인지 나눕니다.
+
+    같은 자모끼리는 모양이 같아 외형으로 구분할 수 없으므로, 움직임 예측만으로 버텨야 하는 가장 어려운 경우입니다.
+    """
+    from analyze_failures import classify
+
+    gt = load_ground_truth(sequence.gt_path)[0]
+    for event in events:
+        category, overlap, visibility = classify(event, gt, sequence)
+        if category == "교차":
+            frame = gt[event["frame"]]
+            index = int(np.flatnonzero(frame.ids == event["gt_id"])[0])
+            others = iou_matrix(frame.boxes[index][None], frame.boxes)[0]
+            others[index] = -1.0
+            partner = int(frame.ids[int(others.argmax())])
+            same = chars.get(partner) == chars.get(event["gt_id"])
+            category = "교차(같은 자모)" if same else "교차(다른 자모)"
+        event.update(category=category, overlap=overlap, visibility=visibility, sequence=sequence.name,
+                     char=chars.get(event["gt_id"], "?"))
+    return gt
+
+
+FAILURE_CATEGORIES = ["교차(같은 자모)", "교차(다른 자모)", "가림", "화면 경계", "기타"]
+
+
+def wrong_tracks(records):
+    """최종 자모가 틀린 트랙: (영상, 트랙 ID, 정답 자모, 판정 자모, 맞은 프레임 수, 평균 회전 각도)."""
+    groups = defaultdict(list)
+    for r in records:
+        if r["matched"] and r["shown"]:
+            groups[(r["sequence"], r["track_id"])].append(r)
+    rows = []
+    for (sequence, track_id), items in groups.items():
+        truth = Counter(r["char"] for r in items).most_common(1)[0][0]
+        final = items[-1]["final"]
+        if final != truth:
+            rows.append(dict(sequence=sequence, track_id=track_id, char=truth, final=final, frames=len(items),
+                             mean_abs_angle=float(np.mean([abs(r["angle"]) for r in items]))))
+    return sorted(rows, key=lambda r: -r["frames"])
+
+
+def summarize_runs(names, root=None):
+    """여러 평가(``results/hangul/<name>/summary.json``)를 표 하나로 모읍니다 (회전 범위별 비교 등)."""
+    root = Path(root) if root else ROOT / "results" / "hangul"
+    lines = ["# 한글 자모 평가 비교", "",
+             "| 평가 | 추적기 | HOTA | IDF1 | MOTA | IDSW | 검출률 | 프레임 단위 | 다수결(같은 프레임) | 화면 표시(전체) | 트랙 단위 |",
+             "|---|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|"]
+    for name in names:
+        path = root / name / "summary.json"
+        if not path.is_file():
+            raise FileNotFoundError(f"평가 결과가 없습니다: {path} (먼저 --name {name}으로 평가를 실행하세요)")
+        data = json.loads(path.read_text(encoding="utf-8"))
+        for tracker, r in data["results"].items():
+            m, c = r["tracking"], r["classification"]
+            lines.append(f"| {name} | {tracker} | {m['HOTA']:.2f} | {m['IDF1']:.2f} | {m['MOTA']:.2f} | {m['IDSW']} | "
+                         f"{fmt(c['detection_rate'])} | {fmt(c['frame_accuracy'])} | "
+                         f"{fmt(c['shown_accuracy_voting_frames'])} | {fmt(c['shown_accuracy'])} | "
+                         f"{fmt(c['track_accuracy'])} |")
+    lines += ["", "분류 정확도 단위는 %. 각 열의 뜻은 `docs/HANGUL.md` 6절 참고.", ""]
+    text = "\n".join(lines)
+    (root / "comparison.md").write_text(text, encoding="utf-8")
+    return text
+
+
 def write_report(folder, name, weights, sequences, results, det_ms):
     lines = [f"# 한글 자모 평가: {name}", "",
              f"* 가중치: `{weights}`", f"* 영상: {', '.join(s.name for s in sequences)} "
@@ -241,12 +314,37 @@ def write_report(folder, name, weights, sequences, results, det_ms):
                        key=lambda j: (j["detection_rate"] if j["detection_rate"] == j["detection_rate"] else 0))[:5]
         lines += ["", f"### {tracker}: 검출률이 낮은 자모", "",
                   ", ".join(f"{j['char']} {fmt(j['detection_rate'])}%" for j in worst)]
+    if any("failures" in r for r in results.values()):
+        lines += ["", "## 추적 실패 사례 (ID 변경·끊김의 원인)", "",
+                  "| 추적기 | 유형 | " + " | ".join(FAILURE_CATEGORIES) + " | 합계 |",
+                  "|---|---|" + "---:|" * (len(FAILURE_CATEGORIES) + 1)]
+        for tracker, r in results.items():
+            for kind in ("IDSW", "FRAG"):
+                counts = Counter(e["category"] for e in r.get("failures", []) if e["type"] == kind)
+                lines.append(f"| {tracker} | {kind} | " + " | ".join(str(counts[c]) for c in FAILURE_CATEGORIES)
+                             + f" | {sum(counts.values())} |")
+        lines += ["", "IDSW = 같은 자모 객체의 ID가 바뀜, FRAG = 추적이 끊겼다가 다시 이어짐. "
+                  "교차 = 다른 객체와 IoU ≥ 0.3, 가림 = visibility < 0.5, 화면 경계 = 가장자리 3% 이내."]
+        for tracker, r in results.items():
+            wrong = r.get("wrong_tracks", [])
+            lines += ["", f"### {tracker}: 최종 자모가 틀린 트랙 ({len(wrong)}개)", ""]
+            if wrong:
+                lines += ["| 영상 | 트랙 ID | 정답 | 판정 | 프레임 수 | 평균 회전 각도 |", "|---|---:|---|---|---:|---:|"]
+                lines += [f"| {w['sequence']} | {w['track_id']} | {w['char']} | {w['final']} | {w['frames']} | "
+                          f"{w['mean_abs_angle']:.1f}° |" for w in wrong[:15]]
+            else:
+                lines.append("없음")
     lines += ["", "검출률 = 정답 박스 중 트랙과 맞은 비율. 이 영상에 나오지 않은 자모는 표에 없습니다.", ""]
     (folder / "summary.md").write_text("\n".join(lines), encoding="utf-8")
     return "\n".join(lines)
 
 
 def main(args):
+    if args.summarize:
+        print(summarize_runs(args.summarize))
+        return
+    if not args.sequences:
+        raise SystemExit("영상 폴더를 지정하세요. 예: datasets/hangul/tracking/test")
     sequences = find_sequences(args.sequences)
     weights = Path(args.weights)
     if not weights.is_file():
@@ -271,19 +369,33 @@ def main(args):
 
     results, comparison = {}, []
     for tracker in args.trackers:
-        raw, records, track_ms = [], [], []
+        raw, records, track_ms, failures = [], [], [], []
         for sequence in sequences:
             rows, shown, final, ms = run_tracker(extension, sequence, cached[sequence.name], tracker)
             track_ms.append(ms)
             target = folder / tracker / f"{sequence.name}.txt"
             write_mot(target, rows)
-            raw.append(evaluate_files(sequence.gt_path, target, sequence.frames))
+            events = []
+            raw.append(evaluate_files(sequence.gt_path, target, sequence.frames, events))
             records += classify(sequence, truths[sequence.name], shown, final)
+            if args.images is not None:
+                gt = classify_events(events, sequence, truths[sequence.name][1])
+                failures += [dict(e, tracker=tracker, _gt=gt, _sequence=sequence, _result=target) for e in events]
         tracking = combine(raw)
         classification, per_jamo, confusion_frame, confusion_shown = summarize(records)
         results[tracker] = dict(tracking=tracking, classification=classification, per_jamo=per_jamo,
                                 confusion_frame=confusion_frame, confusion_shown=confusion_shown,
                                 track_ms=float(np.mean(track_ms)), config=extension.tracker_config.to_dict())
+        if args.images is not None:
+            from analyze_failures import draw_case
+
+            # 겹침이 큰(=분석 가치가 높은) ID 변경 사례부터 이미지로 저장합니다.
+            cases = sorted((e for e in failures if e["type"] == "IDSW"), key=lambda e: -e["overlap"])
+            for number, event in enumerate(cases[:args.images]):
+                draw_case(event["_sequence"], event, event["_gt"], event["_result"],
+                          folder / "failures" / tracker / f"{number:02d}_{event['sequence']}_{event['frame']:06d}.jpg")
+            results[tracker]["failures"] = [{k: v for k, v in e.items() if not k.startswith("_")} for e in failures]
+            results[tracker]["wrong_tracks"] = wrong_tracks(records)
         with (folder / f"per_jamo_{tracker}.csv").open("w", encoding="utf-8-sig", newline="") as target:
             writer = csv.DictWriter(target, fieldnames=list(per_jamo[0]) if per_jamo else ["char"])
             writer.writeheader()
@@ -300,12 +412,21 @@ def main(args):
                                created=datetime.now().isoformat(timespec="seconds"),
                                config=results[tracker]["config"], **tracking))
 
+    if args.images is not None:
+        with (folder / "events.csv").open("w", encoding="utf-8-sig", newline="") as target:
+            fields = ["tracker", "sequence", "type", "category", "char", "frame", "gt_id", "old_id", "new_id",
+                      "overlap", "visibility"]
+            writer = csv.DictWriter(target, fieldnames=fields, extrasaction="ignore")
+            writer.writeheader()
+            for r in results.values():
+                writer.writerows(r["failures"])
     print(write_report(folder, args.name, weights, sequences, results, det_ms))
     (folder / "summary.json").write_text(json.dumps(dict(
         name=args.name, weights=str(weights), sequences=[s.name for s in sequences], det_ms=det_ms,
         created=datetime.now().isoformat(timespec="seconds"),
         results={t: dict(tracking=r["tracking"], classification=r["classification"], track_ms=r["track_ms"],
                          config=r["config"], per_jamo=r["per_jamo"],
+                         failures=r.get("failures"), wrong_tracks=r.get("wrong_tracks"),
                          confusion_frame=[[a, b, n] for (a, b), n in r["confusion_frame"].most_common()],
                          confusion_shown=[[a, b, n] for (a, b), n in r["confusion_shown"].most_common()])
                  for t, r in results.items()}), ensure_ascii=False, indent=2), encoding="utf-8")
@@ -318,7 +439,7 @@ def main(args):
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawTextHelpFormatter)
-    parser.add_argument("sequences", nargs="+", help="예: datasets/hangul/tracking/test")
+    parser.add_argument("sequences", nargs="*", help="예: datasets/hangul/tracking/test")
     parser.add_argument("--trackers", nargs="+", default=["baseline", "improved"],
                         help="baseline, improved, baseline+appearance 등, configs/<이름>.json의 이름")
     parser.add_argument("--weights", default=str(ROOT / "models" / "hangul_jamo.pt"))
@@ -326,4 +447,7 @@ if __name__ == "__main__":
     parser.add_argument("--imgsz", type=int, default=640)
     parser.add_argument("--device", default="cpu")
     parser.add_argument("--no-comparison", action="store_true", help="results/comparison.json에 추가하지 않음")
+    parser.add_argument("--images", type=int, help="실패 사례 분석을 하고, 추적기별로 ID 변경 사례 이미지를 이만큼 저장 (0이면 표만)")
+    parser.add_argument("--summarize", nargs="+", metavar="NAME",
+                        help="이미 실행한 평가들(results/hangul/<NAME>)을 표 하나로 모읍니다 → results/hangul/comparison.md")
     main(parser.parse_args())
