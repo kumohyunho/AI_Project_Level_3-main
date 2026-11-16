@@ -3,6 +3,7 @@
 색 히스토그램은 배경과 비슷한 동물의 재식별을 오히려 방해할 수 있어 기본값은
 위치 기반 ByteTrack입니다. 아래 임계값은 최적화 결과가 아닌 시작값입니다.
 """
+import hashlib
 import json
 
 from tracker import TrackerConfig
@@ -32,6 +33,18 @@ def validate_tracker(data):
     if type(config.track_buffer) is not int or config.track_buffer < 1:
         raise ValueError("track_buffer는 양의 정수여야 합니다.")
     return config
+
+
+def read_tracker_config(path, weights=None):
+    """튜닝 결과 또는 순수 TrackerConfig JSON을 공통으로 읽습니다."""
+    from pathlib import Path
+
+    data = json.loads(Path(path).read_text(encoding="utf-8"))
+    if weights is not None and "weights_sha256" in data:
+        actual = hashlib.sha256(Path(weights).read_bytes()).hexdigest()
+        if data["weights_sha256"] != actual:
+            raise ValueError("튜닝에 사용한 가중치와 현재 가중치가 다릅니다.")
+    return validate_tracker(data.get("tracker", data)).to_dict()
 
 
 class CamouflageExtension(DetectTrackExtension):

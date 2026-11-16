@@ -175,6 +175,9 @@ python evaluate_camouflage.py datasets/camouflage/tracking/test --output results
 희소 주석 사이에서 생겼다가 사라진 실패는 측정되지 않을 수 있으므로, 촘촘한 주석 평가와 같은 조건으로 비교하면 안 됩니다.
 평가 파일의 class=1은 기존 MOT 지표 코드의 대상 표시로, 동물을 사람으로 학습한다는 뜻이 아닙니다.
 
+자동 설정 탐색은 [`CAMOUFLAGE_TUNING.md`](CAMOUFLAGE_TUNING.md)를 참고하세요. val 영상에서 선택한 설정을
+`evaluate_camouflage.py`와 `run_camouflage.py`의 `--tracker-config`로 적용할 수 있습니다.
+
 다른 설정 비교: `--tracker-config configs/camouflage_candidate.json`으로 `TrackerConfig` 필드 JSON을 지정하고,
 검증 영상에서만 임계값·유지 시간을 조정한 뒤 test에서 최종 평가하세요.
 GUI에도 선택한 설정을 적용하려면 `models/camouflage.json`의 `tracker`에 같은 내용을 저장합니다.
