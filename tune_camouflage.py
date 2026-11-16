@@ -166,6 +166,7 @@ def tune(args):
                        annotations_sha256=hashlib.sha256((item.sequence.folder/"annotations.json").read_bytes()).hexdigest())
                   for item in cached]
     summary = dict(extension="camouflage", split="val", weights=str(weights), weights_sha256=weights_digest,
+                   detection=getattr(extension, "inference_config", None),
                    model_metadata_sha256=hashlib.sha256(metadata_path.read_bytes()).hexdigest())
     summary.update(objective="HOTA 최대 → IDF1 최대 → MOTA 최대 → IDSW 최소 → 기존 설정/후보 순서",
                    baseline=original, best=best, candidates=ordered, sequences=provenance,

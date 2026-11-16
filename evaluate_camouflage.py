@@ -66,6 +66,7 @@ def evaluate(args):
                                  processed_frames=seq.length, processing_ms=elapsed * 1000 / seq.length))
         all_events.extend(dict(sequence=seq.name, **event) for event in events)
     summary = dict(weights=str(Path(args.weights).resolve()), tracker=extension.tracker_config.to_dict(),
+                   detection=getattr(extension, "inference_config", None),
                    metrics=combine(raw), sequences=per_sequence, events=all_events,
                    protocol="전 프레임 추적, annotations.json의 주석 프레임만 평가. 보간 정답 생성 안 함.")
     (output / "metrics.json").write_text(json.dumps(summary, ensure_ascii=False, indent=2), encoding="utf-8")

@@ -14,6 +14,7 @@ from extensions.camouflage import CLASS_NAME
 
 
 def overlap(box, boxes):
+    box = np.asarray(box, dtype=float)
     boxes = np.asarray(boxes, dtype=float).reshape(-1, 4)
     intersection = np.maximum(0, np.minimum(box[2:], boxes[:, 2:]) -
                               np.maximum(box[:2], boxes[:, :2])).prod(axis=1)
