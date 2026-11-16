@@ -86,27 +86,51 @@ class HangulJamoExtension(DetectTrackExtension):
     def class_name(self, class_id):
         return self.detector.names[int(class_id)]
 
+    def reset(self, tracker=None):
+        """추적 상태와 투표를 처음으로 되돌립니다. ``tracker``를 주면 추적기 설정도 바꿉니다.
+
+        ``tracker``: ``"baseline"``, ``"improved"``, ``"baseline+appearance"``, ``configs/<이름>.json``의 이름,
+        또는 ``TrackerConfig``. 같은 검출 위에서 추적기 설정만 바꿔 비교할 때 씁니다 (``evaluate_hangul.py``).
+        """
+        from pipeline import tracker_config
+        from tracker import ByteTracker, MotionRecorder, TrackerConfig
+
+        if tracker is not None:
+            self.tracker_config = tracker if isinstance(tracker, TrackerConfig) else tracker_config(tracker)
+        self.byte_tracker = ByteTracker(self.tracker_config, self.fps)
+        self.motion = MotionRecorder(self.fps)
+        self.votes = JamoVotes()
+
+    def track(self, boxes, scores, class_ids, features, frame_size):
+        """한 프레임의 검출로 추적·투표합니다.
+
+        반환: ``[(트랙, 다수결 자모 이름 또는 None, 이번 프레임에 검출된 자모 이름 또는 None), ...]``
+        """
+        from tracker.matching import iou_matrix
+
+        # 추적기에는 모든 검출을 같은 클래스(0)로 넘깁니다. 클래스가 프레임마다 바뀌어도 ID가 끊기지 않습니다.
+        tracks = self.byte_tracker.update(boxes, scores, np.zeros(len(boxes), dtype=int), features, frame_size)
+        observed = {}
+        if tracks and len(boxes):
+            overlap = iou_matrix([t.box for t in tracks], boxes)
+            # 높은 신뢰도 검출만 투표합니다 (2차 연결용 낮은 신뢰도 검출은 분류가 불안정).
+            overlap[:, np.asarray(scores) < self.tracker_config.high_thresh] = 0.0
+            for row, track in enumerate(tracks):
+                column = int(overlap[row].argmax())
+                if overlap[row, column] >= self.match_iou:
+                    observed[track.track_id] = self.class_name(class_ids[column])
+                    self.votes.add(track.track_id, observed[track.track_id], scores[column])
+        return [(t, self.votes.best(t.track_id), observed.get(t.track_id)) for t in tracks]
+
     def process(self, frame, frame_index):
         from pipeline import TrackRow, needs_features
         from tracker import extract_features
-        from tracker.matching import iou_matrix
 
         boxes, scores, class_ids = self.detect(frame)
         features = extract_features(frame, boxes) if needs_features(self.tracker_config) and len(boxes) else None
         height, width = frame.shape[:2]
-        # 추적기에는 모든 검출을 같은 클래스(0)로 넘깁니다. 클래스가 프레임마다 바뀌어도 ID가 끊기지 않습니다.
-        tracks = self.byte_tracker.update(boxes, scores, np.zeros(len(boxes), dtype=int), features, (width, height))
-        if tracks and len(boxes):
-            overlap = iou_matrix([t.box for t in tracks], boxes)
-            # 높은 신뢰도 검출만 투표합니다 (2차 연결용 낮은 신뢰도 검출은 분류가 불안정).
-            overlap[:, scores < self.tracker_config.high_thresh] = 0.0
-            for row, track in enumerate(tracks):
-                column = int(overlap[row].argmax())
-                if overlap[row, column] >= self.match_iou:
-                    self.votes.add(track.track_id, self.class_name(class_ids[column]), scores[column])
         rows = []
-        for track in tracks:
-            name = self.votes.best(track.track_id)
+        for track, name, _ in self.track(boxes, scores, class_ids, features, (width, height)):
             if name is None:   # 아직 높은 신뢰도 검출과 만나지 못한 트랙
                 continue
             box = tuple(float(v) for v in track.box)
