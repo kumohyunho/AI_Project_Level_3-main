@@ -5,6 +5,7 @@
 
 1. 검출 학습용 이미지 (YOLO 형식, 40클래스) — ``images/<split>``, ``labels/<split>``
    * 자모 하나 = 박스 하나. 색·크기·글꼴·외곽선·바탕 판·**회전(기본 ±45°)**을 무작위로 바꿉니다.
+   * 일부 자모는 화면 경계에 걸리거나(15%) 가림막에 가려집니다(이미지의 35%). 떠다니는 영상에서 검출이 가장 많이 빠지던 상황입니다.
    * ``annotations/<split>.jsonl``: 박스별 자모와 회전 각도 (회전 각도별 정확도 분석용)
 2. 추적 평가용 "떠다니는 자모" 영상 (MOTChallenge 형식) — ``tracking/<split>/<seq>``
    * 자모 여러 개가 떠다니며 천천히 회전하고, 서로 교차하고, 가림막에 가려지고, 화면 밖으로 나갔다 다시 들어옵니다.
@@ -247,15 +248,39 @@ def covered_ratio(box, boxes):
 
 
 # ---------------------------------------------------------------------- 1. 검출 학습 이미지
+def add_occluders(image, rng):
+    """가림막(화면을 가로지르는 기둥이나 사각형)을 그리고, 가려진 영역을 ``True``로 표시한 마스크를 돌려줍니다."""
+    height, width = image.shape[:2]
+    mask = np.zeros((height, width), dtype=bool)
+    for _ in range(rng.randint(1, 2)):
+        color = [rng.randint(0, 255) for _ in range(3)]
+        if rng.random() < 0.6:   # 떠다니는 자모 영상의 가림막과 같은 세로 기둥
+            x, w = rng.randint(0, width - 40), rng.randint(40, 140)
+            region = (slice(None), slice(x, x + w))
+        else:
+            x, y = rng.randint(0, width - 40), rng.randint(0, height - 40)
+            region = (slice(y, y + rng.randint(40, 200)), slice(x, x + rng.randint(40, 200)))
+        image[region] = color
+        mask[region] = True
+    return mask
+
+
 def make_image(rng, backgrounds, fonts, rotation):
+    """검출 학습 이미지 한 장. 일부 자모는 화면 경계에 걸리거나 가림막에 가려집니다 (떠다니는 영상에서 흔한 상황).
+
+    라벨 규칙: 경계에 걸린 자모는 **보이는 부분의 박스**, 가림막에 가려진 자모는 **전체 박스**이며
+    (추적 정답과 같은 기준), 70% 넘게 가려진 자모는 라벨에서 뺍니다.
+    """
     width, height = rng.choice([(640, 640), (640, 480), (960, 540), (800, 600)])
     image = backgrounds.get(width, height)
     luma = image.mean(axis=2)
     items, boxes = [], []
     for _ in range(rng.randint(3, 14)):
         name = rng.choice(CLASS_NAMES)
-        size = int(rng.choice([rng.uniform(22, 40), rng.uniform(40, 80), rng.uniform(80, 140)]))
+        # 떠다니는 영상의 자모는 화면에서 20~60픽셀 정도라 작은 크기를 더 자주 뽑습니다.
+        size = int(rng.choice([rng.uniform(20, 34), rng.uniform(22, 40), rng.uniform(40, 80), rng.uniform(80, 140)]))
         angle = rng.uniform(-rotation, rotation) if rng.random() < 0.85 else 0.0
+        truncated = rng.random() < 0.15
         for _attempt in range(8):
             x, y = rng.randint(0, width - 20), rng.randint(0, height - 20)
             sprite = render_jamo(CHAR[name], rng.choice(fonts), size, rng, float(luma[y:y + size, x:x + size].mean()))
@@ -264,13 +289,36 @@ def make_image(rng, backgrounds, fonts, rotation):
                 size = max(20, size // 2)
                 continue
             x, y = min(x, width - sprite.width), min(y, height - sprite.height)
-            box = (x, y, x + sprite.width, y + sprite.height)
-            if covered_ratio(box, boxes) > 0.15:  # 살짝 겹치는 것까지만 허용
+            if truncated:   # 한쪽 경계 밖으로 10~55% 밀어냅니다.
+                shift = rng.uniform(0.1, 0.55)
+                side = rng.choice("lrtb")
+                if side == "l":
+                    x = -int(sprite.width * shift)
+                elif side == "r":
+                    x = width - sprite.width + int(sprite.width * shift)
+                elif side == "t":
+                    y = -int(sprite.height * shift)
+                else:
+                    y = height - sprite.height + int(sprite.height * shift)
+            box = (max(0, x), max(0, y), min(width, x + sprite.width), min(height, y + sprite.height))
+            if box[2] - box[0] < 8 or box[3] - box[1] < 8 or covered_ratio(box, boxes) > 0.15:  # 살짝 겹치는 것까지만 허용
                 continue
             paste(image, sprite, x, y)
             boxes.append(box)
-            items.append({"box": list(box), "class": name, "char": CHAR[name], "angle": round(angle, 1)})
+            visible = (box[2] - box[0]) * (box[3] - box[1]) / (sprite.width * sprite.height)
+            items.append({"box": list(box), "class": name, "char": CHAR[name], "angle": round(angle, 1),
+                          "visible": round(visible, 2)})
             break
+    if rng.random() < 0.35:
+        mask = add_occluders(image, rng)
+        kept = []
+        for item in items:
+            x1, y1, x2, y2 = item["box"]
+            covered = float(mask[y1:y2, x1:x2].mean())
+            if covered <= 0.7:
+                item["visible"] = round(item["visible"] * (1 - covered), 2)
+                kept.append(item)
+        items = kept
     if rng.random() < 0.3:  # 흐림 등 실제 영상 품질
         import cv2
 

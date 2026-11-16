@@ -66,6 +66,26 @@ class GeneratorTest(unittest.TestCase):
                     self.assertEqual(CHAR[item["class"]], item["char"])
                     self.assertTrue(all(0 <= float(v) <= 1 for v in values))
                     self.assertLessEqual(abs(item["angle"]), 45.0)
+                    self.assertTrue(0 < item["visible"] <= 1.0)
+
+    def test_images_include_truncated_and_occluded_jamo(self):
+        import random
+
+        rng = random.Random(5)
+        backgrounds = hangul_dataset.Backgrounds(rng, video="없는 파일")
+        partial = clipped = total = 0
+        for _ in range(40):
+            image, items = hangul_dataset.make_image(rng, backgrounds, FONTS[:3], 45.0)
+            height, width = image.shape[:2]
+            for item in items:
+                x1, y1, x2, y2 = item["box"]
+                self.assertTrue(0 <= x1 < x2 <= width and 0 <= y1 < y2 <= height)
+                self.assertGreater(item["visible"], 0.1)   # 거의 안 보이는 자모는 라벨에 없어야 합니다.
+                total += 1
+                partial += item["visible"] < 0.95
+                clipped += x1 == 0 or y1 == 0 or x2 == width or y2 == height
+        self.assertGreater(partial, 0.05 * total)
+        self.assertGreater(clipped, 0)
 
     def test_tracking_sequence(self):
         folder = self.output / "tracking" / "test" / "jamo-01"
