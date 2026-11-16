@@ -15,7 +15,7 @@ from importlib import import_module
 
 # key → "모듈:클래스". 모듈은 실제로 쓸 때만 불러옵니다 (OCR 등 무거운 패키지를 GUI 시작 때 읽지 않도록).
 REGISTRY = {
-    "hangul": "extensions.hangul:HangulTextExtension",
+    "hangul": "extensions.hangul:HangulJamoExtension",
     "camouflage": "extensions.camouflage:CamouflageExtension",
 }
 
