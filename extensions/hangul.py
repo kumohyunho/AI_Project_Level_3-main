@@ -6,8 +6,12 @@
 2. 추적: 자모는 회전하면 다른 글자로 보이므로(ㅏ↔ㅓ, ㅗ↔ㅜ) 클래스와 무관하게 위치·움직임으로 연결
 3. 분류: 트랙별로 여러 프레임의 검출 클래스를 모아 다수결로 자모를 정해 표시
 
-아직 2·3단계 구현 전입니다. ``check()``가 이유를 돌려주므로 GUI에는 비활성 체크박스로만 보입니다.
+``models/hangul_jamo.pt``가 있으면 GUI의 "한글 자모" 체크박스가 활성화됩니다.
 """
+from collections import defaultdict
+
+import numpy as np
+
 from .base import DetectTrackExtension
 
 # (클래스 이름, 글자, 종류). 순서가 곧 검출기의 클래스 번호입니다. 바꾸면 가중치를 다시 학습해야 합니다.
@@ -30,18 +34,84 @@ CHAR = {name: char for name, char, _ in JAMO}
 KIND = {name: kind for name, _, kind in JAMO}
 
 
+class JamoVotes:
+    """트랙별 자모 다수결. 검출 신뢰도를 표로 더해, 지금까지 가장 많이 지지받은 자모를 고릅니다.
+
+    회전·가림 때문에 몇 프레임 다른 자모로 검출되어도 화면에 보이는 자모는 바뀌지 않습니다.
+    """
+
+    def __init__(self):
+        self.scores = defaultdict(lambda: defaultdict(float))
+        self.frames = defaultdict(int)       # 트랙별 투표한 프레임 수
+        self.disagree = defaultdict(int)     # 그 프레임의 검출이 다수결 결과와 달랐던 횟수
+
+    def add(self, track_id, class_name, score):
+        self.scores[track_id][class_name] += float(score)
+        self.frames[track_id] += 1
+        if class_name != self.best(track_id):
+            self.disagree[track_id] += 1
+
+    def best(self, track_id):
+        votes = self.scores.get(track_id)
+        return max(votes, key=votes.get) if votes else None
+
+    def confidence(self, track_id):
+        """다수결 1위가 전체 표에서 차지하는 비율 (0~1)."""
+        votes = self.scores.get(track_id)
+        return max(votes.values()) / sum(votes.values()) if votes else 0.0
+
+
 class HangulJamoExtension(DetectTrackExtension):
     key = "hangul"
     label = "한글 자모"
     tag = "자"
     description = "떠다니는 한글 자음·모음을 하나씩 검출·추적하고 어떤 자모인지 표시합니다."
     weights = "hangul_jamo.pt"
-    tracker = "baseline"
+    classes = CLASS_NAMES      # 가중치에 40개 자모 클래스가 모두 있어야 합니다.
+    # 자모는 색이 서로 달라 외형(색 히스토그램) 연결이 도움이 됩니다. 평가로 기본판과 비교합니다 (docs/HANGUL.md).
+    tracker = "improved"
+    match_iou = 0.3            # 트랙과 이번 프레임 검출을 같은 것으로 보는 최소 IoU (투표용)
 
-    @classmethod
-    def check(cls):
-        reason = super().check()
-        return reason or "구현 중입니다 (claude/hangul 브랜치)."
+    def __init__(self, device="cpu", fps=30.0):
+        super().__init__(device, fps)
+        self.votes = JamoVotes()
 
-    def describe(self, frame, row):
-        return CHAR.get(row.cls_name, "")  # TODO: 트랙별 다수결
+    def detect(self, frame):
+        """(boxes, scores, class_ids). 같은 자모가 ㅏ·ㅓ 두 클래스로 겹쳐 검출되지 않도록 클래스와 무관하게 NMS합니다."""
+        result = self.detector.model.predict(
+            frame, conf=self.tracker_config.low_thresh, classes=self.detector.class_ids, imgsz=self.imgsz,
+            device=self.device, agnostic_nms=True, verbose=False)[0].boxes
+        return (result.xyxy.cpu().numpy(), result.conf.cpu().numpy(), result.cls.cpu().numpy().astype(int))
+
+    def class_name(self, class_id):
+        return self.detector.names[int(class_id)]
+
+    def process(self, frame, frame_index):
+        from pipeline import TrackRow, needs_features
+        from tracker import extract_features
+        from tracker.matching import iou_matrix
+
+        boxes, scores, class_ids = self.detect(frame)
+        features = extract_features(frame, boxes) if needs_features(self.tracker_config) and len(boxes) else None
+        height, width = frame.shape[:2]
+        # 추적기에는 모든 검출을 같은 클래스(0)로 넘깁니다. 클래스가 프레임마다 바뀌어도 ID가 끊기지 않습니다.
+        tracks = self.byte_tracker.update(boxes, scores, np.zeros(len(boxes), dtype=int), features, (width, height))
+        if tracks and len(boxes):
+            overlap = iou_matrix([t.box for t in tracks], boxes)
+            # 높은 신뢰도 검출만 투표합니다 (2차 연결용 낮은 신뢰도 검출은 분류가 불안정).
+            overlap[:, scores < self.tracker_config.high_thresh] = 0.0
+            for row, track in enumerate(tracks):
+                column = int(overlap[row].argmax())
+                if overlap[row, column] >= self.match_iou:
+                    self.votes.add(track.track_id, self.class_name(class_ids[column]), scores[column])
+        rows = []
+        for track in tracks:
+            name = self.votes.best(track.track_id)
+            if name is None:   # 아직 높은 신뢰도 검출과 만나지 못한 트랙
+                continue
+            box = tuple(float(v) for v in track.box)
+            state = self.motion.update(track.track_id, box, frame_index)
+            rows.append(TrackRow(track.track_id, KIND.get(name, name), box, track.score, track.status,
+                                 state.direction, state.distance, state.speed, tuple(state.trail),
+                                 source=self.key, label=CHAR.get(name, name)))
+        return sorted(rows, key=lambda r: r.track_id)

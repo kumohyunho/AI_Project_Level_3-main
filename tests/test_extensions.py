@@ -36,8 +36,6 @@ class RegistryTest(unittest.TestCase):
             cls = extensions.load(key)
             self.assertEqual(cls.key, key)
             self.assertTrue(cls.label and cls.tag)
-        # 아직 가중치·구현이 없으므로 GUI에서는 비활성이어야 합니다.
-        self.assertIsNotNone(items["hangul"][1])
 
     def test_unknown_extension(self):
         with self.assertRaises(ValueError):
