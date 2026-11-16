@@ -1,0 +1,10 @@
+__pycache__/
+*.pyc
+.venv/
+datasets/
+training_runs/
+runs/
+mot_results/
+results/cache/
+TrackEval/
+results/tmp/

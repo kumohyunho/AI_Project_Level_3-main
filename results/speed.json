@@ -1,0 +1,101 @@
+{
+  "meta": {
+    "video": "sample.mp4",
+    "frames": 60,
+    "device": "cpu",
+    "cpu": "x86_64",
+    "python": "3.13.18"
+  },
+  "results": [
+    {
+      "detect": 48.673657199990636,
+      "track": 0.7602567999955764,
+      "mosaic": 0.0,
+      "total": 49.43391399998621,
+      "fps": 20.229027383918638,
+      "p95_ms": 63.64050639995183,
+      "mean_objects": 4.2727272727272725,
+      "objects_time_corr": 0.40771043968134707,
+      "label": "기준 (640, baseline, 모자이크 끔)",
+      "weights": "yolo11n.pt",
+      "imgsz": 640,
+      "tracker": "baseline",
+      "mosaic_on": false
+    },
+    {
+      "detect": 16.19516845453704,
+      "track": 0.6030246363645181,
+      "mosaic": 0.0,
+      "total": 16.798193090901556,
+      "fps": 59.53021224298418,
+      "p95_ms": 17.824261499845306,
+      "mean_objects": 3.581818181818182,
+      "objects_time_corr": -0.37054815152731185,
+      "label": "입력 크기 320",
+      "weights": "yolo11n.pt",
+      "imgsz": 320,
+      "tracker": "baseline",
+      "mosaic_on": false
+    },
+    {
+      "detect": 36.59046878177502,
+      "track": 0.7564596908940241,
+      "mosaic": 0.0,
+      "total": 37.34692847266904,
+      "fps": 26.77596367079592,
+      "p95_ms": 49.42693819998567,
+      "mean_objects": 3.690909090909091,
+      "objects_time_corr": -0.12497310208237088,
+      "label": "입력 크기 480",
+      "weights": "yolo11n.pt",
+      "imgsz": 480,
+      "tracker": "baseline",
+      "mosaic_on": false
+    },
+    {
+      "detect": 92.44279347273981,
+      "track": 0.8439165999995815,
+      "mosaic": 0.0,
+      "total": 93.28671007273938,
+      "fps": 10.719640549230002,
+      "p95_ms": 104.684819799877,
+      "mean_objects": 6.509090909090909,
+      "objects_time_corr": 0.02235766511657121,
+      "label": "입력 크기 960",
+      "weights": "yolo11n.pt",
+      "imgsz": 960,
+      "tracker": "baseline",
+      "mosaic_on": false
+    },
+    {
+      "detect": 55.07965538181452,
+      "track": 1.4564684363904234,
+      "mosaic": 0.0,
+      "total": 56.53612381820494,
+      "fps": 17.687806175314666,
+      "p95_ms": 65.53619140017872,
+      "mean_objects": 4.2727272727272725,
+      "objects_time_corr": 0.29588486644602463,
+      "label": "추적기 improved",
+      "weights": "yolo11n.pt",
+      "imgsz": 640,
+      "tracker": "improved",
+      "mosaic_on": false
+    },
+    {
+      "detect": 57.82544379999308,
+      "track": 0.7990641090641888,
+      "mosaic": 56.03017856367594,
+      "total": 114.6546864727332,
+      "fps": 8.721841476910031,
+      "p95_ms": 132.8332427996429,
+      "mean_objects": 4.2727272727272725,
+      "objects_time_corr": -0.21052317202783608,
+      "label": "얼굴 모자이크 켬",
+      "weights": "yolo11n.pt",
+      "imgsz": 640,
+      "tracker": "baseline",
+      "mosaic_on": true
+    }
+  ]
+}
