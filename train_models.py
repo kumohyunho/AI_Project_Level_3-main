@@ -31,6 +31,7 @@ def train(args):
         "device": args.device, "workers": args.workers, "project": str(Path(args.runs).resolve()),
         "name": args.kind, "seed": 42, "optimizer": args.optimizer, "lr0": args.lr0,
         "freeze": args.freeze, "mosaic": args.mosaic, "patience": args.patience,
+        "fliplr": args.fliplr,
     }
     model.train(**options)
     best = Path(model.trainer.best)
@@ -80,6 +81,8 @@ if __name__ == "__main__":
     parser.add_argument("--freeze", type=int, default=10, help="고정할 앞쪽 레이어 수 (적은 데이터에서 과적합 방지)")
     parser.add_argument("--mosaic", type=float, default=1.0, help="모자이크 증강 확률 (0이면 끔)")
     parser.add_argument("--patience", type=int, default=10)
+    parser.add_argument("--fliplr", type=float, default=0.5,
+                        help="좌우 반전 증강 확률. 좌우가 바뀌면 다른 대상이 되는 데이터(글자 등)는 0으로 끕니다.")
     parser.add_argument("--device", default="cpu", help="cpu 또는 CUDA 장치 번호")
     parser.add_argument("--workers", type=int, default=0, help="데이터 로딩 프로세스 수 (Windows는 0 권장, Colab·Linux GPU는 4 정도)")
     parser.add_argument("--runs", default="training_runs")
