@@ -178,6 +178,14 @@ def summarize(records):
             gt_boxes=len(group), detection_rate=ratio(len(hit), len(group)),
             frame_accuracy=ratio(sum(r["observed"] == r["char"] for r in seen), len(seen)),
             shown_accuracy=ratio(sum(r["shown"] == r["char"] for r in shown), len(shown)))
+    # 보이는 정도별: 화면 경계에 걸리거나 가림막에 가려진 박스는 검출이 어렵습니다.
+    summary["by_visibility"] = {}
+    for name, low, high in VISIBILITY_BINS:
+        group = [r for r in records if low <= r["visibility"] < high]
+        hit = [r for r in group if r["matched"] and r["shown"]]
+        summary["by_visibility"][name] = dict(
+            gt_boxes=len(group), detection_rate=ratio(sum(r["matched"] for r in group), len(group)),
+            shown_accuracy=ratio(sum(r["shown"] == r["char"] for r in hit), len(hit)))
     summary["by_kind"] = {}
     for kind in ("자음", "모음"):
         group = [r for r in records if KIND_BY_CHAR[r["char"]] == kind]
@@ -201,6 +209,8 @@ def summarize(records):
     return summary, per_jamo, confusion_frame, confusion_shown
 
 
+VISIBILITY_BINS = [("온전히 보임 (95% 이상)", 0.95, 1.01), ("일부 가림·경계 (30~95%)", 0.3, 0.95),
+                   ("거의 안 보임 (30% 미만)", -0.01, 0.3)]
 KIND_BY_CHAR = {CHAR[name]: kind for name, kind in KIND.items()}
 
 
@@ -303,6 +313,9 @@ def write_report(folder, name, weights, sequences, results, det_ms):
         for angle, v in c["by_angle"].items():
             lines.append(f"| {angle} | {v['gt_boxes']} | {fmt(v['detection_rate'])} | {fmt(v['frame_accuracy'])} | "
                          f"{fmt(v['shown_accuracy'])} |")
+        lines += ["", "| 보이는 정도 | 정답 박스 | 검출률 | 화면 표시 |", "|---|---:|---:|---:|"]
+        for name, v in c.get("by_visibility", {}).items():
+            lines.append(f"| {name} | {v['gt_boxes']} | {fmt(v['detection_rate'])} | {fmt(v['shown_accuracy'])} |")
         lines += ["", "| 종류 | 정답 박스 | 검출률 | 화면 표시 |", "|---|---:|---:|---:|"]
         for kind, v in c["by_kind"].items():
             lines.append(f"| {kind} | {v['gt_boxes']} | {fmt(v['detection_rate'])} | {fmt(v['shown_accuracy'])} |")
