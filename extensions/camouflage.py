@@ -1,22 +1,73 @@
-"""확장 기능: 보호색 동물 검출·추적 (담당: kumohyunho / ChatGPT).
+"""보호색 동물 전용 검출기와 ByteTrack. 학습 방법: docs/CAMOUFLAGE.md.
 
-계획 (예시, 담당자가 자유롭게 바꿔도 됩니다)
-1. 데이터: MoCA(움직이는 보호색 동물 영상), COD10K·CAMO(마스크 → 박스 변환)
-2. 검출: YOLO11n Fine-tuning → ``models/camouflage.pt``
-3. 추적: 보호색 동물은 검출 신뢰도가 낮게 나오기 쉬우므로 ByteTrack의 2차(낮은 신뢰도) 연결이 중요합니다.
-   ``tracker``의 ``high_thresh``·``low_thresh``·``new_track_thresh``를 낮춰 실험해 보세요.
-4. 일반 동물(COCO 사전학습 yolo11n)과 성능 비교, 실패 사례 분석
-
-``models/camouflage.pt``가 생기면 아래 설정만으로 GUI에서 바로 켤 수 있습니다.
+색 히스토그램은 배경과 비슷한 동물의 재식별을 오히려 방해할 수 있어 기본값은
+위치 기반 ByteTrack입니다. 아래 임계값은 최적화 결과가 아닌 시작값입니다.
 """
+import json
+
+from tracker import TrackerConfig
+
 from .base import DetectTrackExtension
+
+CLASS_NAME = "camouflaged_animal"
+
+
+def default_tracker():
+    config = TrackerConfig.preset("baseline")
+    config.high_thresh = 0.4
+    config.low_thresh = 0.05
+    config.new_track_thresh = 0.5
+    config.track_buffer = 60
+    return config
+
+
+def validate_tracker(data):
+    config = TrackerConfig.from_dict(data)
+    thresholds = (config.low_thresh, config.high_thresh, config.new_track_thresh,
+                  config.match_thresh, config.second_match_thresh, config.unconfirmed_match_thresh)
+    if not all(isinstance(v, (int, float)) and 0 <= v <= 1 for v in thresholds):
+        raise ValueError("추적 임계값은 0~1이어야 합니다.")
+    if not config.low_thresh < config.high_thresh <= config.new_track_thresh:
+        raise ValueError("low_thresh < high_thresh <= new_track_thresh이어야 합니다.")
+    if type(config.track_buffer) is not int or config.track_buffer < 1:
+        raise ValueError("track_buffer는 양의 정수여야 합니다.")
+    return config
 
 
 class CamouflageExtension(DetectTrackExtension):
     key = "camouflage"
     label = "보호색 동물"
     tag = "보"
-    description = "배경과 색이 비슷한 동물을 검출·추적합니다."
+    description = "전용 YOLO로 보호색 동물을 찾고 ByteTrack으로 ID와 이동 경로를 유지합니다."
     weights = "camouflage.pt"
-    classes = None  # 가중치의 모든 클래스
-    tracker = {"preset": "improved", "high_thresh": 0.4, "low_thresh": 0.05, "new_track_thresh": 0.5}
+    classes = [CLASS_NAME]
+    tracker = default_tracker().to_dict()
+
+    @classmethod
+    def metadata(cls):
+        data = json.loads(cls.weights_path().with_suffix(".json").read_text(encoding="utf-8"))
+        if data.get("extension") != cls.key or data.get("classes") != [CLASS_NAME]:
+            raise ValueError("보호색 동물 단일 클래스 학습 정보가 아닙니다.")
+        validate_tracker(data.get("tracker", default_tracker().to_dict()))
+        return data
+
+    @classmethod
+    def check(cls):
+        reason = super().check()
+        if reason:
+            return reason + " (train_camouflage.py --install로 학습·설치하세요.)"
+        try:
+            cls.metadata()
+        except (OSError, ValueError, TypeError, AttributeError) as error:
+            return f"학습 설정 JSON을 확인하세요: {error}"
+        return None
+
+    def __init__(self, device="cpu", fps=30.0):
+        reason = self.check()
+        if reason:
+            raise RuntimeError(f"{self.label}: {reason}")
+        self.tracker = validate_tracker(self.metadata().get("tracker", self.tracker)).to_dict()
+        super().__init__(device, fps)
+
+    def describe(self, frame, row):
+        return "보호색 동물"
