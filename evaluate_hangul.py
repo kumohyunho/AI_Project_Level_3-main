@@ -106,10 +106,10 @@ def run_tracker(extension, sequence, detections, tracker):
         tracked = extension.track(boxes, scores, class_ids, features if use_features and len(boxes) else None,
                                   (sequence.width, sequence.height))
         elapsed += perf_counter() - started
-        for track, voted, observed in tracked:
+        for track, display, voted, observed in tracked:
             box = [float(v) for v in track.box]
-            rows.append((number, track.track_id, *box, track.score))
-            shown[(number, track.track_id)] = (box, CHAR.get(voted), CHAR.get(observed))
+            rows.append((number, display, *box, track.score))
+            shown[(number, display)] = (box, CHAR.get(voted), CHAR.get(observed))
     final = {track_id: CHAR.get(extension.votes.best(track_id)) for track_id in extension.votes.scores}
     return rows, shown, final, elapsed * 1000 / max(1, sequence.length)
 
@@ -352,6 +352,8 @@ def main(args):
 
     class Evaluated(HangulJamoExtension):
         imgsz = args.imgsz
+        verify = args.verify or HangulJamoExtension.verify
+        verify_frames = args.verify_frames or HangulJamoExtension.verify_frames
 
         @classmethod
         def weights_path(cls):
@@ -448,6 +450,9 @@ if __name__ == "__main__":
     parser.add_argument("--device", default="cpu")
     parser.add_argument("--no-comparison", action="store_true", help="results/comparison.json에 추가하지 않음")
     parser.add_argument("--images", type=int, help="실패 사례 분석을 하고, 추적기별로 ID 변경 사례 이미지를 이만큼 저장 (0이면 표만)")
+    parser.add_argument("--verify", choices=["off", "reentry", "all"],
+                        help="ID 복원 시 자모 확인 방식 (기본: 확장 기능의 설정). off / reentry(재진입만) / all(재등장도)")
+    parser.add_argument("--verify-frames", type=int, help="자모 확인에 쓰는 검출 횟수 (기본: 확장 기능의 설정)")
     parser.add_argument("--summarize", nargs="+", metavar="NAME",
                         help="이미 실행한 평가들(results/hangul/<NAME>)을 표 하나로 모읍니다 → results/hangul/comparison.md")
     main(parser.parse_args())
