@@ -2,6 +2,7 @@
 import argparse
 import hashlib
 import json
+import math
 import shutil
 from datetime import datetime, timezone
 from pathlib import Path
@@ -39,16 +40,19 @@ def train(args):
     manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
     if manifest.get("classes") != [CLASS_NAME]:
         raise ValueError("camouflage_dataset.py로 만든 단일 클래스 데이터를 사용하세요.")
-    if any(manifest["counts"][split]["images"] < 1 for split in ("train", "val", "test")):
-        raise ValueError("학습·검증·테스트 분할이 모두 필요합니다.")
+    splits = ("val",) if args.val_only else ("val", "test")
+    if any(manifest["counts"][split]["images"] < 1 for split in ("train", *splits)):
+        raise ValueError("학습·평가할 분할에 이미지가 필요합니다.")
+    if not math.isfinite(args.lr0) or not 0 < args.lr0 <= 1:
+        raise ValueError("초기 학습률은 0보다 크고 1 이하여야 합니다.")
     if args.install and any((ROOT / "models" / f"camouflage.{suffix}").exists() for suffix in ("pt", "json")):
         raise FileExistsError("models/camouflage.pt와 .json을 먼저 함께 백업하세요.")
     from ultralytics import YOLO
 
     options = dict(data=str(data), epochs=args.epochs, imgsz=args.imgsz, batch=args.batch,
                    device=args.device, workers=args.workers, seed=args.seed, optimizer="AdamW",
-                   lr0=0.0005, freeze=args.freeze, project=str(Path(args.runs).resolve()),
-                   name="camouflage", patience=15)
+                   lr0=args.lr0, freeze=args.freeze, project=str(Path(args.runs).resolve()),
+                   name="camouflage", patience=args.patience)
     model = YOLO(str(args.weights))
     model.train(**options)
     best = Path(model.trainer.best)
@@ -58,7 +62,7 @@ def train(args):
     if set(tuned.names.values()) != {CLASS_NAME}:
         raise ValueError("학습 가중치의 클래스가 보호색 동물 단일 클래스가 아닙니다.")
     scores = {}
-    for split in ("val", "test"):
+    for split in splits:
         result = tuned.val(data=str(data), split=split, imgsz=args.imgsz, batch=args.batch,
                            device=args.device, workers=args.workers, verbose=False, plots=False)
         scores[split] = {"mAP50": float(result.box.map50), "mAP50-95": float(result.box.map)}
@@ -68,6 +72,7 @@ def train(args):
                     dataset_manifest_sha256=hashlib.sha256(manifest_path.read_bytes()).hexdigest(),
                     tracker=default_tracker().to_dict(), tracker_status="시작값, 실영상 튜닝 미실행",
                     tracking_evaluation="미실행", best=str(best.resolve()))
+    metadata["evaluation_splits"] = list(splits)
     best.with_suffix(".json").write_text(json.dumps(metadata, ensure_ascii=False, indent=2), encoding="utf-8")
     installed = install_model(best, metadata, ROOT / "models") if args.install else None
     print(json.dumps(dict(best=str(best), installed=str(installed) if installed else None,
@@ -83,6 +88,9 @@ def parser():
     p.add_argument("--imgsz", type=int, default=640)
     p.add_argument("--batch", type=int, default=8)
     p.add_argument("--freeze", type=int, default=0)
+    p.add_argument("--lr0", type=float, default=0.0005, help="AdamW 초기 학습률")
+    p.add_argument("--patience", type=int, default=15)
+    p.add_argument("--val-only", action="store_true", help="모델 선택 실험에서는 test를 평가하지 않음")
     p.add_argument("--device", default="cpu", help="Colab GPU에서는 0")
     p.add_argument("--workers", type=int, default=0)
     p.add_argument("--seed", type=int, default=42)
