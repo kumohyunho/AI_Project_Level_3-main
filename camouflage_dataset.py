@@ -161,14 +161,37 @@ class Exporter:
                                   split=split, source=source, sequence=sequence, boxes=len(boxes), sha256=digest))
 
 
-def export_cod10k(exporter, root, mask_folder, instance, seed, val_ratio):
-    for official, split in (("Train", None), ("Test", "test")):
-        images = image_files(root / official / "Image")
-        # NonCAM은 보호색 양성으로 학습하지 않습니다. CAM·Background만 사용합니다.
-        images = [p for p in images if p.stem.startswith(("COD10K-CAM-", "COD10K-Background-"))]
-        if not images:
+def export_cod10k(exporter, root, mask_folder, instance, seed, val_ratio, duplicate_policy="error"):
+    if duplicate_policy not in ("error", "prefer-test"):
+        raise ValueError("COD10K 중복 정책을 확인하세요.")
+    inputs = {}
+    for official in ("Train", "Test"):
+        inputs[official] = [p for p in image_files(root / official / "Image")
+                            if p.stem.startswith(("COD10K-CAM-", "COD10K-Background-"))]
+        if not inputs[official]:
             raise ValueError(f"COD10K CAM/Background 파일이 없습니다: {official}")
-        assignments = partition([p.stem for p in images], val_ratio, 0, seed) if split is None else {}
+    excluded, groups, assignments = [], {}, {}
+    test_hashes = defaultdict(list)
+    if duplicate_policy == "prefer-test":
+        # 공식 Test를 학습에 넣지 않습니다. 원본은 보존하고 생성 데이터에서만 Train 사본을 제외합니다.
+        for image in inputs["Test"]:
+            test_hashes[hashlib.sha256(image.read_bytes()).hexdigest()].append(image.name)
+        for image in inputs["Train"]:
+            digest = hashlib.sha256(image.read_bytes()).hexdigest()
+            if digest in test_hashes:
+                excluded.append(dict(original=str(image.resolve()), sha256=digest,
+                                     kept_test_files=test_hashes[digest], reason="공식 Test와 동일 바이트 이미지"))
+            else:
+                groups.setdefault(digest, []).append(image)
+        # Train 내부의 동일 이미지도 같은 그룹으로 배치해 train/val 누수를 막습니다.
+        hash_splits = partition(groups, val_ratio, 0, seed)
+        assignments = {image.stem:hash_splits[digest] for digest, images in groups.items() for image in images}
+        inputs["Train"] = [image for images in groups.values() for image in images]
+    for official, split in (("Train", None), ("Test", "test")):
+        images = inputs[official]
+        # NonCAM은 보호색 양성으로 학습하지 않습니다. CAM·Background만 사용합니다.
+        if split is None and duplicate_policy == "error":
+            assignments = partition([p.stem for p in images], val_ratio, 0, seed)
         for image in images:
             boxes, size = mask_boxes(root / official / mask_folder / f"{image.stem}.png", instance)
             with Image.open(image) as im:
@@ -178,6 +201,13 @@ def export_cod10k(exporter, root, mask_folder, instance, seed, val_ratio):
             if (background and boxes) or (not background and not boxes):
                 raise ValueError(f"파일 종류와 전경 마스크가 맞지 않습니다: {image}")
             exporter.detection(image, boxes, split or assignments[image.stem], f"cod_{image.stem}", "cod10k")
+    report = dict(policy=duplicate_policy, excluded_train=excluded, excluded_train_count=len(excluded),
+                  retained_test_count=len(inputs["Test"]),
+                  train_repeated_hash_groups={digest:[p.name for p in images] for digest, images in groups.items() if len(images)>1},
+                  test_repeated_hash_groups={digest:names for digest, names in test_hashes.items() if len(names)>1},
+                  note="원본 보존. prefer-test는 Test 우선·Train 해시 그룹 분할. 같은 분할 안의 반복은 보존하며 유사 이미지 중복은 별도 확인.")
+    print(f"COD10K 중복 정책: {duplicate_policy}, Train/Test 중복으로 제외한 Train 이미지 {len(excluded)}개")
+    return report
 
 
 def export_moca(exporter, frames_root, annotations, single_object, seed, fps):
@@ -254,9 +284,10 @@ def prepare(args):
         staging = Path(folder) / "dataset"
         staging.mkdir()
         exporter = Exporter(staging)
+        cod10k_duplicates = None
         if args.cod10k:
-            export_cod10k(exporter, Path(args.cod10k), args.mask_folder, args.instance_masks,
-                          args.seed, args.val_ratio)
+            cod10k_duplicates = export_cod10k(exporter, Path(args.cod10k), args.mask_folder, args.instance_masks,
+                                            args.seed, args.val_ratio, args.cod10k_duplicates)
         sequences = export_moca(exporter, Path(args.moca_frames), args.moca_csv,
                                 args.single_object, args.seed, args.fps) if args.moca_frames else []
         counts = {}
@@ -268,7 +299,7 @@ def prepare(args):
         metadata = dict(classes=[CLASS_NAME], seed=args.seed, counts=counts, sequences=sequences,
                         cod10k_mask_mode="instance" if args.instance_masks else "foreground_union",
                         cod10k_val_ratio=args.val_ratio, moca_split="영상 단위 70/15/15 (최소 1개씩 확보)",
-                        records=exporter.manifest)
+                        cod10k_duplicates=cod10k_duplicates, records=exporter.manifest)
         (staging / "splits.json").write_text(json.dumps(metadata, ensure_ascii=False, indent=2), encoding="utf-8")
         (staging / "dataset.yaml").write_text(
             f"path: {json.dumps(str(output), ensure_ascii=False)}\ntrain: images/train\nval: images/val\n"
@@ -283,6 +314,8 @@ def parser():
     p.add_argument("--cod10k", type=Path, help="Train/Image·Test/Image가 있는 COD10K 루트")
     p.add_argument("--mask-folder", default="GT_Object")
     p.add_argument("--instance-masks", action="store_true", help="마스크의 0 이외 값/색을 각각 개체로 취급")
+    p.add_argument("--cod10k-duplicates", choices=("error", "prefer-test"), default="error",
+                   help="기본은 중복 시 중단. prefer-test는 Test 우선 보존·겹치는 Train 제외·Train 해시 그룹 분할")
     p.add_argument("--moca-frames", type=Path, help="영상이름/00000.jpg가 있는 프레임 루트")
     p.add_argument("--moca-csv", type=Path)
     p.add_argument("--single-object", action="store_true", help="모든 입력 영상이 개체 한 마리임을 직접 확인했을 때만 사용")
