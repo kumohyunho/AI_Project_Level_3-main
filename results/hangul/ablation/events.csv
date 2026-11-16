@@ -1,0 +1,1161 @@
+﻿tracker,sequence,type,category,char,frame,gt_id,old_id,new_id,overlap,visibility
+baseline,jamo-01,FRAG,기타,ㄴ,43,3,5,5,0.008555445870352089,1.0
+baseline,jamo-01,FRAG,기타,ㄴ,64,3,5,5,0.016245487364620937,1.0
+baseline,jamo-01,FRAG,기타,ㅕ,72,2,3,3,0.15646919175569224,1.0
+baseline,jamo-01,IDSW,가림,ㅊ,100,6,7,11,0.0,0.446
+baseline,jamo-01,FRAG,교차(다른 자모),ㅕ,132,2,3,3,0.4743519029233315,1.0
+baseline,jamo-01,FRAG,교차(다른 자모),ㄹ,134,5,4,4,0.44252563410685375,1.0
+baseline,jamo-01,FRAG,기타,ㅕ,139,2,3,3,0.19608274647887325,1.0
+baseline,jamo-01,IDSW,기타,ㅊ,155,1,2,12,0.01903973509933775,0.64
+baseline,jamo-01,IDSW,기타,ㅔ,172,4,8,13,0.0,0.87
+baseline,jamo-01,IDSW,기타,ㅊ,175,8,1,14,0.06676485027000491,1.0
+baseline,jamo-01,IDSW,기타,ㅕ,206,7,6,16,0.0,1.0
+baseline,jamo-01,IDSW,기타,ㄹ,221,5,4,17,0.1693548387096774,0.568
+baseline,jamo-01,FRAG,기타,ㄴ,227,3,5,5,0.01967799642218247,1.0
+baseline,jamo-01,IDSW,기타,ㄹ,228,5,17,19,0.0,1.0
+baseline,jamo-01,IDSW,화면 경계,ㅔ,285,4,13,20,0.0,0.78
+baseline,jamo-01,IDSW,기타,ㅕ,290,2,3,22,0.0,1.0
+baseline,jamo-02,FRAG,기타,ㅂ,30,2,8,8,0.049016446307642694,1.0
+baseline,jamo-02,IDSW,기타,ㄱ,47,6,9,14,0.0,1.0
+baseline,jamo-02,FRAG,기타,ㅍ,84,8,6,6,0.18083182640144665,1.0
+baseline,jamo-02,FRAG,기타,ㅍ,88,8,6,6,0.16363636363636364,1.0
+baseline,jamo-02,IDSW,화면 경계,ㅑ,89,1,11,20,0.0,1.0
+baseline,jamo-02,FRAG,기타,ㅍ,91,8,6,6,0.09492635024549918,1.0
+baseline,jamo-02,IDSW,기타,ㅍ,97,8,6,23,0.0,1.0
+baseline,jamo-02,IDSW,화면 경계,ㅂ,103,2,8,24,0.0,0.962
+baseline,jamo-02,IDSW,기타,ㅔ,111,5,10,25,0.0,0.591
+baseline,jamo-02,IDSW,교차(다른 자모),ㄴ,116,4,5,23,0.32552404438964244,1.0
+baseline,jamo-02,IDSW,교차(다른 자모),ㄴ,119,4,23,5,0.5709900230237912,1.0
+baseline,jamo-02,FRAG,기타,ㄱ,126,6,14,14,0.0,1.0
+baseline,jamo-02,FRAG,기타,ㄴ,127,4,5,5,0.06509539842873176,1.0
+baseline,jamo-02,FRAG,기타,ㅍ,128,8,23,23,0.0,1.0
+baseline,jamo-02,FRAG,기타,ㅃ,129,10,3,3,0.0,1.0
+baseline,jamo-02,IDSW,화면 경계,ㅃ,145,7,7,28,0.0,0.978
+baseline,jamo-02,FRAG,화면 경계,ㅍ,154,8,23,23,0.0,1.0
+baseline,jamo-02,FRAG,화면 경계,ㅏ,161,3,2,2,0.0,1.0
+baseline,jamo-02,IDSW,기타,ㅂ,162,2,24,29,0.0,0.967
+baseline,jamo-02,FRAG,기타,ㅍ,199,8,23,23,0.08710801393728224,1.0
+baseline,jamo-02,FRAG,기타,ㅃ,208,12,12,12,0.24623115577889448,1.0
+baseline,jamo-02,FRAG,기타,ㄱ,216,6,14,14,0.0,1.0
+baseline,jamo-02,IDSW,화면 경계,ㅃ,225,7,28,33,0.0,0.806
+baseline,jamo-02,IDSW,기타,ㅃ,229,12,12,4,0.13527575442247658,0.974
+baseline,jamo-02,IDSW,기타,ㅃ,230,10,3,35,0.0,0.867
+baseline,jamo-02,IDSW,기타,ㄱ,235,6,14,36,0.0,1.0
+baseline,jamo-02,FRAG,기타,ㅃ,236,11,4,4,0.2323469088778201,0.581
+baseline,jamo-02,FRAG,기타,ㄱ,240,6,36,36,0.0,1.0
+baseline,jamo-02,IDSW,기타,ㅃ,256,12,4,38,0.0,0.975
+baseline,jamo-02,IDSW,기타,ㅜ,279,9,1,39,0.0,1.0
+baseline,jamo-02,FRAG,기타,ㄱ,281,6,36,36,0.0,1.0
+baseline,jamo-02,FRAG,기타,ㅏ,283,3,2,2,0.0,0.913
+baseline,jamo-02,FRAG,기타,ㄱ,295,6,36,36,0.0,1.0
+baseline,jamo-03,FRAG,기타,ㅡ,13,7,14,14,0.0,1.0
+baseline,jamo-03,FRAG,기타,ㅠ,27,5,10,10,0.1810844370860927,1.0
+baseline,jamo-03,FRAG,기타,ㅡ,27,7,14,14,0.0,1.0
+baseline,jamo-03,IDSW,기타,ㅜ,32,3,16,25,0.0,1.0
+baseline,jamo-03,IDSW,기타,ㄹ,45,1,1,26,0.08713480266529984,1.0
+baseline,jamo-03,FRAG,기타,ㅡ,69,7,14,14,0.0,1.0
+baseline,jamo-03,FRAG,기타,ㅊ,71,2,11,11,0.0,0.825
+baseline,jamo-03,FRAG,기타,ㅜ,81,3,25,25,0.017857142857142856,1.0
+baseline,jamo-03,IDSW,화면 경계,ㄴ,88,4,4,28,0.0,0.75
+baseline,jamo-03,IDSW,기타,ㅟ,91,10,9,30,0.007456266131344996,1.0
+baseline,jamo-03,FRAG,기타,ㅅ,98,8,6,6,0.0,0.93
+baseline,jamo-03,FRAG,기타,ㅜ,100,3,25,25,0.15355086372360843,1.0
+baseline,jamo-03,FRAG,기타,ㅜ,108,12,3,3,0.0,1.0
+baseline,jamo-03,IDSW,가림,ㅜ,117,6,2,36,0.0,0.427
+baseline,jamo-03,IDSW,기타,ㄹ,123,1,26,37,0.0,0.739
+baseline,jamo-03,FRAG,기타,ㄹ,128,1,37,37,0.0,1.0
+baseline,jamo-03,FRAG,기타,ㄹ,157,1,37,37,0.0,1.0
+baseline,jamo-03,IDSW,기타,ㅟ,159,10,30,38,0.0,1.0
+baseline,jamo-03,IDSW,화면 경계,ㅐ,171,11,23,39,0.0,0.615
+baseline,jamo-03,IDSW,기타,ㄹ,177,1,37,40,0.0,1.0
+baseline,jamo-03,FRAG,기타,ㅡ,182,7,14,14,0.0,1.0
+baseline,jamo-03,FRAG,기타,ㅡ,186,7,14,14,0.0,1.0
+baseline,jamo-03,IDSW,기타,ㅜ,197,6,36,41,0.09982935153583618,0.744
+baseline,jamo-03,IDSW,기타,ㅟ,197,10,38,42,0.01462701121404193,1.0
+baseline,jamo-03,IDSW,교차(다른 자모),ㅠ,199,5,10,43,0.45185533114138093,0.698
+baseline,jamo-03,FRAG,기타,ㅜ,207,13,12,12,0.2127316680096696,1.0
+baseline,jamo-03,FRAG,기타,ㅜ,213,12,3,3,0.03746654772524532,1.0
+baseline,jamo-03,FRAG,기타,ㅜ,213,13,12,12,0.03746654772524532,1.0
+baseline,jamo-03,IDSW,기타,ㅜ,215,3,25,47,0.04873833390943657,0.845
+baseline,jamo-03,FRAG,기타,ㅡ,227,7,14,14,0.04240282685512368,1.0
+baseline,jamo-03,FRAG,기타,ㅊ,229,2,11,11,0.0,1.0
+baseline,jamo-03,IDSW,기타,ㅐ,230,9,8,48,0.0,0.938
+baseline,jamo-03,FRAG,기타,ㅡ,232,7,14,14,0.0,1.0
+baseline,jamo-03,FRAG,기타,ㅅ,244,8,6,6,0.06989247311827956,1.0
+baseline,jamo-03,IDSW,기타,ㅜ,250,13,12,51,0.0,0.744
+baseline,jamo-03,FRAG,기타,ㅜ,266,3,47,47,0.1670792079207921,1.0
+baseline,jamo-03,IDSW,기타,ㅜ,266,14,5,52,0.026148817535089405,0.974
+baseline,jamo-03,FRAG,교차(다른 자모),ㅅ,267,8,6,6,0.4228255404725993,1.0
+baseline,jamo-03,FRAG,기타,ㅜ,269,13,51,51,0.2089489235964542,1.0
+baseline,jamo-03,FRAG,기타,ㅟ,275,10,42,42,0.17931422147273748,1.0
+baseline,jamo-03,IDSW,기타,ㅜ,277,3,47,6,0.2766756032171582,1.0
+baseline,jamo-03,FRAG,기타,ㅅ,278,8,6,6,0.2646363875032817,1.0
+baseline,jamo-03,FRAG,기타,ㅜ,279,3,6,6,0.2398769861609431,1.0
+baseline,jamo-03,FRAG,기타,ㅅ,281,8,6,6,0.21945432977461446,1.0
+baseline,jamo-03,IDSW,기타,ㄴ,287,4,28,54,0.0,1.0
+baseline,jamo-03,FRAG,기타,ㅟ,287,10,42,42,0.10625,1.0
+baseline,jamo-03,FRAG,기타,ㅜ,290,13,51,51,0.07274063188831742,1.0
+baseline,jamo-03,FRAG,기타,ㅟ,291,10,42,42,0.04222302417899675,1.0
+baseline,jamo-03,IDSW,기타,ㄹ,296,1,40,57,0.0,1.0
+baseline,jamo-04,FRAG,기타,ㅠ,6,4,12,12,0.12972972972972974,1.0
+baseline,jamo-04,FRAG,기타,ㄲ,7,8,13,13,0.11071744906997343,1.0
+baseline,jamo-04,IDSW,기타,ㄲ,11,8,13,17,0.030475416497358798,1.0
+baseline,jamo-04,FRAG,화면 경계,ㄲ,27,12,6,6,0.0,0.971
+baseline,jamo-04,IDSW,기타,ㄲ,33,8,17,19,0.0,0.929
+baseline,jamo-04,FRAG,화면 경계,ㄲ,60,8,19,19,0.0,1.0
+baseline,jamo-04,IDSW,기타,ㅠ,61,10,18,20,0.0,0.7
+baseline,jamo-04,FRAG,화면 경계,ㄲ,66,8,19,19,0.0,1.0
+baseline,jamo-04,FRAG,기타,ㄱ,67,1,10,10,0.0,1.0
+baseline,jamo-04,IDSW,기타,ㅘ,78,2,11,21,0.12270795385549484,1.0
+baseline,jamo-04,IDSW,가림,ㅌ,80,14,9,22,0.0,0.471
+baseline,jamo-04,FRAG,기타,ㄱ,90,1,10,10,0.0,0.789
+baseline,jamo-04,FRAG,기타,ㅌ,92,14,22,22,0.0,1.0
+baseline,jamo-04,IDSW,기타,ㅙ,98,6,4,24,0.24691358024691357,0.947
+baseline,jamo-04,IDSW,기타,ㅘ,101,2,21,28,0.0,0.81
+baseline,jamo-04,FRAG,기타,ㄲ,103,8,19,19,0.0,1.0
+baseline,jamo-04,IDSW,화면 경계,ㄲ,105,9,2,29,0.0,1.0
+baseline,jamo-04,FRAG,가림,ㅢ,106,3,8,8,0.0,0.488
+baseline,jamo-04,FRAG,화면 경계,ㄱ,108,13,3,3,0.0,1.0
+baseline,jamo-04,FRAG,기타,ㄲ,113,8,19,19,0.0,1.0
+baseline,jamo-04,IDSW,화면 경계,ㄲ,114,12,6,31,0.0,0.659
+baseline,jamo-04,IDSW,기타,ㅠ,118,4,12,32,0.07415089447757324,1.0
+baseline,jamo-04,IDSW,기타,ㅁ,118,5,1,30,0.004937163375224416,0.816
+baseline,jamo-04,IDSW,기타,ㅠ,142,4,32,33,0.056665506439262096,1.0
+baseline,jamo-04,FRAG,기타,ㅙ,147,6,24,24,0.06567270145544905,1.0
+baseline,jamo-04,IDSW,가림,ㅌ,162,7,7,34,0.0,0.273
+baseline,jamo-04,FRAG,기타,ㄲ,165,9,29,29,0.0,1.0
+baseline,jamo-04,FRAG,기타,ㄲ,186,9,29,29,0.03496997527375486,1.0
+baseline,jamo-04,IDSW,기타,ㅛ,189,11,5,37,0.0,0.661
+baseline,jamo-04,FRAG,화면 경계,ㄱ,191,1,10,10,0.09415204678362574,1.0
+baseline,jamo-04,FRAG,기타,ㄲ,191,8,19,19,0.09415204678362574,1.0
+baseline,jamo-04,IDSW,화면 경계,ㅌ,191,14,22,39,0.0,0.659
+baseline,jamo-04,FRAG,기타,ㅌ,193,7,34,34,0.0,0.797
+baseline,jamo-04,IDSW,화면 경계,ㄲ,201,8,19,40,0.008398133748055987,1.0
+baseline,jamo-04,IDSW,화면 경계,ㄲ,202,8,40,19,0.0,1.0
+baseline,jamo-04,IDSW,화면 경계,ㄲ,203,8,19,40,0.0,1.0
+baseline,jamo-04,FRAG,기타,ㅌ,215,14,39,39,0.0,0.707
+baseline,jamo-04,IDSW,화면 경계,ㄱ,241,1,10,43,0.0,0.793
+baseline,jamo-04,IDSW,화면 경계,ㅢ,256,3,8,46,0.0,0.548
+baseline,jamo-04,IDSW,기타,ㄱ,259,13,3,47,0.0,1.0
+baseline,jamo-04,FRAG,기타,ㄱ,268,1,43,43,0.05825242718446602,1.0
+baseline,jamo-04,FRAG,기타,ㄱ,270,13,47,47,0.0,1.0
+baseline,jamo-04,IDSW,기타,ㄱ,277,1,43,31,0.12353923205342238,1.0
+baseline,jamo-04,IDSW,기타,ㄲ,282,12,31,52,0.08062525709584534,1.0
+baseline,jamo-04,FRAG,기타,ㄱ,291,13,47,47,0.0,1.0
+baseline,jamo-04,IDSW,가림,ㅌ,291,14,39,55,0.0,0.361
+baseline+appearance,jamo-01,FRAG,기타,ㄴ,43,3,5,5,0.008555445870352089,1.0
+baseline+appearance,jamo-01,FRAG,기타,ㄴ,64,3,5,5,0.016245487364620937,1.0
+baseline+appearance,jamo-01,FRAG,기타,ㅕ,72,2,3,3,0.15646919175569224,1.0
+baseline+appearance,jamo-01,IDSW,가림,ㅊ,100,6,7,11,0.0,0.446
+baseline+appearance,jamo-01,FRAG,교차(다른 자모),ㅕ,132,2,3,3,0.4743519029233315,1.0
+baseline+appearance,jamo-01,FRAG,교차(다른 자모),ㄹ,134,5,4,4,0.44252563410685375,1.0
+baseline+appearance,jamo-01,FRAG,기타,ㅕ,139,2,3,3,0.19608274647887325,1.0
+baseline+appearance,jamo-01,IDSW,기타,ㅊ,155,1,2,12,0.01903973509933775,0.64
+baseline+appearance,jamo-01,IDSW,기타,ㅔ,172,4,8,13,0.0,0.87
+baseline+appearance,jamo-01,IDSW,기타,ㅊ,175,8,1,14,0.06676485027000491,1.0
+baseline+appearance,jamo-01,IDSW,기타,ㅕ,206,7,6,16,0.0,1.0
+baseline+appearance,jamo-01,IDSW,기타,ㄹ,221,5,4,5,0.1693548387096774,0.568
+baseline+appearance,jamo-01,FRAG,기타,ㄴ,227,3,5,5,0.01967799642218247,1.0
+baseline+appearance,jamo-01,IDSW,기타,ㄹ,228,5,5,19,0.0,1.0
+baseline+appearance,jamo-01,IDSW,화면 경계,ㅔ,285,4,13,20,0.0,0.78
+baseline+appearance,jamo-01,IDSW,기타,ㅕ,290,2,3,22,0.0,1.0
+baseline+appearance,jamo-02,IDSW,기타,ㅃ,28,10,3,25,0.0,1.0
+baseline+appearance,jamo-02,IDSW,기타,ㄱ,31,6,9,27,0.0,1.0
+baseline+appearance,jamo-02,IDSW,기타,ㅂ,32,2,8,28,0.0,1.0
+baseline+appearance,jamo-02,IDSW,기타,ㅂ,39,2,28,29,0.0,1.0
+baseline+appearance,jamo-02,IDSW,기타,ㄱ,47,6,27,30,0.0,1.0
+baseline+appearance,jamo-02,IDSW,기타,ㅍ,50,8,6,33,0.0,1.0
+baseline+appearance,jamo-02,IDSW,기타,ㅍ,54,8,33,34,0.0,1.0
+baseline+appearance,jamo-02,IDSW,기타,ㅍ,70,8,34,36,0.0,1.0
+baseline+appearance,jamo-02,IDSW,기타,ㅏ,78,3,2,41,0.0,1.0
+baseline+appearance,jamo-02,FRAG,기타,ㅍ,84,8,36,36,0.18083182640144665,1.0
+baseline+appearance,jamo-02,IDSW,기타,ㅃ,84,10,25,49,0.0,1.0
+baseline+appearance,jamo-02,IDSW,기타,ㄱ,88,6,30,51,0.0,1.0
+baseline+appearance,jamo-02,FRAG,기타,ㅍ,88,8,36,36,0.16363636363636364,1.0
+baseline+appearance,jamo-02,IDSW,화면 경계,ㅑ,89,1,11,52,0.0,1.0
+baseline+appearance,jamo-02,FRAG,기타,ㅍ,91,8,36,36,0.09492635024549918,1.0
+baseline+appearance,jamo-02,IDSW,기타,ㅃ,92,10,49,54,0.0,1.0
+baseline+appearance,jamo-02,IDSW,기타,ㄱ,93,6,51,56,0.0,1.0
+baseline+appearance,jamo-02,IDSW,화면 경계,ㅑ,95,1,52,57,0.0,1.0
+baseline+appearance,jamo-02,FRAG,기타,ㅍ,96,8,36,36,0.0,1.0
+baseline+appearance,jamo-02,IDSW,기타,ㄱ,97,6,56,59,0.0,1.0
+baseline+appearance,jamo-02,IDSW,화면 경계,ㅂ,103,2,29,64,0.0,0.962
+baseline+appearance,jamo-02,IDSW,화면 경계,ㅃ,103,10,54,63,0.0,0.92
+baseline+appearance,jamo-02,IDSW,화면 경계,ㄱ,104,6,59,65,0.0,0.897
+baseline+appearance,jamo-02,IDSW,화면 경계,ㅃ,106,10,63,66,0.0,1.0
+baseline+appearance,jamo-02,IDSW,기타,ㅔ,111,5,10,67,0.0,0.591
+baseline+appearance,jamo-02,IDSW,교차(다른 자모),ㄴ,116,4,5,36,0.32552404438964244,1.0
+baseline+appearance,jamo-02,IDSW,기타,ㄱ,116,6,65,71,0.0,1.0
+baseline+appearance,jamo-02,IDSW,교차(다른 자모),ㄴ,119,4,36,5,0.5709900230237912,1.0
+baseline+appearance,jamo-02,IDSW,기타,ㄱ,119,6,71,73,0.0,1.0
+baseline+appearance,jamo-02,FRAG,기타,ㄴ,127,4,5,5,0.06509539842873176,1.0
+baseline+appearance,jamo-02,IDSW,기타,ㄱ,127,6,73,77,0.0,1.0
+baseline+appearance,jamo-02,FRAG,기타,ㅍ,128,8,36,36,0.0,1.0
+baseline+appearance,jamo-02,IDSW,기타,ㅃ,130,10,66,78,0.0,1.0
+baseline+appearance,jamo-02,IDSW,기타,ㅃ,135,10,78,80,0.0,1.0
+baseline+appearance,jamo-02,IDSW,기타,ㅍ,143,8,36,83,0.0,1.0
+baseline+appearance,jamo-02,FRAG,화면 경계,ㅃ,144,7,7,7,0.0,0.826
+baseline+appearance,jamo-02,IDSW,기타,ㅑ,155,1,57,84,0.0,1.0
+baseline+appearance,jamo-02,FRAG,화면 경계,ㅍ,155,8,83,83,0.0,1.0
+baseline+appearance,jamo-02,IDSW,기타,ㅂ,162,2,64,85,0.0,0.967
+baseline+appearance,jamo-02,IDSW,화면 경계,ㅏ,163,3,41,86,0.0,1.0
+baseline+appearance,jamo-02,IDSW,기타,ㄱ,168,6,77,87,0.0,1.0
+baseline+appearance,jamo-02,IDSW,기타,ㅍ,171,8,83,88,0.0,1.0
+baseline+appearance,jamo-02,IDSW,기타,ㄱ,178,6,87,89,0.0,1.0
+baseline+appearance,jamo-02,IDSW,기타,ㄱ,180,6,89,90,0.0,1.0
+baseline+appearance,jamo-02,IDSW,기타,ㅃ,196,10,80,98,0.0,0.677
+baseline+appearance,jamo-02,FRAG,기타,ㅍ,199,8,88,88,0.08710801393728224,1.0
+baseline+appearance,jamo-02,IDSW,화면 경계,ㅂ,205,2,85,100,0.0,1.0
+baseline+appearance,jamo-02,FRAG,기타,ㅃ,208,12,12,12,0.24623115577889448,1.0
+baseline+appearance,jamo-02,IDSW,기타,ㅂ,215,2,100,101,0.0,1.0
+baseline+appearance,jamo-02,IDSW,기타,ㄱ,217,6,90,102,0.0,1.0
+baseline+appearance,jamo-02,IDSW,화면 경계,ㅃ,225,7,7,106,0.0,0.806
+baseline+appearance,jamo-02,IDSW,기타,ㅃ,227,12,12,4,0.13076656260839403,1.0
+baseline+appearance,jamo-02,IDSW,기타,ㅃ,230,10,98,108,0.0,0.867
+baseline+appearance,jamo-02,IDSW,기타,ㄱ,235,6,102,109,0.0,1.0
+baseline+appearance,jamo-02,FRAG,기타,ㅃ,235,11,4,4,0.19965772960638906,0.581
+baseline+appearance,jamo-02,IDSW,기타,ㄱ,244,6,109,111,0.0,1.0
+baseline+appearance,jamo-02,IDSW,기타,ㅃ,256,12,4,114,0.0,0.975
+baseline+appearance,jamo-02,IDSW,기타,ㄴ,258,4,5,116,0.0,1.0
+baseline+appearance,jamo-02,IDSW,기타,ㅑ,270,1,84,122,0.0,1.0
+baseline+appearance,jamo-02,IDSW,기타,ㅂ,273,2,101,127,0.0,1.0
+baseline+appearance,jamo-02,IDSW,기타,ㅍ,278,8,88,130,0.0,1.0
+baseline+appearance,jamo-02,IDSW,기타,ㅜ,279,9,1,124,0.0,1.0
+baseline+appearance,jamo-02,FRAG,기타,ㄱ,281,6,111,111,0.0,1.0
+baseline+appearance,jamo-02,IDSW,기타,ㅑ,282,1,122,134,0.0,1.0
+baseline+appearance,jamo-02,IDSW,기타,ㅏ,284,3,86,135,0.0,1.0
+baseline+appearance,jamo-02,IDSW,기타,ㅍ,288,8,130,136,0.0,1.0
+baseline+appearance,jamo-02,IDSW,기타,ㅍ,298,8,136,142,0.01996007984031936,1.0
+baseline+appearance,jamo-03,FRAG,기타,ㅜ,5,13,12,12,0.0,1.0
+baseline+appearance,jamo-03,FRAG,기타,ㅡ,13,7,15,15,0.0,1.0
+baseline+appearance,jamo-03,FRAG,기타,ㅠ,19,5,10,10,0.07757665312153676,1.0
+baseline+appearance,jamo-03,IDSW,기타,ㅡ,21,7,15,22,0.0,1.0
+baseline+appearance,jamo-03,FRAG,기타,ㅐ,22,11,7,7,0.0,1.0
+baseline+appearance,jamo-03,IDSW,기타,ㅜ,24,12,3,23,0.206794682422452,1.0
+baseline+appearance,jamo-03,IDSW,기타,ㅠ,26,5,10,23,0.20964360587002095,1.0
+baseline+appearance,jamo-03,FRAG,기타,ㅡ,26,7,22,22,0.0,1.0
+baseline+appearance,jamo-03,IDSW,기타,ㅠ,27,5,23,10,0.1810844370860927,1.0
+baseline+appearance,jamo-03,IDSW,기타,ㅜ,27,12,23,3,0.1810844370860927,1.0
+baseline+appearance,jamo-03,IDSW,기타,ㅜ,32,3,17,25,0.0,1.0
+baseline+appearance,jamo-03,IDSW,기타,ㄹ,45,1,1,26,0.08713480266529984,1.0
+baseline+appearance,jamo-03,IDSW,기타,ㅡ,68,7,22,27,0.0,1.0
+baseline+appearance,jamo-03,FRAG,기타,ㅊ,71,2,11,11,0.0,0.825
+baseline+appearance,jamo-03,FRAG,기타,ㅜ,81,3,25,25,0.017857142857142856,1.0
+baseline+appearance,jamo-03,IDSW,화면 경계,ㄴ,88,4,4,29,0.0,0.75
+baseline+appearance,jamo-03,FRAG,기타,ㅟ,90,10,9,9,0.0363531448355453,1.0
+baseline+appearance,jamo-03,FRAG,기타,ㅅ,97,8,6,6,0.0,0.744
+baseline+appearance,jamo-03,IDSW,기타,ㅜ,99,12,3,34,0.22507473184455776,1.0
+baseline+appearance,jamo-03,IDSW,기타,ㅜ,100,13,12,36,0.0,1.0
+baseline+appearance,jamo-03,FRAG,기타,ㅜ,101,3,25,25,0.10084033613445378,1.0
+baseline+appearance,jamo-03,IDSW,기타,ㅜ,104,12,34,39,0.12468827930174564,1.0
+baseline+appearance,jamo-03,IDSW,기타,ㅜ,106,12,39,34,0.05025699600228441,1.0
+baseline+appearance,jamo-03,IDSW,기타,ㅜ,109,12,34,41,0.0,1.0
+baseline+appearance,jamo-03,IDSW,기타,ㅜ,111,12,41,42,0.0,1.0
+baseline+appearance,jamo-03,IDSW,가림,ㅜ,117,6,2,43,0.0,0.427
+baseline+appearance,jamo-03,IDSW,기타,ㄹ,123,1,26,44,0.0,0.739
+baseline+appearance,jamo-03,FRAG,기타,ㄹ,125,1,44,44,0.0,1.0
+baseline+appearance,jamo-03,FRAG,기타,ㄹ,128,1,44,44,0.0,1.0
+baseline+appearance,jamo-03,IDSW,기타,ㅜ,136,13,36,48,0.0,1.0
+baseline+appearance,jamo-03,IDSW,기타,ㅜ,139,13,48,49,0.0,1.0
+baseline+appearance,jamo-03,IDSW,기타,ㅜ,142,13,49,36,0.0,1.0
+baseline+appearance,jamo-03,IDSW,기타,ㅜ,151,13,36,50,0.0,1.0
+baseline+appearance,jamo-03,FRAG,기타,ㄹ,157,1,44,44,0.0,1.0
+baseline+appearance,jamo-03,IDSW,기타,ㅟ,159,10,9,51,0.0,1.0
+baseline+appearance,jamo-03,FRAG,화면 경계,ㅜ,162,13,50,50,0.0,1.0
+baseline+appearance,jamo-03,IDSW,화면 경계,ㅐ,171,11,7,53,0.0,0.615
+baseline+appearance,jamo-03,FRAG,화면 경계,ㅟ,174,10,51,51,0.0,1.0
+baseline+appearance,jamo-03,IDSW,기타,ㄹ,177,1,44,57,0.0,1.0
+baseline+appearance,jamo-03,FRAG,기타,ㅡ,182,7,27,27,0.0,1.0
+baseline+appearance,jamo-03,FRAG,화면 경계,ㅟ,183,10,51,51,0.0,1.0
+baseline+appearance,jamo-03,FRAG,기타,ㅡ,186,7,27,27,0.0,1.0
+baseline+appearance,jamo-03,FRAG,기타,ㅟ,196,10,51,51,0.06445012787723785,1.0
+baseline+appearance,jamo-03,IDSW,기타,ㅜ,197,6,43,59,0.09982935153583618,0.744
+baseline+appearance,jamo-03,FRAG,교차(다른 자모),ㅠ,198,5,10,10,0.47680412371134023,0.635
+baseline+appearance,jamo-03,FRAG,기타,ㅜ,207,13,50,50,0.2127316680096696,1.0
+baseline+appearance,jamo-03,IDSW,기타,ㅟ,212,10,51,70,0.0,1.0
+baseline+appearance,jamo-03,FRAG,기타,ㅜ,213,13,50,50,0.03746654772524532,1.0
+baseline+appearance,jamo-03,IDSW,기타,ㅜ,214,12,42,71,0.017943107221006564,1.0
+baseline+appearance,jamo-03,IDSW,기타,ㅜ,215,3,25,72,0.04873833390943657,0.845
+baseline+appearance,jamo-03,IDSW,기타,ㅜ,216,12,71,73,0.0,1.0
+baseline+appearance,jamo-03,IDSW,기타,ㅟ,217,10,70,74,0.0,1.0
+baseline+appearance,jamo-03,IDSW,기타,ㅟ,221,10,74,51,0.0,1.0
+baseline+appearance,jamo-03,FRAG,기타,ㅡ,227,7,27,27,0.04240282685512368,1.0
+baseline+appearance,jamo-03,FRAG,기타,ㅊ,229,2,11,11,0.0,1.0
+baseline+appearance,jamo-03,IDSW,기타,ㅐ,230,9,8,75,0.0,0.938
+baseline+appearance,jamo-03,FRAG,기타,ㅡ,231,7,27,27,0.0,1.0
+baseline+appearance,jamo-03,FRAG,기타,ㅅ,244,8,6,6,0.06989247311827956,1.0
+baseline+appearance,jamo-03,FRAG,기타,ㅜ,249,13,50,50,0.0,0.591
+baseline+appearance,jamo-03,FRAG,기타,ㅜ,266,3,72,72,0.1670792079207921,1.0
+baseline+appearance,jamo-03,IDSW,기타,ㅜ,266,14,5,77,0.026148817535089405,0.974
+baseline+appearance,jamo-03,FRAG,교차(다른 자모),ㅅ,267,8,6,6,0.4228255404725993,1.0
+baseline+appearance,jamo-03,FRAG,기타,ㅜ,269,13,50,50,0.2089489235964542,1.0
+baseline+appearance,jamo-03,FRAG,기타,ㅟ,275,10,51,51,0.17931422147273748,1.0
+baseline+appearance,jamo-03,IDSW,기타,ㅜ,277,3,72,6,0.2766756032171582,1.0
+baseline+appearance,jamo-03,FRAG,기타,ㅅ,278,8,6,6,0.2646363875032817,1.0
+baseline+appearance,jamo-03,FRAG,기타,ㅜ,279,3,6,6,0.2398769861609431,1.0
+baseline+appearance,jamo-03,FRAG,기타,ㅅ,281,8,6,6,0.21945432977461446,1.0
+baseline+appearance,jamo-03,FRAG,화면 경계,ㄹ,286,1,57,57,0.0,1.0
+baseline+appearance,jamo-03,IDSW,기타,ㄴ,287,4,29,81,0.0,1.0
+baseline+appearance,jamo-03,FRAG,기타,ㅟ,287,10,51,51,0.10625,1.0
+baseline+appearance,jamo-03,FRAG,기타,ㅜ,290,13,50,50,0.07274063188831742,1.0
+baseline+appearance,jamo-03,FRAG,기타,ㅟ,291,10,51,51,0.04222302417899675,1.0
+baseline+appearance,jamo-03,IDSW,기타,ㄹ,296,1,57,83,0.0,1.0
+baseline+appearance,jamo-04,FRAG,기타,ㅠ,6,4,12,12,0.12972972972972974,1.0
+baseline+appearance,jamo-04,FRAG,기타,ㄲ,7,8,13,13,0.11071744906997343,1.0
+baseline+appearance,jamo-04,IDSW,기타,ㄲ,11,8,13,17,0.030475416497358798,1.0
+baseline+appearance,jamo-04,FRAG,화면 경계,ㄲ,16,9,2,2,0.0,1.0
+baseline+appearance,jamo-04,FRAG,화면 경계,ㄲ,27,12,6,6,0.0,0.971
+baseline+appearance,jamo-04,IDSW,기타,ㄲ,33,8,17,25,0.0,0.929
+baseline+appearance,jamo-04,FRAG,화면 경계,ㄲ,60,8,25,25,0.0,1.0
+baseline+appearance,jamo-04,FRAG,기타,ㅠ,60,10,18,18,0.0,0.637
+baseline+appearance,jamo-04,FRAG,화면 경계,ㄲ,66,8,25,25,0.0,1.0
+baseline+appearance,jamo-04,FRAG,기타,ㄱ,67,1,10,10,0.0,1.0
+baseline+appearance,jamo-04,IDSW,기타,ㅘ,78,2,11,26,0.12270795385549484,1.0
+baseline+appearance,jamo-04,IDSW,가림,ㅌ,80,14,9,27,0.0,0.471
+baseline+appearance,jamo-04,FRAG,기타,ㄱ,90,1,10,10,0.0,0.789
+baseline+appearance,jamo-04,FRAG,기타,ㅌ,92,14,27,27,0.0,1.0
+baseline+appearance,jamo-04,IDSW,기타,ㅠ,97,4,12,29,0.21686746987951808,0.712
+baseline+appearance,jamo-04,IDSW,기타,ㅘ,101,2,26,33,0.0,0.81
+baseline+appearance,jamo-04,FRAG,기타,ㄲ,103,8,25,25,0.0,1.0
+baseline+appearance,jamo-04,IDSW,화면 경계,ㄲ,105,9,2,34,0.0,1.0
+baseline+appearance,jamo-04,FRAG,가림,ㅢ,106,3,8,8,0.0,0.488
+baseline+appearance,jamo-04,IDSW,교차(다른 자모),ㅙ,107,6,4,29,0.4573103700989373,1.0
+baseline+appearance,jamo-04,FRAG,화면 경계,ㄱ,108,13,3,3,0.0,1.0
+baseline+appearance,jamo-04,FRAG,기타,ㄲ,113,8,25,25,0.0,1.0
+baseline+appearance,jamo-04,IDSW,화면 경계,ㄲ,114,12,6,36,0.0,0.659
+baseline+appearance,jamo-04,IDSW,기타,ㅠ,118,4,29,37,0.07415089447757324,1.0
+baseline+appearance,jamo-04,IDSW,기타,ㅁ,118,5,1,35,0.004937163375224416,0.816
+baseline+appearance,jamo-04,FRAG,기타,ㄲ,136,9,34,34,0.0,1.0
+baseline+appearance,jamo-04,IDSW,화면 경계,ㅠ,136,10,18,42,0.0,1.0
+baseline+appearance,jamo-04,FRAG,기타,ㄲ,139,9,34,34,0.0,1.0
+baseline+appearance,jamo-04,IDSW,기타,ㅠ,142,4,37,45,0.056665506439262096,1.0
+baseline+appearance,jamo-04,FRAG,기타,ㅙ,147,6,29,29,0.06567270145544905,1.0
+baseline+appearance,jamo-04,IDSW,화면 경계,ㅠ,148,10,42,46,0.0,1.0
+baseline+appearance,jamo-04,IDSW,가림,ㅌ,162,7,7,47,0.0,0.273
+baseline+appearance,jamo-04,IDSW,가림,ㅌ,166,7,47,48,0.0,0.447
+baseline+appearance,jamo-04,IDSW,기타,ㄲ,189,9,34,53,0.0,1.0
+baseline+appearance,jamo-04,IDSW,기타,ㅛ,189,11,5,54,0.0,0.661
+baseline+appearance,jamo-04,FRAG,기타,ㅌ,190,7,48,48,0.0,0.538
+baseline+appearance,jamo-04,FRAG,화면 경계,ㄱ,191,1,10,10,0.09415204678362574,1.0
+baseline+appearance,jamo-04,FRAG,기타,ㄲ,191,8,25,25,0.09415204678362574,1.0
+baseline+appearance,jamo-04,IDSW,화면 경계,ㅌ,191,14,27,55,0.0,0.659
+baseline+appearance,jamo-04,IDSW,기타,ㄲ,193,9,53,56,0.0,1.0
+baseline+appearance,jamo-04,IDSW,화면 경계,ㄲ,201,8,25,57,0.008398133748055987,1.0
+baseline+appearance,jamo-04,IDSW,화면 경계,ㄲ,202,8,57,25,0.0,1.0
+baseline+appearance,jamo-04,IDSW,화면 경계,ㄲ,203,8,25,57,0.0,1.0
+baseline+appearance,jamo-04,FRAG,기타,ㅌ,214,14,55,55,0.0,0.512
+baseline+appearance,jamo-04,IDSW,화면 경계,ㄱ,241,1,10,71,0.0,0.793
+baseline+appearance,jamo-04,IDSW,화면 경계,ㅢ,256,3,8,89,0.0,0.548
+baseline+appearance,jamo-04,IDSW,기타,ㄱ,259,13,3,93,0.0,1.0
+baseline+appearance,jamo-04,IDSW,기타,ㄲ,260,9,56,94,0.0,1.0
+baseline+appearance,jamo-04,IDSW,기타,ㄲ,268,9,94,100,0.0,1.0
+baseline+appearance,jamo-04,FRAG,기타,ㄱ,270,13,93,93,0.0,1.0
+baseline+appearance,jamo-04,FRAG,기타,ㄱ,277,1,71,71,0.12353923205342238,1.0
+baseline+appearance,jamo-04,IDSW,기타,ㄲ,279,9,100,105,0.0,1.0
+baseline+appearance,jamo-04,FRAG,기타,ㄲ,280,12,36,36,0.10986267166042447,1.0
+baseline+appearance,jamo-04,IDSW,기타,ㄱ,282,1,71,108,0.08062525709584534,1.0
+baseline+appearance,jamo-04,FRAG,기타,ㄱ,291,13,93,93,0.0,1.0
+baseline+appearance,jamo-04,IDSW,가림,ㅌ,291,14,55,111,0.0,0.361
+baseline+recover_lost,jamo-01,FRAG,기타,ㄴ,43,3,5,5,0.008555445870352089,1.0
+baseline+recover_lost,jamo-01,FRAG,기타,ㄴ,64,3,5,5,0.016245487364620937,1.0
+baseline+recover_lost,jamo-01,FRAG,기타,ㅕ,72,2,3,3,0.15646919175569224,1.0
+baseline+recover_lost,jamo-01,IDSW,가림,ㅊ,100,6,7,11,0.0,0.446
+baseline+recover_lost,jamo-01,FRAG,교차(다른 자모),ㅕ,132,2,3,3,0.4743519029233315,1.0
+baseline+recover_lost,jamo-01,FRAG,교차(다른 자모),ㄹ,134,5,4,4,0.44252563410685375,1.0
+baseline+recover_lost,jamo-01,FRAG,기타,ㅕ,139,2,3,3,0.19608274647887325,1.0
+baseline+recover_lost,jamo-01,IDSW,기타,ㅊ,155,1,2,12,0.01903973509933775,0.64
+baseline+recover_lost,jamo-01,IDSW,기타,ㅔ,172,4,8,13,0.0,0.87
+baseline+recover_lost,jamo-01,IDSW,기타,ㅊ,175,8,1,14,0.06676485027000491,1.0
+baseline+recover_lost,jamo-01,IDSW,기타,ㅕ,206,7,6,16,0.0,1.0
+baseline+recover_lost,jamo-01,IDSW,기타,ㄹ,221,5,4,17,0.1693548387096774,0.568
+baseline+recover_lost,jamo-01,FRAG,기타,ㄴ,226,3,5,5,0.044574515983791085,1.0
+baseline+recover_lost,jamo-01,IDSW,기타,ㄹ,228,5,17,18,0.0,1.0
+baseline+recover_lost,jamo-01,IDSW,화면 경계,ㅔ,285,4,13,19,0.0,0.78
+baseline+recover_lost,jamo-01,IDSW,기타,ㅕ,290,2,3,21,0.0,1.0
+baseline+recover_lost,jamo-02,FRAG,기타,ㅂ,30,2,8,8,0.049016446307642694,1.0
+baseline+recover_lost,jamo-02,IDSW,기타,ㄱ,47,6,9,14,0.0,1.0
+baseline+recover_lost,jamo-02,FRAG,기타,ㅍ,84,8,6,6,0.18083182640144665,1.0
+baseline+recover_lost,jamo-02,FRAG,기타,ㅍ,88,8,6,6,0.16363636363636364,1.0
+baseline+recover_lost,jamo-02,IDSW,화면 경계,ㅑ,89,1,11,20,0.0,1.0
+baseline+recover_lost,jamo-02,FRAG,기타,ㅍ,91,8,6,6,0.09492635024549918,1.0
+baseline+recover_lost,jamo-02,IDSW,기타,ㅍ,97,8,6,23,0.0,1.0
+baseline+recover_lost,jamo-02,IDSW,화면 경계,ㅂ,103,2,8,24,0.0,0.962
+baseline+recover_lost,jamo-02,IDSW,기타,ㅔ,111,5,10,25,0.0,0.591
+baseline+recover_lost,jamo-02,IDSW,교차(다른 자모),ㄴ,116,4,5,23,0.32552404438964244,1.0
+baseline+recover_lost,jamo-02,IDSW,교차(다른 자모),ㄴ,119,4,23,5,0.5709900230237912,1.0
+baseline+recover_lost,jamo-02,FRAG,기타,ㄱ,126,6,14,14,0.0,1.0
+baseline+recover_lost,jamo-02,FRAG,기타,ㄴ,127,4,5,5,0.06509539842873176,1.0
+baseline+recover_lost,jamo-02,FRAG,기타,ㅍ,128,8,23,23,0.0,1.0
+baseline+recover_lost,jamo-02,FRAG,기타,ㅃ,129,10,3,3,0.0,1.0
+baseline+recover_lost,jamo-02,FRAG,화면 경계,ㅃ,143,7,7,7,0.0,0.696
+baseline+recover_lost,jamo-02,FRAG,화면 경계,ㅍ,154,8,23,23,0.0,1.0
+baseline+recover_lost,jamo-02,FRAG,화면 경계,ㅏ,161,3,2,2,0.0,1.0
+baseline+recover_lost,jamo-02,IDSW,기타,ㅂ,162,2,24,28,0.0,0.967
+baseline+recover_lost,jamo-02,FRAG,기타,ㅍ,199,8,23,23,0.08710801393728224,1.0
+baseline+recover_lost,jamo-02,FRAG,기타,ㅃ,208,12,12,12,0.24623115577889448,1.0
+baseline+recover_lost,jamo-02,FRAG,기타,ㄱ,216,6,14,14,0.0,1.0
+baseline+recover_lost,jamo-02,IDSW,화면 경계,ㅃ,225,7,7,32,0.0,0.806
+baseline+recover_lost,jamo-02,IDSW,기타,ㅃ,229,12,12,4,0.13527575442247658,0.974
+baseline+recover_lost,jamo-02,IDSW,기타,ㅃ,230,10,3,34,0.0,0.867
+baseline+recover_lost,jamo-02,IDSW,기타,ㄱ,235,6,14,35,0.0,1.0
+baseline+recover_lost,jamo-02,FRAG,기타,ㅃ,236,11,4,4,0.2323469088778201,0.581
+baseline+recover_lost,jamo-02,FRAG,기타,ㄱ,240,6,35,35,0.0,1.0
+baseline+recover_lost,jamo-02,IDSW,기타,ㅃ,256,12,4,37,0.0,0.975
+baseline+recover_lost,jamo-02,IDSW,기타,ㅜ,279,9,1,38,0.0,1.0
+baseline+recover_lost,jamo-02,FRAG,기타,ㄱ,281,6,35,35,0.0,1.0
+baseline+recover_lost,jamo-02,FRAG,기타,ㅏ,283,3,2,2,0.0,0.913
+baseline+recover_lost,jamo-02,FRAG,기타,ㄱ,295,6,35,35,0.0,1.0
+baseline+recover_lost,jamo-03,FRAG,기타,ㅡ,13,7,14,14,0.0,1.0
+baseline+recover_lost,jamo-03,FRAG,기타,ㅠ,27,5,10,10,0.1810844370860927,1.0
+baseline+recover_lost,jamo-03,FRAG,기타,ㅡ,27,7,14,14,0.0,1.0
+baseline+recover_lost,jamo-03,IDSW,기타,ㅜ,32,3,16,25,0.0,1.0
+baseline+recover_lost,jamo-03,IDSW,기타,ㄹ,45,1,1,26,0.08713480266529984,1.0
+baseline+recover_lost,jamo-03,FRAG,기타,ㅡ,69,7,14,14,0.0,1.0
+baseline+recover_lost,jamo-03,FRAG,기타,ㅊ,71,2,11,11,0.0,0.825
+baseline+recover_lost,jamo-03,FRAG,기타,ㅜ,81,3,25,25,0.017857142857142856,1.0
+baseline+recover_lost,jamo-03,IDSW,화면 경계,ㄴ,88,4,4,28,0.0,0.75
+baseline+recover_lost,jamo-03,IDSW,기타,ㅟ,91,10,9,30,0.007456266131344996,1.0
+baseline+recover_lost,jamo-03,FRAG,기타,ㅅ,97,8,6,6,0.0,0.744
+baseline+recover_lost,jamo-03,FRAG,기타,ㅜ,100,3,25,25,0.15355086372360843,1.0
+baseline+recover_lost,jamo-03,FRAG,기타,ㅜ,108,12,3,3,0.0,1.0
+baseline+recover_lost,jamo-03,IDSW,가림,ㅜ,117,6,2,35,0.0,0.427
+baseline+recover_lost,jamo-03,FRAG,기타,ㄹ,123,1,26,26,0.0,0.739
+baseline+recover_lost,jamo-03,FRAG,기타,ㄹ,157,1,26,26,0.0,1.0
+baseline+recover_lost,jamo-03,IDSW,기타,ㅟ,159,10,30,36,0.0,1.0
+baseline+recover_lost,jamo-03,IDSW,화면 경계,ㅐ,171,11,23,37,0.0,0.615
+baseline+recover_lost,jamo-03,IDSW,기타,ㄹ,177,1,26,38,0.0,1.0
+baseline+recover_lost,jamo-03,FRAG,기타,ㅡ,182,7,14,14,0.0,1.0
+baseline+recover_lost,jamo-03,FRAG,기타,ㅡ,186,7,14,14,0.0,1.0
+baseline+recover_lost,jamo-03,FRAG,기타,ㅟ,196,10,36,36,0.06445012787723785,1.0
+baseline+recover_lost,jamo-03,IDSW,기타,ㅜ,197,6,35,39,0.09982935153583618,0.744
+baseline+recover_lost,jamo-03,FRAG,교차(다른 자모),ㅠ,198,5,10,10,0.47680412371134023,0.635
+baseline+recover_lost,jamo-03,FRAG,기타,ㅜ,207,13,12,12,0.2127316680096696,1.0
+baseline+recover_lost,jamo-03,FRAG,기타,ㅜ,213,12,3,3,0.03746654772524532,1.0
+baseline+recover_lost,jamo-03,FRAG,기타,ㅜ,213,13,12,12,0.03746654772524532,1.0
+baseline+recover_lost,jamo-03,IDSW,기타,ㅜ,215,3,25,43,0.04873833390943657,0.845
+baseline+recover_lost,jamo-03,FRAG,기타,ㅡ,227,7,14,14,0.04240282685512368,1.0
+baseline+recover_lost,jamo-03,FRAG,기타,ㅊ,229,2,11,11,0.0,1.0
+baseline+recover_lost,jamo-03,IDSW,기타,ㅐ,230,9,8,44,0.0,0.938
+baseline+recover_lost,jamo-03,FRAG,기타,ㅡ,232,7,14,14,0.0,1.0
+baseline+recover_lost,jamo-03,FRAG,기타,ㅅ,244,8,6,6,0.06989247311827956,1.0
+baseline+recover_lost,jamo-03,FRAG,기타,ㅜ,249,13,12,12,0.0,0.591
+baseline+recover_lost,jamo-03,FRAG,가림,ㅜ,255,14,5,5,0.0,0.469
+baseline+recover_lost,jamo-03,FRAG,기타,ㅜ,266,3,43,43,0.1670792079207921,1.0
+baseline+recover_lost,jamo-03,FRAG,교차(다른 자모),ㅅ,267,8,6,6,0.4228255404725993,1.0
+baseline+recover_lost,jamo-03,FRAG,기타,ㅜ,269,13,12,12,0.2089489235964542,1.0
+baseline+recover_lost,jamo-03,FRAG,기타,ㅟ,275,10,36,36,0.17931422147273748,1.0
+baseline+recover_lost,jamo-03,IDSW,기타,ㅜ,277,3,43,6,0.2766756032171582,1.0
+baseline+recover_lost,jamo-03,FRAG,기타,ㅅ,278,8,6,6,0.2646363875032817,1.0
+baseline+recover_lost,jamo-03,FRAG,기타,ㅜ,279,3,6,6,0.2398769861609431,1.0
+baseline+recover_lost,jamo-03,FRAG,기타,ㅅ,281,8,6,6,0.21945432977461446,1.0
+baseline+recover_lost,jamo-03,IDSW,기타,ㄴ,287,4,28,48,0.0,1.0
+baseline+recover_lost,jamo-03,FRAG,기타,ㅟ,287,10,36,36,0.10625,1.0
+baseline+recover_lost,jamo-03,FRAG,기타,ㅜ,290,13,12,12,0.07274063188831742,1.0
+baseline+recover_lost,jamo-03,FRAG,기타,ㅟ,291,10,36,36,0.04222302417899675,1.0
+baseline+recover_lost,jamo-03,IDSW,기타,ㄹ,296,1,38,51,0.0,1.0
+baseline+recover_lost,jamo-04,FRAG,기타,ㅠ,6,4,12,12,0.12972972972972974,1.0
+baseline+recover_lost,jamo-04,FRAG,기타,ㄲ,7,8,13,13,0.11071744906997343,1.0
+baseline+recover_lost,jamo-04,IDSW,기타,ㄲ,11,8,13,17,0.030475416497358798,1.0
+baseline+recover_lost,jamo-04,FRAG,화면 경계,ㄲ,27,12,6,6,0.0,0.971
+baseline+recover_lost,jamo-04,IDSW,기타,ㄲ,33,8,17,19,0.0,0.929
+baseline+recover_lost,jamo-04,FRAG,화면 경계,ㄲ,60,8,19,19,0.0,1.0
+baseline+recover_lost,jamo-04,FRAG,기타,ㅠ,60,10,18,18,0.0,0.637
+baseline+recover_lost,jamo-04,FRAG,화면 경계,ㄲ,66,8,19,19,0.0,1.0
+baseline+recover_lost,jamo-04,FRAG,기타,ㄱ,67,1,10,10,0.0,1.0
+baseline+recover_lost,jamo-04,IDSW,기타,ㅘ,78,2,11,20,0.12270795385549484,1.0
+baseline+recover_lost,jamo-04,IDSW,가림,ㅌ,80,14,9,21,0.0,0.471
+baseline+recover_lost,jamo-04,FRAG,기타,ㄱ,90,1,10,10,0.0,0.789
+baseline+recover_lost,jamo-04,FRAG,기타,ㅠ,91,4,12,12,0.042833607907743,0.533
+baseline+recover_lost,jamo-04,FRAG,기타,ㅌ,92,14,21,21,0.0,1.0
+baseline+recover_lost,jamo-04,FRAG,기타,ㅙ,96,6,4,4,0.1744186046511628,0.784
+baseline+recover_lost,jamo-04,IDSW,기타,ㅘ,101,2,20,25,0.0,0.81
+baseline+recover_lost,jamo-04,FRAG,기타,ㄲ,103,8,19,19,0.0,1.0
+baseline+recover_lost,jamo-04,IDSW,화면 경계,ㄲ,105,9,2,26,0.0,1.0
+baseline+recover_lost,jamo-04,FRAG,가림,ㅢ,106,3,8,8,0.0,0.488
+baseline+recover_lost,jamo-04,IDSW,교차(다른 자모),ㅙ,107,6,4,12,0.4573103700989373,1.0
+baseline+recover_lost,jamo-04,FRAG,화면 경계,ㄱ,108,13,3,3,0.0,1.0
+baseline+recover_lost,jamo-04,FRAG,가림,ㅁ,111,5,1,1,0.0,0.444
+baseline+recover_lost,jamo-04,IDSW,기타,ㅠ,113,4,12,4,0.205607476635514,1.0
+baseline+recover_lost,jamo-04,FRAG,기타,ㅁ,113,5,1,1,0.0,0.528
+baseline+recover_lost,jamo-04,FRAG,기타,ㄲ,113,8,19,19,0.0,1.0
+baseline+recover_lost,jamo-04,IDSW,화면 경계,ㄲ,114,12,6,27,0.0,0.659
+baseline+recover_lost,jamo-04,FRAG,기타,ㅠ,117,4,4,4,0.09516256938937351,1.0
+baseline+recover_lost,jamo-04,IDSW,기타,ㅠ,142,4,4,28,0.056665506439262096,1.0
+baseline+recover_lost,jamo-04,FRAG,기타,ㅙ,147,6,12,12,0.06567270145544905,1.0
+baseline+recover_lost,jamo-04,IDSW,가림,ㅌ,162,7,7,29,0.0,0.273
+baseline+recover_lost,jamo-04,FRAG,기타,ㄲ,165,9,26,26,0.0,1.0
+baseline+recover_lost,jamo-04,FRAG,기타,ㄲ,186,9,26,26,0.03496997527375486,1.0
+baseline+recover_lost,jamo-04,FRAG,기타,ㅛ,188,11,5,5,0.0,0.629
+baseline+recover_lost,jamo-04,FRAG,화면 경계,ㄱ,191,1,10,10,0.09415204678362574,1.0
+baseline+recover_lost,jamo-04,FRAG,기타,ㄲ,191,8,19,19,0.09415204678362574,1.0
+baseline+recover_lost,jamo-04,IDSW,화면 경계,ㅌ,191,14,21,30,0.0,0.659
+baseline+recover_lost,jamo-04,FRAG,기타,ㅌ,192,7,29,29,0.0,0.723
+baseline+recover_lost,jamo-04,IDSW,화면 경계,ㄲ,201,8,19,31,0.008398133748055987,1.0
+baseline+recover_lost,jamo-04,IDSW,화면 경계,ㄲ,202,8,31,19,0.0,1.0
+baseline+recover_lost,jamo-04,IDSW,화면 경계,ㄲ,203,8,19,31,0.0,1.0
+baseline+recover_lost,jamo-04,FRAG,기타,ㅌ,214,14,30,30,0.0,0.512
+baseline+recover_lost,jamo-04,IDSW,화면 경계,ㄱ,241,1,10,33,0.0,0.793
+baseline+recover_lost,jamo-04,IDSW,화면 경계,ㅢ,256,3,8,36,0.0,0.548
+baseline+recover_lost,jamo-04,IDSW,기타,ㄱ,259,13,3,37,0.0,1.0
+baseline+recover_lost,jamo-04,FRAG,기타,ㄱ,268,1,33,33,0.05825242718446602,1.0
+baseline+recover_lost,jamo-04,FRAG,기타,ㄱ,270,13,37,37,0.0,1.0
+baseline+recover_lost,jamo-04,IDSW,기타,ㄱ,277,1,33,27,0.12353923205342238,1.0
+baseline+recover_lost,jamo-04,IDSW,기타,ㄲ,282,12,27,42,0.08062525709584534,1.0
+baseline+recover_lost,jamo-04,FRAG,기타,ㄱ,291,13,37,37,0.0,1.0
+baseline+recover_lost,jamo-04,IDSW,가림,ㅌ,291,14,30,45,0.0,0.361
+baseline+reid_buffer,jamo-01,FRAG,기타,ㄴ,43,3,5,5,0.008555445870352089,1.0
+baseline+reid_buffer,jamo-01,FRAG,기타,ㄴ,64,3,5,5,0.016245487364620937,1.0
+baseline+reid_buffer,jamo-01,FRAG,기타,ㅕ,72,2,3,3,0.15646919175569224,1.0
+baseline+reid_buffer,jamo-01,FRAG,가림,ㅊ,99,6,7,7,0.0,0.393
+baseline+reid_buffer,jamo-01,FRAG,교차(다른 자모),ㅕ,132,2,3,3,0.4743519029233315,1.0
+baseline+reid_buffer,jamo-01,FRAG,교차(다른 자모),ㄹ,134,5,4,4,0.44252563410685375,1.0
+baseline+reid_buffer,jamo-01,FRAG,기타,ㅕ,139,2,3,3,0.19608274647887325,1.0
+baseline+reid_buffer,jamo-01,IDSW,기타,ㅊ,155,1,2,11,0.01903973509933775,0.64
+baseline+reid_buffer,jamo-01,FRAG,기타,ㅔ,171,4,8,8,0.0,0.783
+baseline+reid_buffer,jamo-01,FRAG,기타,ㅊ,174,8,1,1,0.06676485027000491,1.0
+baseline+reid_buffer,jamo-01,FRAG,기타,ㅕ,202,7,6,6,0.0,0.618
+baseline+reid_buffer,jamo-01,FRAG,기타,ㄹ,221,5,4,4,0.1693548387096774,0.568
+baseline+reid_buffer,jamo-01,FRAG,기타,ㄹ,226,5,4,4,0.044574515983791085,0.909
+baseline+reid_buffer,jamo-01,FRAG,기타,ㄴ,227,3,5,5,0.01967799642218247,1.0
+baseline+reid_buffer,jamo-01,IDSW,화면 경계,ㅔ,285,4,8,14,0.0,0.78
+baseline+reid_buffer,jamo-01,FRAG,기타,ㅕ,288,2,3,3,0.0,0.717
+baseline+reid_buffer,jamo-02,FRAG,기타,ㅂ,30,2,8,8,0.049016446307642694,1.0
+baseline+reid_buffer,jamo-02,IDSW,기타,ㄱ,47,6,9,14,0.0,1.0
+baseline+reid_buffer,jamo-02,FRAG,기타,ㅍ,84,8,6,6,0.18083182640144665,1.0
+baseline+reid_buffer,jamo-02,FRAG,기타,ㅍ,88,8,6,6,0.16363636363636364,1.0
+baseline+reid_buffer,jamo-02,IDSW,화면 경계,ㅑ,89,1,11,20,0.0,1.0
+baseline+reid_buffer,jamo-02,FRAG,기타,ㅍ,91,8,6,6,0.09492635024549918,1.0
+baseline+reid_buffer,jamo-02,IDSW,기타,ㅍ,97,8,6,23,0.0,1.0
+baseline+reid_buffer,jamo-02,IDSW,화면 경계,ㅂ,102,2,8,10,0.0,0.8
+baseline+reid_buffer,jamo-02,IDSW,기타,ㅔ,111,5,10,24,0.0,0.591
+baseline+reid_buffer,jamo-02,IDSW,교차(다른 자모),ㄴ,116,4,5,23,0.32552404438964244,1.0
+baseline+reid_buffer,jamo-02,IDSW,교차(다른 자모),ㄴ,119,4,23,5,0.5709900230237912,1.0
+baseline+reid_buffer,jamo-02,FRAG,기타,ㄱ,126,6,14,14,0.0,1.0
+baseline+reid_buffer,jamo-02,FRAG,기타,ㄴ,127,4,5,5,0.06509539842873176,1.0
+baseline+reid_buffer,jamo-02,FRAG,기타,ㅍ,128,8,23,23,0.0,1.0
+baseline+reid_buffer,jamo-02,FRAG,기타,ㅃ,129,10,3,3,0.0,1.0
+baseline+reid_buffer,jamo-02,IDSW,화면 경계,ㅃ,145,7,7,27,0.0,0.978
+baseline+reid_buffer,jamo-02,FRAG,화면 경계,ㅍ,154,8,23,23,0.0,1.0
+baseline+reid_buffer,jamo-02,FRAG,화면 경계,ㅏ,161,3,2,2,0.0,1.0
+baseline+reid_buffer,jamo-02,IDSW,기타,ㅂ,162,2,10,28,0.0,0.967
+baseline+reid_buffer,jamo-02,FRAG,기타,ㅍ,199,8,23,23,0.08710801393728224,1.0
+baseline+reid_buffer,jamo-02,FRAG,기타,ㅃ,208,12,12,12,0.24623115577889448,1.0
+baseline+reid_buffer,jamo-02,FRAG,기타,ㄱ,216,6,14,14,0.0,1.0
+baseline+reid_buffer,jamo-02,IDSW,화면 경계,ㅃ,220,7,27,7,0.0,0.581
+baseline+reid_buffer,jamo-02,IDSW,기타,ㅃ,229,10,3,10,0.0,0.724
+baseline+reid_buffer,jamo-02,IDSW,기타,ㅃ,229,12,12,4,0.13527575442247658,0.974
+baseline+reid_buffer,jamo-02,IDSW,기타,ㄱ,235,6,14,32,0.0,1.0
+baseline+reid_buffer,jamo-02,FRAG,기타,ㅃ,236,11,4,4,0.2323469088778201,0.581
+baseline+reid_buffer,jamo-02,FRAG,기타,ㄱ,240,6,32,32,0.0,1.0
+baseline+reid_buffer,jamo-02,IDSW,기타,ㅃ,256,12,4,34,0.0,0.975
+baseline+reid_buffer,jamo-02,IDSW,기타,ㅜ,279,9,1,12,0.0,1.0
+baseline+reid_buffer,jamo-02,FRAG,기타,ㄱ,281,6,32,32,0.0,1.0
+baseline+reid_buffer,jamo-02,FRAG,기타,ㅏ,283,3,2,2,0.0,0.913
+baseline+reid_buffer,jamo-02,FRAG,기타,ㄱ,295,6,32,32,0.0,1.0
+baseline+reid_buffer,jamo-03,FRAG,기타,ㅡ,13,7,14,14,0.0,1.0
+baseline+reid_buffer,jamo-03,FRAG,기타,ㅠ,27,5,10,10,0.1810844370860927,1.0
+baseline+reid_buffer,jamo-03,FRAG,기타,ㅡ,27,7,14,14,0.0,1.0
+baseline+reid_buffer,jamo-03,IDSW,기타,ㅜ,32,3,16,25,0.0,1.0
+baseline+reid_buffer,jamo-03,IDSW,기타,ㄹ,45,1,1,26,0.08713480266529984,1.0
+baseline+reid_buffer,jamo-03,FRAG,기타,ㅡ,69,7,14,14,0.0,1.0
+baseline+reid_buffer,jamo-03,FRAG,기타,ㅊ,71,2,11,11,0.0,0.825
+baseline+reid_buffer,jamo-03,FRAG,기타,ㅜ,81,3,25,25,0.017857142857142856,1.0
+baseline+reid_buffer,jamo-03,FRAG,화면 경계,ㄴ,87,4,4,4,0.0,0.639
+baseline+reid_buffer,jamo-03,IDSW,기타,ㅟ,91,10,9,29,0.007456266131344996,1.0
+baseline+reid_buffer,jamo-03,FRAG,기타,ㅅ,98,8,6,6,0.0,0.93
+baseline+reid_buffer,jamo-03,FRAG,기타,ㅜ,100,3,25,25,0.15355086372360843,1.0
+baseline+reid_buffer,jamo-03,FRAG,기타,ㅜ,108,12,3,3,0.0,1.0
+baseline+reid_buffer,jamo-03,IDSW,가림,ㅜ,117,6,2,35,0.0,0.427
+baseline+reid_buffer,jamo-03,IDSW,기타,ㄹ,123,1,26,1,0.0,0.739
+baseline+reid_buffer,jamo-03,FRAG,기타,ㄹ,128,1,1,1,0.0,1.0
+baseline+reid_buffer,jamo-03,FRAG,기타,ㄹ,157,1,1,1,0.0,1.0
+baseline+reid_buffer,jamo-03,IDSW,기타,ㅟ,159,10,29,36,0.0,1.0
+baseline+reid_buffer,jamo-03,IDSW,화면 경계,ㅐ,171,11,23,37,0.0,0.615
+baseline+reid_buffer,jamo-03,IDSW,기타,ㄹ,177,1,1,38,0.0,1.0
+baseline+reid_buffer,jamo-03,FRAG,기타,ㅡ,182,7,14,14,0.0,1.0
+baseline+reid_buffer,jamo-03,FRAG,기타,ㅡ,186,7,14,14,0.0,1.0
+baseline+reid_buffer,jamo-03,IDSW,기타,ㅟ,196,10,36,29,0.06445012787723785,1.0
+baseline+reid_buffer,jamo-03,IDSW,기타,ㅜ,197,6,35,39,0.09982935153583618,0.744
+baseline+reid_buffer,jamo-03,IDSW,교차(다른 자모),ㅠ,198,5,10,7,0.47680412371134023,0.635
+baseline+reid_buffer,jamo-03,FRAG,기타,ㅜ,207,13,12,12,0.2127316680096696,1.0
+baseline+reid_buffer,jamo-03,FRAG,기타,ㅜ,213,12,3,3,0.03746654772524532,1.0
+baseline+reid_buffer,jamo-03,FRAG,기타,ㅜ,213,13,12,12,0.03746654772524532,1.0
+baseline+reid_buffer,jamo-03,IDSW,기타,ㅜ,215,3,25,43,0.04873833390943657,0.845
+baseline+reid_buffer,jamo-03,FRAG,기타,ㅡ,227,7,14,14,0.04240282685512368,1.0
+baseline+reid_buffer,jamo-03,FRAG,기타,ㅊ,229,2,11,11,0.0,1.0
+baseline+reid_buffer,jamo-03,FRAG,기타,ㅐ,229,9,8,8,0.0,0.903
+baseline+reid_buffer,jamo-03,FRAG,기타,ㅡ,232,7,14,14,0.0,1.0
+baseline+reid_buffer,jamo-03,FRAG,기타,ㅅ,244,8,6,6,0.06989247311827956,1.0
+baseline+reid_buffer,jamo-03,IDSW,기타,ㅜ,250,13,12,45,0.0,0.744
+baseline+reid_buffer,jamo-03,FRAG,기타,ㅜ,266,3,43,43,0.1670792079207921,1.0
+baseline+reid_buffer,jamo-03,IDSW,기타,ㅜ,266,14,5,34,0.026148817535089405,0.974
+baseline+reid_buffer,jamo-03,FRAG,교차(다른 자모),ㅅ,267,8,6,6,0.4228255404725993,1.0
+baseline+reid_buffer,jamo-03,FRAG,기타,ㅜ,269,13,45,45,0.2089489235964542,1.0
+baseline+reid_buffer,jamo-03,FRAG,기타,ㅟ,275,10,29,29,0.17931422147273748,1.0
+baseline+reid_buffer,jamo-03,IDSW,기타,ㅜ,277,3,43,6,0.2766756032171582,1.0
+baseline+reid_buffer,jamo-03,FRAG,기타,ㅅ,278,8,6,6,0.2646363875032817,1.0
+baseline+reid_buffer,jamo-03,FRAG,기타,ㅜ,279,3,6,6,0.2398769861609431,1.0
+baseline+reid_buffer,jamo-03,FRAG,기타,ㅅ,281,8,6,6,0.21945432977461446,1.0
+baseline+reid_buffer,jamo-03,IDSW,화면 경계,ㄹ,286,1,38,26,0.0,1.0
+baseline+reid_buffer,jamo-03,FRAG,기타,ㄴ,286,4,4,4,0.007927070947284977,1.0
+baseline+reid_buffer,jamo-03,FRAG,기타,ㅟ,287,10,29,29,0.10625,1.0
+baseline+reid_buffer,jamo-03,FRAG,기타,ㅜ,290,13,45,45,0.07274063188831742,1.0
+baseline+reid_buffer,jamo-03,FRAG,기타,ㅟ,291,10,29,29,0.04222302417899675,1.0
+baseline+reid_buffer,jamo-03,FRAG,화면 경계,ㄹ,293,1,26,26,0.0,1.0
+baseline+reid_buffer,jamo-03,FRAG,기타,ㄹ,296,1,26,26,0.0,1.0
+baseline+reid_buffer,jamo-04,FRAG,기타,ㅠ,6,4,12,12,0.12972972972972974,1.0
+baseline+reid_buffer,jamo-04,FRAG,기타,ㄲ,7,8,13,13,0.11071744906997343,1.0
+baseline+reid_buffer,jamo-04,IDSW,기타,ㄲ,11,8,13,17,0.030475416497358798,1.0
+baseline+reid_buffer,jamo-04,FRAG,화면 경계,ㄲ,27,12,6,6,0.0,0.971
+baseline+reid_buffer,jamo-04,IDSW,기타,ㄲ,33,8,17,19,0.0,0.929
+baseline+reid_buffer,jamo-04,FRAG,화면 경계,ㄲ,60,8,19,19,0.0,1.0
+baseline+reid_buffer,jamo-04,IDSW,기타,ㅠ,61,10,18,20,0.0,0.7
+baseline+reid_buffer,jamo-04,FRAG,화면 경계,ㄲ,66,8,19,19,0.0,1.0
+baseline+reid_buffer,jamo-04,FRAG,기타,ㄱ,67,1,10,10,0.0,1.0
+baseline+reid_buffer,jamo-04,IDSW,기타,ㅘ,78,2,11,21,0.12270795385549484,1.0
+baseline+reid_buffer,jamo-04,FRAG,가림,ㅌ,79,14,9,9,0.0,0.353
+baseline+reid_buffer,jamo-04,FRAG,기타,ㄱ,90,1,10,10,0.0,0.789
+baseline+reid_buffer,jamo-04,FRAG,기타,ㅌ,91,14,9,9,0.0,1.0
+baseline+reid_buffer,jamo-04,IDSW,기타,ㅙ,98,6,4,18,0.24691358024691357,0.947
+baseline+reid_buffer,jamo-04,IDSW,기타,ㅘ,101,2,21,11,0.0,0.81
+baseline+reid_buffer,jamo-04,FRAG,기타,ㄲ,103,8,19,19,0.0,1.0
+baseline+reid_buffer,jamo-04,IDSW,화면 경계,ㄲ,105,9,2,26,0.0,1.0
+baseline+reid_buffer,jamo-04,FRAG,가림,ㅢ,106,3,8,8,0.0,0.488
+baseline+reid_buffer,jamo-04,FRAG,화면 경계,ㄱ,108,13,3,3,0.0,1.0
+baseline+reid_buffer,jamo-04,FRAG,기타,ㄲ,113,8,19,19,0.0,1.0
+baseline+reid_buffer,jamo-04,IDSW,화면 경계,ㄲ,113,12,6,12,0.0,0.634
+baseline+reid_buffer,jamo-04,IDSW,기타,ㅠ,117,4,12,6,0.09516256938937351,1.0
+baseline+reid_buffer,jamo-04,IDSW,기타,ㅁ,118,5,1,27,0.004937163375224416,0.816
+baseline+reid_buffer,jamo-04,IDSW,기타,ㅠ,141,4,6,2,0.06933333333333333,1.0
+baseline+reid_buffer,jamo-04,FRAG,기타,ㅙ,147,6,18,18,0.06567270145544905,1.0
+baseline+reid_buffer,jamo-04,FRAG,가림,ㅌ,161,7,7,7,0.0,0.227
+baseline+reid_buffer,jamo-04,FRAG,기타,ㄲ,165,9,26,26,0.0,1.0
+baseline+reid_buffer,jamo-04,FRAG,기타,ㅛ,183,11,5,5,0.17293835068054444,0.532
+baseline+reid_buffer,jamo-04,FRAG,기타,ㅛ,185,11,5,5,0.079587324981577,0.581
+baseline+reid_buffer,jamo-04,FRAG,기타,ㄲ,186,9,26,26,0.03496997527375486,1.0
+baseline+reid_buffer,jamo-04,FRAG,기타,ㅛ,188,11,5,5,0.0,0.629
+baseline+reid_buffer,jamo-04,FRAG,화면 경계,ㅌ,190,14,9,9,0.0,0.585
+baseline+reid_buffer,jamo-04,FRAG,화면 경계,ㄱ,191,1,10,10,0.09415204678362574,1.0
+baseline+reid_buffer,jamo-04,FRAG,기타,ㄲ,191,8,19,19,0.09415204678362574,1.0
+baseline+reid_buffer,jamo-04,FRAG,기타,ㅌ,193,7,7,7,0.0,0.797
+baseline+reid_buffer,jamo-04,IDSW,화면 경계,ㄲ,201,8,19,29,0.008398133748055987,1.0
+baseline+reid_buffer,jamo-04,IDSW,화면 경계,ㄲ,202,8,29,19,0.0,1.0
+baseline+reid_buffer,jamo-04,IDSW,화면 경계,ㄲ,203,8,19,29,0.0,1.0
+baseline+reid_buffer,jamo-04,IDSW,기타,ㅌ,214,14,9,6,0.0,0.512
+baseline+reid_buffer,jamo-04,IDSW,기타,ㅌ,217,14,6,9,0.0,1.0
+baseline+reid_buffer,jamo-04,FRAG,화면 경계,ㄱ,240,1,10,10,0.0,0.724
+baseline+reid_buffer,jamo-04,FRAG,기타,ㄱ,250,13,3,3,0.0,1.0
+baseline+reid_buffer,jamo-04,FRAG,가림,ㅢ,255,3,8,8,0.0,0.488
+baseline+reid_buffer,jamo-04,FRAG,기타,ㄱ,270,13,3,3,0.0,1.0
+baseline+reid_buffer,jamo-04,IDSW,기타,ㄱ,277,1,10,6,0.12353923205342238,1.0
+baseline+reid_buffer,jamo-04,IDSW,기타,ㄲ,277,12,12,10,0.12353923205342238,1.0
+baseline+reid_buffer,jamo-04,IDSW,기타,ㄲ,279,12,10,12,0.11955593509820667,1.0
+baseline+reid_buffer,jamo-04,IDSW,기타,ㄱ,280,1,6,10,0.10986267166042447,1.0
+baseline+reid_buffer,jamo-04,IDSW,기타,ㄱ,282,1,10,6,0.08062525709584534,1.0
+baseline+reid_buffer,jamo-04,FRAG,가림,ㅌ,290,14,9,9,0.0,0.25
+baseline+reid_buffer,jamo-04,FRAG,기타,ㄱ,291,13,3,3,0.0,1.0
+baseline+reid_buffer,jamo-04,FRAG,화면 경계,ㅠ,298,10,20,20,0.0,1.0
+baseline+freeze_out_of_frame,jamo-01,FRAG,기타,ㄴ,43,3,5,5,0.008555445870352089,1.0
+baseline+freeze_out_of_frame,jamo-01,FRAG,기타,ㄴ,64,3,5,5,0.016245487364620937,1.0
+baseline+freeze_out_of_frame,jamo-01,FRAG,기타,ㅕ,72,2,3,3,0.15646919175569224,1.0
+baseline+freeze_out_of_frame,jamo-01,IDSW,가림,ㅊ,100,6,7,11,0.0,0.446
+baseline+freeze_out_of_frame,jamo-01,FRAG,교차(다른 자모),ㅕ,132,2,3,3,0.4743519029233315,1.0
+baseline+freeze_out_of_frame,jamo-01,FRAG,교차(다른 자모),ㄹ,134,5,4,4,0.44252563410685375,1.0
+baseline+freeze_out_of_frame,jamo-01,FRAG,기타,ㅕ,139,2,3,3,0.19608274647887325,1.0
+baseline+freeze_out_of_frame,jamo-01,IDSW,기타,ㅊ,155,1,2,12,0.01903973509933775,0.64
+baseline+freeze_out_of_frame,jamo-01,IDSW,기타,ㅔ,172,4,8,13,0.0,0.87
+baseline+freeze_out_of_frame,jamo-01,IDSW,기타,ㅊ,175,8,1,14,0.06676485027000491,1.0
+baseline+freeze_out_of_frame,jamo-01,IDSW,기타,ㅕ,206,7,6,16,0.0,1.0
+baseline+freeze_out_of_frame,jamo-01,IDSW,기타,ㄹ,221,5,4,17,0.1693548387096774,0.568
+baseline+freeze_out_of_frame,jamo-01,FRAG,기타,ㄴ,227,3,5,5,0.01967799642218247,1.0
+baseline+freeze_out_of_frame,jamo-01,IDSW,기타,ㄹ,228,5,17,19,0.0,1.0
+baseline+freeze_out_of_frame,jamo-01,IDSW,화면 경계,ㅔ,285,4,13,20,0.0,0.78
+baseline+freeze_out_of_frame,jamo-01,IDSW,기타,ㅕ,290,2,3,22,0.0,1.0
+baseline+freeze_out_of_frame,jamo-02,FRAG,기타,ㅂ,30,2,8,8,0.049016446307642694,1.0
+baseline+freeze_out_of_frame,jamo-02,IDSW,기타,ㄱ,47,6,9,14,0.0,1.0
+baseline+freeze_out_of_frame,jamo-02,FRAG,기타,ㅍ,84,8,6,6,0.18083182640144665,1.0
+baseline+freeze_out_of_frame,jamo-02,FRAG,기타,ㅍ,88,8,6,6,0.16363636363636364,1.0
+baseline+freeze_out_of_frame,jamo-02,IDSW,화면 경계,ㅑ,89,1,11,20,0.0,1.0
+baseline+freeze_out_of_frame,jamo-02,FRAG,기타,ㅍ,91,8,6,6,0.09492635024549918,1.0
+baseline+freeze_out_of_frame,jamo-02,IDSW,기타,ㅍ,97,8,6,23,0.0,1.0
+baseline+freeze_out_of_frame,jamo-02,IDSW,화면 경계,ㅂ,103,2,8,24,0.0,0.962
+baseline+freeze_out_of_frame,jamo-02,IDSW,기타,ㅔ,111,5,10,25,0.0,0.591
+baseline+freeze_out_of_frame,jamo-02,IDSW,교차(다른 자모),ㄴ,116,4,5,23,0.32552404438964244,1.0
+baseline+freeze_out_of_frame,jamo-02,IDSW,교차(다른 자모),ㄴ,119,4,23,5,0.5709900230237912,1.0
+baseline+freeze_out_of_frame,jamo-02,FRAG,기타,ㄱ,126,6,14,14,0.0,1.0
+baseline+freeze_out_of_frame,jamo-02,FRAG,기타,ㄴ,127,4,5,5,0.06509539842873176,1.0
+baseline+freeze_out_of_frame,jamo-02,FRAG,기타,ㅍ,128,8,23,23,0.0,1.0
+baseline+freeze_out_of_frame,jamo-02,FRAG,기타,ㅃ,129,10,3,3,0.0,1.0
+baseline+freeze_out_of_frame,jamo-02,IDSW,화면 경계,ㅃ,145,7,7,28,0.0,0.978
+baseline+freeze_out_of_frame,jamo-02,FRAG,화면 경계,ㅍ,154,8,23,23,0.0,1.0
+baseline+freeze_out_of_frame,jamo-02,FRAG,화면 경계,ㅏ,161,3,2,2,0.0,1.0
+baseline+freeze_out_of_frame,jamo-02,IDSW,기타,ㅂ,162,2,24,29,0.0,0.967
+baseline+freeze_out_of_frame,jamo-02,FRAG,기타,ㅍ,199,8,23,23,0.08710801393728224,1.0
+baseline+freeze_out_of_frame,jamo-02,FRAG,기타,ㅃ,208,12,12,12,0.24623115577889448,1.0
+baseline+freeze_out_of_frame,jamo-02,FRAG,기타,ㄱ,216,6,14,14,0.0,1.0
+baseline+freeze_out_of_frame,jamo-02,IDSW,화면 경계,ㅃ,225,7,28,33,0.0,0.806
+baseline+freeze_out_of_frame,jamo-02,IDSW,기타,ㅃ,229,12,12,4,0.13527575442247658,0.974
+baseline+freeze_out_of_frame,jamo-02,IDSW,기타,ㅃ,230,10,3,35,0.0,0.867
+baseline+freeze_out_of_frame,jamo-02,IDSW,기타,ㄱ,235,6,14,36,0.0,1.0
+baseline+freeze_out_of_frame,jamo-02,FRAG,기타,ㅃ,236,11,4,4,0.2323469088778201,0.581
+baseline+freeze_out_of_frame,jamo-02,FRAG,기타,ㄱ,240,6,36,36,0.0,1.0
+baseline+freeze_out_of_frame,jamo-02,IDSW,기타,ㅃ,256,12,4,38,0.0,0.975
+baseline+freeze_out_of_frame,jamo-02,IDSW,기타,ㅜ,279,9,1,39,0.0,1.0
+baseline+freeze_out_of_frame,jamo-02,FRAG,기타,ㄱ,281,6,36,36,0.0,1.0
+baseline+freeze_out_of_frame,jamo-02,FRAG,기타,ㅏ,283,3,2,2,0.0,0.913
+baseline+freeze_out_of_frame,jamo-02,FRAG,기타,ㄱ,295,6,36,36,0.0,1.0
+baseline+freeze_out_of_frame,jamo-03,FRAG,기타,ㅡ,13,7,14,14,0.0,1.0
+baseline+freeze_out_of_frame,jamo-03,FRAG,기타,ㅠ,27,5,10,10,0.1810844370860927,1.0
+baseline+freeze_out_of_frame,jamo-03,FRAG,기타,ㅡ,27,7,14,14,0.0,1.0
+baseline+freeze_out_of_frame,jamo-03,IDSW,기타,ㅜ,32,3,16,25,0.0,1.0
+baseline+freeze_out_of_frame,jamo-03,IDSW,기타,ㄹ,45,1,1,26,0.08713480266529984,1.0
+baseline+freeze_out_of_frame,jamo-03,FRAG,기타,ㅡ,69,7,14,14,0.0,1.0
+baseline+freeze_out_of_frame,jamo-03,FRAG,기타,ㅊ,71,2,11,11,0.0,0.825
+baseline+freeze_out_of_frame,jamo-03,FRAG,기타,ㅜ,81,3,25,25,0.017857142857142856,1.0
+baseline+freeze_out_of_frame,jamo-03,IDSW,화면 경계,ㄴ,88,4,4,28,0.0,0.75
+baseline+freeze_out_of_frame,jamo-03,IDSW,기타,ㅟ,91,10,9,30,0.007456266131344996,1.0
+baseline+freeze_out_of_frame,jamo-03,FRAG,기타,ㅅ,98,8,6,6,0.0,0.93
+baseline+freeze_out_of_frame,jamo-03,FRAG,기타,ㅜ,100,3,25,25,0.15355086372360843,1.0
+baseline+freeze_out_of_frame,jamo-03,FRAG,기타,ㅜ,108,12,3,3,0.0,1.0
+baseline+freeze_out_of_frame,jamo-03,IDSW,가림,ㅜ,117,6,2,36,0.0,0.427
+baseline+freeze_out_of_frame,jamo-03,IDSW,기타,ㄹ,123,1,26,37,0.0,0.739
+baseline+freeze_out_of_frame,jamo-03,FRAG,기타,ㄹ,128,1,37,37,0.0,1.0
+baseline+freeze_out_of_frame,jamo-03,FRAG,기타,ㄹ,157,1,37,37,0.0,1.0
+baseline+freeze_out_of_frame,jamo-03,IDSW,기타,ㅟ,159,10,30,38,0.0,1.0
+baseline+freeze_out_of_frame,jamo-03,IDSW,화면 경계,ㅐ,171,11,23,39,0.0,0.615
+baseline+freeze_out_of_frame,jamo-03,IDSW,기타,ㄹ,177,1,37,40,0.0,1.0
+baseline+freeze_out_of_frame,jamo-03,FRAG,기타,ㅡ,182,7,14,14,0.0,1.0
+baseline+freeze_out_of_frame,jamo-03,FRAG,기타,ㅡ,186,7,14,14,0.0,1.0
+baseline+freeze_out_of_frame,jamo-03,IDSW,기타,ㅜ,197,6,36,41,0.09982935153583618,0.744
+baseline+freeze_out_of_frame,jamo-03,IDSW,기타,ㅟ,197,10,38,42,0.01462701121404193,1.0
+baseline+freeze_out_of_frame,jamo-03,IDSW,교차(다른 자모),ㅠ,199,5,10,43,0.45185533114138093,0.698
+baseline+freeze_out_of_frame,jamo-03,FRAG,기타,ㅜ,207,13,12,12,0.2127316680096696,1.0
+baseline+freeze_out_of_frame,jamo-03,FRAG,기타,ㅜ,213,12,3,3,0.03746654772524532,1.0
+baseline+freeze_out_of_frame,jamo-03,FRAG,기타,ㅜ,213,13,12,12,0.03746654772524532,1.0
+baseline+freeze_out_of_frame,jamo-03,IDSW,기타,ㅜ,215,3,25,47,0.04873833390943657,0.845
+baseline+freeze_out_of_frame,jamo-03,FRAG,기타,ㅡ,227,7,14,14,0.04240282685512368,1.0
+baseline+freeze_out_of_frame,jamo-03,FRAG,기타,ㅊ,229,2,11,11,0.0,1.0
+baseline+freeze_out_of_frame,jamo-03,IDSW,기타,ㅐ,230,9,8,48,0.0,0.938
+baseline+freeze_out_of_frame,jamo-03,FRAG,기타,ㅡ,232,7,14,14,0.0,1.0
+baseline+freeze_out_of_frame,jamo-03,FRAG,기타,ㅅ,244,8,6,6,0.06989247311827956,1.0
+baseline+freeze_out_of_frame,jamo-03,IDSW,기타,ㅜ,250,13,12,51,0.0,0.744
+baseline+freeze_out_of_frame,jamo-03,FRAG,기타,ㅜ,266,3,47,47,0.1670792079207921,1.0
+baseline+freeze_out_of_frame,jamo-03,IDSW,기타,ㅜ,266,14,5,52,0.026148817535089405,0.974
+baseline+freeze_out_of_frame,jamo-03,FRAG,교차(다른 자모),ㅅ,267,8,6,6,0.4228255404725993,1.0
+baseline+freeze_out_of_frame,jamo-03,FRAG,기타,ㅜ,269,13,51,51,0.2089489235964542,1.0
+baseline+freeze_out_of_frame,jamo-03,FRAG,기타,ㅟ,275,10,42,42,0.17931422147273748,1.0
+baseline+freeze_out_of_frame,jamo-03,IDSW,기타,ㅜ,277,3,47,6,0.2766756032171582,1.0
+baseline+freeze_out_of_frame,jamo-03,FRAG,기타,ㅅ,278,8,6,6,0.2646363875032817,1.0
+baseline+freeze_out_of_frame,jamo-03,FRAG,기타,ㅜ,279,3,6,6,0.2398769861609431,1.0
+baseline+freeze_out_of_frame,jamo-03,FRAG,기타,ㅅ,281,8,6,6,0.21945432977461446,1.0
+baseline+freeze_out_of_frame,jamo-03,IDSW,기타,ㄴ,287,4,28,54,0.0,1.0
+baseline+freeze_out_of_frame,jamo-03,FRAG,기타,ㅟ,287,10,42,42,0.10625,1.0
+baseline+freeze_out_of_frame,jamo-03,FRAG,기타,ㅜ,290,13,51,51,0.07274063188831742,1.0
+baseline+freeze_out_of_frame,jamo-03,FRAG,기타,ㅟ,291,10,42,42,0.04222302417899675,1.0
+baseline+freeze_out_of_frame,jamo-03,IDSW,기타,ㄹ,296,1,40,57,0.0,1.0
+baseline+freeze_out_of_frame,jamo-04,FRAG,기타,ㅠ,6,4,12,12,0.12972972972972974,1.0
+baseline+freeze_out_of_frame,jamo-04,FRAG,기타,ㄲ,7,8,13,13,0.11071744906997343,1.0
+baseline+freeze_out_of_frame,jamo-04,IDSW,기타,ㄲ,11,8,13,17,0.030475416497358798,1.0
+baseline+freeze_out_of_frame,jamo-04,FRAG,화면 경계,ㄲ,27,12,6,6,0.0,0.971
+baseline+freeze_out_of_frame,jamo-04,IDSW,기타,ㄲ,33,8,17,19,0.0,0.929
+baseline+freeze_out_of_frame,jamo-04,FRAG,화면 경계,ㄲ,60,8,19,19,0.0,1.0
+baseline+freeze_out_of_frame,jamo-04,IDSW,기타,ㅠ,61,10,18,20,0.0,0.7
+baseline+freeze_out_of_frame,jamo-04,FRAG,화면 경계,ㄲ,66,8,19,19,0.0,1.0
+baseline+freeze_out_of_frame,jamo-04,FRAG,기타,ㄱ,67,1,10,10,0.0,1.0
+baseline+freeze_out_of_frame,jamo-04,IDSW,기타,ㅘ,78,2,11,21,0.12270795385549484,1.0
+baseline+freeze_out_of_frame,jamo-04,IDSW,가림,ㅌ,80,14,9,22,0.0,0.471
+baseline+freeze_out_of_frame,jamo-04,FRAG,기타,ㄱ,90,1,10,10,0.0,0.789
+baseline+freeze_out_of_frame,jamo-04,FRAG,기타,ㅌ,92,14,22,22,0.0,1.0
+baseline+freeze_out_of_frame,jamo-04,IDSW,기타,ㅙ,98,6,4,24,0.24691358024691357,0.947
+baseline+freeze_out_of_frame,jamo-04,IDSW,기타,ㅘ,101,2,21,28,0.0,0.81
+baseline+freeze_out_of_frame,jamo-04,FRAG,기타,ㄲ,103,8,19,19,0.0,1.0
+baseline+freeze_out_of_frame,jamo-04,IDSW,화면 경계,ㄲ,105,9,2,29,0.0,1.0
+baseline+freeze_out_of_frame,jamo-04,FRAG,가림,ㅢ,106,3,8,8,0.0,0.488
+baseline+freeze_out_of_frame,jamo-04,FRAG,화면 경계,ㄱ,108,13,3,3,0.0,1.0
+baseline+freeze_out_of_frame,jamo-04,FRAG,기타,ㄲ,113,8,19,19,0.0,1.0
+baseline+freeze_out_of_frame,jamo-04,IDSW,화면 경계,ㄲ,114,12,6,31,0.0,0.659
+baseline+freeze_out_of_frame,jamo-04,IDSW,기타,ㅠ,118,4,12,32,0.07415089447757324,1.0
+baseline+freeze_out_of_frame,jamo-04,IDSW,기타,ㅁ,118,5,1,30,0.004937163375224416,0.816
+baseline+freeze_out_of_frame,jamo-04,IDSW,기타,ㅠ,142,4,32,33,0.056665506439262096,1.0
+baseline+freeze_out_of_frame,jamo-04,FRAG,기타,ㅙ,147,6,24,24,0.06567270145544905,1.0
+baseline+freeze_out_of_frame,jamo-04,IDSW,가림,ㅌ,162,7,7,34,0.0,0.273
+baseline+freeze_out_of_frame,jamo-04,FRAG,기타,ㄲ,165,9,29,29,0.0,1.0
+baseline+freeze_out_of_frame,jamo-04,FRAG,기타,ㄲ,186,9,29,29,0.03496997527375486,1.0
+baseline+freeze_out_of_frame,jamo-04,IDSW,기타,ㅛ,189,11,5,37,0.0,0.661
+baseline+freeze_out_of_frame,jamo-04,FRAG,화면 경계,ㄱ,191,1,10,10,0.09415204678362574,1.0
+baseline+freeze_out_of_frame,jamo-04,FRAG,기타,ㄲ,191,8,19,19,0.09415204678362574,1.0
+baseline+freeze_out_of_frame,jamo-04,IDSW,화면 경계,ㅌ,191,14,22,39,0.0,0.659
+baseline+freeze_out_of_frame,jamo-04,FRAG,기타,ㅌ,193,7,34,34,0.0,0.797
+baseline+freeze_out_of_frame,jamo-04,IDSW,화면 경계,ㄲ,201,8,19,40,0.008398133748055987,1.0
+baseline+freeze_out_of_frame,jamo-04,IDSW,화면 경계,ㄲ,202,8,40,19,0.0,1.0
+baseline+freeze_out_of_frame,jamo-04,IDSW,화면 경계,ㄲ,203,8,19,40,0.0,1.0
+baseline+freeze_out_of_frame,jamo-04,FRAG,기타,ㅌ,215,14,39,39,0.0,0.707
+baseline+freeze_out_of_frame,jamo-04,IDSW,화면 경계,ㄱ,241,1,10,43,0.0,0.793
+baseline+freeze_out_of_frame,jamo-04,IDSW,화면 경계,ㅢ,256,3,8,46,0.0,0.548
+baseline+freeze_out_of_frame,jamo-04,IDSW,기타,ㄱ,259,13,3,47,0.0,1.0
+baseline+freeze_out_of_frame,jamo-04,FRAG,기타,ㄱ,268,1,43,43,0.05825242718446602,1.0
+baseline+freeze_out_of_frame,jamo-04,FRAG,기타,ㄱ,270,13,47,47,0.0,1.0
+baseline+freeze_out_of_frame,jamo-04,IDSW,기타,ㄱ,277,1,43,31,0.12353923205342238,1.0
+baseline+freeze_out_of_frame,jamo-04,IDSW,기타,ㄲ,282,12,31,52,0.08062525709584534,1.0
+baseline+freeze_out_of_frame,jamo-04,FRAG,기타,ㄱ,291,13,47,47,0.0,1.0
+baseline+freeze_out_of_frame,jamo-04,IDSW,가림,ㅌ,291,14,39,55,0.0,0.361
+improved,jamo-01,FRAG,기타,ㄴ,43,3,5,5,0.008555445870352089,1.0
+improved,jamo-01,FRAG,기타,ㄴ,64,3,5,5,0.016245487364620937,1.0
+improved,jamo-01,FRAG,기타,ㅕ,72,2,3,3,0.15646919175569224,1.0
+improved,jamo-01,FRAG,가림,ㅊ,99,6,7,7,0.0,0.393
+improved,jamo-01,FRAG,교차(다른 자모),ㅕ,132,2,3,3,0.4743519029233315,1.0
+improved,jamo-01,FRAG,교차(다른 자모),ㄹ,134,5,4,4,0.44252563410685375,1.0
+improved,jamo-01,FRAG,기타,ㅕ,139,2,3,3,0.19608274647887325,1.0
+improved,jamo-01,IDSW,기타,ㅊ,155,1,2,11,0.01903973509933775,0.64
+improved,jamo-01,FRAG,기타,ㅔ,171,4,8,8,0.0,0.783
+improved,jamo-01,FRAG,기타,ㅊ,174,8,1,1,0.06676485027000491,1.0
+improved,jamo-01,FRAG,기타,ㅕ,202,7,6,6,0.0,0.618
+improved,jamo-01,FRAG,기타,ㄹ,221,5,4,4,0.1693548387096774,0.568
+improved,jamo-01,FRAG,기타,ㄴ,226,3,5,5,0.044574515983791085,1.0
+improved,jamo-01,FRAG,기타,ㄹ,226,5,4,4,0.044574515983791085,0.909
+improved,jamo-01,IDSW,화면 경계,ㅔ,285,4,8,13,0.0,0.78
+improved,jamo-01,FRAG,기타,ㅕ,288,2,3,3,0.0,0.717
+improved,jamo-02,IDSW,기타,ㅃ,28,10,3,25,0.0,1.0
+improved,jamo-02,IDSW,기타,ㄱ,31,6,9,27,0.0,1.0
+improved,jamo-02,IDSW,기타,ㅂ,32,2,8,28,0.0,1.0
+improved,jamo-02,IDSW,기타,ㅂ,39,2,28,29,0.0,1.0
+improved,jamo-02,IDSW,기타,ㄱ,47,6,27,30,0.0,1.0
+improved,jamo-02,IDSW,기타,ㅍ,50,8,6,33,0.0,1.0
+improved,jamo-02,IDSW,기타,ㅍ,53,8,33,8,0.0,1.0
+improved,jamo-02,IDSW,기타,ㅍ,70,8,8,35,0.0,1.0
+improved,jamo-02,IDSW,기타,ㅏ,78,3,2,40,0.0,1.0
+improved,jamo-02,FRAG,기타,ㅍ,84,8,35,35,0.18083182640144665,1.0
+improved,jamo-02,IDSW,기타,ㅃ,84,10,25,48,0.0,1.0
+improved,jamo-02,IDSW,기타,ㄱ,88,6,30,50,0.0,1.0
+improved,jamo-02,FRAG,기타,ㅍ,88,8,35,35,0.16363636363636364,1.0
+improved,jamo-02,IDSW,화면 경계,ㅑ,89,1,11,51,0.0,1.0
+improved,jamo-02,FRAG,기타,ㅍ,91,8,35,35,0.09492635024549918,1.0
+improved,jamo-02,IDSW,기타,ㅃ,92,10,48,53,0.0,1.0
+improved,jamo-02,IDSW,기타,ㄱ,93,6,50,55,0.0,1.0
+improved,jamo-02,IDSW,화면 경계,ㅑ,94,1,51,11,0.0,1.0
+improved,jamo-02,IDSW,기타,ㄱ,96,6,55,9,0.0,1.0
+improved,jamo-02,FRAG,기타,ㅍ,96,8,35,35,0.0,1.0
+improved,jamo-02,FRAG,화면 경계,ㅂ,102,2,29,29,0.0,0.8
+improved,jamo-02,IDSW,화면 경계,ㅃ,102,10,53,10,0.0,1.0
+improved,jamo-02,IDSW,기타,ㅔ,111,5,10,60,0.0,0.591
+improved,jamo-02,IDSW,기타,ㄱ,115,6,9,55,0.0,1.0
+improved,jamo-02,IDSW,교차(다른 자모),ㄴ,116,4,5,35,0.32552404438964244,1.0
+improved,jamo-02,IDSW,교차(다른 자모),ㄴ,119,4,35,5,0.5709900230237912,1.0
+improved,jamo-02,IDSW,기타,ㅃ,120,10,10,65,0.0,1.0
+improved,jamo-02,IDSW,기타,ㄱ,126,6,55,6,0.0,1.0
+improved,jamo-02,FRAG,기타,ㄴ,127,4,5,5,0.06509539842873176,1.0
+improved,jamo-02,FRAG,기타,ㅍ,128,8,35,35,0.0,1.0
+improved,jamo-02,IDSW,기타,ㅃ,130,10,65,67,0.0,1.0
+improved,jamo-02,IDSW,기타,ㅃ,134,10,67,25,0.0,1.0
+improved,jamo-02,FRAG,화면 경계,ㅃ,143,7,7,7,0.0,0.696
+improved,jamo-02,IDSW,기타,ㅍ,143,8,35,71,0.0,1.0
+improved,jamo-02,IDSW,기타,ㅑ,155,1,11,72,0.0,1.0
+improved,jamo-02,FRAG,화면 경계,ㅍ,155,8,71,71,0.0,1.0
+improved,jamo-02,IDSW,기타,ㅂ,161,2,29,8,0.0,0.9
+improved,jamo-02,IDSW,화면 경계,ㅏ,163,3,40,73,0.0,1.0
+improved,jamo-02,IDSW,기타,ㄱ,168,6,6,74,0.0,1.0
+improved,jamo-02,IDSW,기타,ㅍ,170,8,71,35,0.0,1.0
+improved,jamo-02,IDSW,기타,ㄱ,178,6,74,75,0.0,1.0
+improved,jamo-02,IDSW,기타,ㄱ,180,6,75,76,0.0,1.0
+improved,jamo-02,IDSW,기타,ㅃ,196,10,25,84,0.0,0.677
+improved,jamo-02,FRAG,기타,ㅍ,199,8,35,35,0.08710801393728224,1.0
+improved,jamo-02,IDSW,화면 경계,ㅂ,204,2,8,10,0.0,1.0
+improved,jamo-02,FRAG,기타,ㅃ,208,12,12,12,0.24623115577889448,1.0
+improved,jamo-02,IDSW,기타,ㅂ,215,2,10,85,0.0,1.0
+improved,jamo-02,IDSW,기타,ㄱ,216,6,76,9,0.0,1.0
+improved,jamo-02,IDSW,화면 경계,ㅃ,225,7,7,89,0.0,0.806
+improved,jamo-02,IDSW,기타,ㅃ,227,12,12,4,0.13076656260839403,1.0
+improved,jamo-02,IDSW,기타,ㅃ,230,10,84,91,0.0,0.867
+improved,jamo-02,FRAG,기타,ㄱ,234,6,9,9,0.0,1.0
+improved,jamo-02,FRAG,기타,ㅃ,235,11,4,4,0.19965772960638906,0.581
+improved,jamo-02,IDSW,기타,ㄱ,240,6,9,76,0.0,1.0
+improved,jamo-02,FRAG,기타,ㄱ,243,6,76,76,0.0,1.0
+improved,jamo-02,IDSW,기타,ㄴ,254,4,5,8,0.0,1.0
+improved,jamo-02,IDSW,기타,ㅃ,255,12,4,10,0.0,0.8
+improved,jamo-02,IDSW,기타,ㅑ,270,1,72,97,0.0,1.0
+improved,jamo-02,IDSW,기타,ㅂ,271,2,85,11,0.0,1.0
+improved,jamo-02,IDSW,기타,ㅍ,271,8,35,6,0.0,1.0
+improved,jamo-02,IDSW,기타,ㅜ,279,9,1,12,0.0,1.0
+improved,jamo-02,FRAG,기타,ㄱ,281,6,76,76,0.0,1.0
+improved,jamo-02,IDSW,기타,ㅑ,282,1,97,102,0.0,1.0
+improved,jamo-02,IDSW,기타,ㅏ,283,3,73,40,0.0,0.913
+improved,jamo-03,FRAG,기타,ㅜ,5,13,12,12,0.0,1.0
+improved,jamo-03,FRAG,기타,ㅡ,13,7,15,15,0.0,1.0
+improved,jamo-03,FRAG,기타,ㅠ,19,5,10,10,0.07757665312153676,1.0
+improved,jamo-03,IDSW,기타,ㅡ,21,7,15,22,0.0,1.0
+improved,jamo-03,FRAG,기타,ㅐ,22,11,7,7,0.0,1.0
+improved,jamo-03,IDSW,기타,ㅜ,24,12,3,23,0.206794682422452,1.0
+improved,jamo-03,IDSW,기타,ㅠ,26,5,10,23,0.20964360587002095,1.0
+improved,jamo-03,FRAG,기타,ㅡ,26,7,22,22,0.0,1.0
+improved,jamo-03,IDSW,기타,ㅠ,27,5,23,10,0.1810844370860927,1.0
+improved,jamo-03,IDSW,기타,ㅜ,27,12,23,3,0.1810844370860927,1.0
+improved,jamo-03,IDSW,기타,ㅜ,32,3,17,25,0.0,1.0
+improved,jamo-03,IDSW,기타,ㄹ,45,1,1,26,0.08713480266529984,1.0
+improved,jamo-03,IDSW,기타,ㅡ,68,7,22,27,0.0,1.0
+improved,jamo-03,FRAG,기타,ㅊ,71,2,11,11,0.0,0.825
+improved,jamo-03,FRAG,기타,ㅜ,81,3,25,25,0.017857142857142856,1.0
+improved,jamo-03,FRAG,화면 경계,ㄴ,87,4,4,4,0.0,0.639
+improved,jamo-03,FRAG,기타,ㅟ,90,10,9,9,0.0363531448355453,1.0
+improved,jamo-03,FRAG,기타,ㅅ,97,8,6,6,0.0,0.744
+improved,jamo-03,IDSW,기타,ㅜ,99,12,3,33,0.22507473184455776,1.0
+improved,jamo-03,IDSW,기타,ㅜ,100,13,12,35,0.0,1.0
+improved,jamo-03,FRAG,기타,ㅜ,101,3,25,25,0.10084033613445378,1.0
+improved,jamo-03,IDSW,기타,ㅜ,104,12,33,38,0.12468827930174564,1.0
+improved,jamo-03,IDSW,기타,ㅜ,106,12,38,33,0.05025699600228441,1.0
+improved,jamo-03,IDSW,기타,ㅜ,109,12,33,40,0.0,1.0
+improved,jamo-03,IDSW,기타,ㅜ,111,12,40,41,0.0,1.0
+improved,jamo-03,IDSW,가림,ㅜ,117,6,2,42,0.0,0.427
+improved,jamo-03,FRAG,기타,ㄹ,123,1,26,26,0.0,0.739
+improved,jamo-03,IDSW,기타,ㅜ,132,13,35,12,0.0,1.0
+improved,jamo-03,FRAG,기타,ㄹ,157,1,26,26,0.0,1.0
+improved,jamo-03,IDSW,기타,ㅟ,159,10,9,43,0.0,1.0
+improved,jamo-03,IDSW,화면 경계,ㅐ,171,11,7,44,0.0,0.615
+improved,jamo-03,FRAG,화면 경계,ㅟ,174,10,43,43,0.0,1.0
+improved,jamo-03,IDSW,기타,ㄹ,177,1,26,48,0.0,1.0
+improved,jamo-03,FRAG,기타,ㅡ,182,7,27,27,0.0,1.0
+improved,jamo-03,FRAG,화면 경계,ㅟ,183,10,43,43,0.0,1.0
+improved,jamo-03,FRAG,기타,ㅡ,186,7,27,27,0.0,1.0
+improved,jamo-03,FRAG,기타,ㅟ,196,10,43,43,0.06445012787723785,1.0
+improved,jamo-03,IDSW,기타,ㅜ,197,6,42,50,0.09982935153583618,0.744
+improved,jamo-03,FRAG,교차(다른 자모),ㅠ,198,5,10,10,0.47680412371134023,0.635
+improved,jamo-03,FRAG,기타,ㅜ,207,13,12,12,0.2127316680096696,1.0
+improved,jamo-03,IDSW,기타,ㅟ,212,10,43,62,0.0,1.0
+improved,jamo-03,FRAG,기타,ㅜ,213,13,12,12,0.03746654772524532,1.0
+improved,jamo-03,IDSW,기타,ㅜ,214,12,41,63,0.017943107221006564,1.0
+improved,jamo-03,IDSW,기타,ㅜ,215,3,25,64,0.04873833390943657,0.845
+improved,jamo-03,IDSW,기타,ㅜ,215,12,63,3,0.0,1.0
+improved,jamo-03,IDSW,기타,ㅟ,217,10,62,65,0.0,1.0
+improved,jamo-03,IDSW,기타,ㅟ,219,10,65,43,0.0,1.0
+improved,jamo-03,FRAG,기타,ㅡ,227,7,27,27,0.04240282685512368,1.0
+improved,jamo-03,FRAG,기타,ㅊ,229,2,11,11,0.0,1.0
+improved,jamo-03,FRAG,기타,ㅐ,229,9,8,8,0.0,0.903
+improved,jamo-03,FRAG,기타,ㅡ,231,7,27,27,0.0,1.0
+improved,jamo-03,FRAG,기타,ㅅ,244,8,6,6,0.06989247311827956,1.0
+improved,jamo-03,FRAG,기타,ㅜ,249,13,12,12,0.0,0.591
+improved,jamo-03,FRAG,기타,ㅜ,266,3,64,64,0.1670792079207921,1.0
+improved,jamo-03,IDSW,기타,ㅜ,266,14,5,37,0.026148817535089405,0.974
+improved,jamo-03,FRAG,교차(다른 자모),ㅅ,267,8,6,6,0.4228255404725993,1.0
+improved,jamo-03,FRAG,기타,ㅜ,269,13,12,12,0.2089489235964542,1.0
+improved,jamo-03,FRAG,기타,ㅟ,275,10,43,43,0.17931422147273748,1.0
+improved,jamo-03,IDSW,기타,ㅜ,277,3,64,6,0.2766756032171582,1.0
+improved,jamo-03,FRAG,기타,ㅅ,278,8,6,6,0.2646363875032817,1.0
+improved,jamo-03,FRAG,기타,ㅜ,279,3,6,6,0.2398769861609431,1.0
+improved,jamo-03,FRAG,기타,ㅅ,281,8,6,6,0.21945432977461446,1.0
+improved,jamo-03,FRAG,화면 경계,ㄹ,286,1,48,48,0.0,1.0
+improved,jamo-03,FRAG,기타,ㄴ,286,4,4,4,0.007927070947284977,1.0
+improved,jamo-03,FRAG,기타,ㅟ,287,10,43,43,0.10625,1.0
+improved,jamo-03,FRAG,기타,ㅜ,290,13,12,12,0.07274063188831742,1.0
+improved,jamo-03,FRAG,기타,ㅟ,291,10,43,43,0.04222302417899675,1.0
+improved,jamo-03,FRAG,화면 경계,ㄹ,293,1,48,48,0.0,1.0
+improved,jamo-03,FRAG,기타,ㄹ,295,1,48,48,0.0,1.0
+improved,jamo-04,FRAG,기타,ㅠ,6,4,12,12,0.12972972972972974,1.0
+improved,jamo-04,FRAG,기타,ㄲ,7,8,13,13,0.11071744906997343,1.0
+improved,jamo-04,IDSW,기타,ㄲ,11,8,13,17,0.030475416497358798,1.0
+improved,jamo-04,FRAG,화면 경계,ㄲ,16,9,2,2,0.0,1.0
+improved,jamo-04,IDSW,화면 경계,ㄲ,18,9,2,20,0.0,1.0
+improved,jamo-04,FRAG,화면 경계,ㄲ,27,12,6,6,0.0,0.971
+improved,jamo-04,IDSW,기타,ㄲ,33,8,17,23,0.0,0.929
+improved,jamo-04,FRAG,화면 경계,ㄲ,60,8,23,23,0.0,1.0
+improved,jamo-04,FRAG,기타,ㅠ,60,10,18,18,0.0,0.637
+improved,jamo-04,FRAG,화면 경계,ㄲ,66,8,23,23,0.0,1.0
+improved,jamo-04,FRAG,기타,ㄱ,67,1,10,10,0.0,1.0
+improved,jamo-04,IDSW,기타,ㅘ,78,2,11,24,0.12270795385549484,1.0
+improved,jamo-04,FRAG,가림,ㅌ,79,14,9,9,0.0,0.353
+improved,jamo-04,FRAG,기타,ㄱ,90,1,10,10,0.0,0.789
+improved,jamo-04,FRAG,기타,ㅠ,91,4,12,12,0.042833607907743,0.533
+improved,jamo-04,FRAG,기타,ㅌ,91,14,9,9,0.0,1.0
+improved,jamo-04,FRAG,기타,ㅙ,96,6,4,4,0.1744186046511628,0.784
+improved,jamo-04,IDSW,기타,ㅘ,101,2,24,11,0.0,0.81
+improved,jamo-04,FRAG,기타,ㄲ,103,8,23,23,0.0,1.0
+improved,jamo-04,IDSW,화면 경계,ㄲ,105,9,20,27,0.0,1.0
+improved,jamo-04,FRAG,가림,ㅢ,106,3,8,8,0.0,0.488
+improved,jamo-04,IDSW,교차(다른 자모),ㅙ,107,6,4,12,0.4573103700989373,1.0
+improved,jamo-04,FRAG,화면 경계,ㄱ,108,13,3,3,0.0,1.0
+improved,jamo-04,FRAG,가림,ㅁ,111,5,1,1,0.0,0.444
+improved,jamo-04,IDSW,기타,ㅠ,113,4,12,4,0.205607476635514,1.0
+improved,jamo-04,FRAG,기타,ㅁ,113,5,1,1,0.0,0.528
+improved,jamo-04,FRAG,기타,ㄲ,113,8,23,23,0.0,1.0
+improved,jamo-04,IDSW,화면 경계,ㄲ,114,12,6,28,0.0,0.659
+improved,jamo-04,FRAG,기타,ㅠ,117,4,4,4,0.09516256938937351,1.0
+improved,jamo-04,IDSW,기타,ㄲ,131,9,27,24,0.0,1.0
+improved,jamo-04,IDSW,화면 경계,ㅠ,136,10,18,29,0.0,1.0
+improved,jamo-04,IDSW,기타,ㄲ,139,9,24,6,0.0,1.0
+improved,jamo-04,FRAG,기타,ㅠ,141,4,4,4,0.06933333333333333,1.0
+improved,jamo-04,FRAG,기타,ㅙ,147,6,12,12,0.06567270145544905,1.0
+improved,jamo-04,IDSW,화면 경계,ㅠ,148,10,29,30,0.0,1.0
+improved,jamo-04,FRAG,가림,ㅌ,161,7,7,7,0.0,0.227
+improved,jamo-04,IDSW,기타,ㄲ,187,9,6,32,0.0,1.0
+improved,jamo-04,FRAG,기타,ㅛ,188,11,5,5,0.0,0.629
+improved,jamo-04,FRAG,화면 경계,ㅌ,190,14,9,9,0.0,0.585
+improved,jamo-04,FRAG,화면 경계,ㄱ,191,1,10,10,0.09415204678362574,1.0
+improved,jamo-04,FRAG,기타,ㄲ,191,8,23,23,0.09415204678362574,1.0
+improved,jamo-04,FRAG,기타,ㅌ,192,7,7,7,0.0,0.723
+improved,jamo-04,IDSW,화면 경계,ㄲ,201,8,23,33,0.008398133748055987,1.0
+improved,jamo-04,IDSW,화면 경계,ㄲ,202,8,33,23,0.0,1.0
+improved,jamo-04,IDSW,화면 경계,ㄲ,203,8,23,33,0.0,1.0
+improved,jamo-04,FRAG,기타,ㅌ,214,14,9,9,0.0,0.512
+improved,jamo-04,FRAG,화면 경계,ㄱ,240,1,10,10,0.0,0.724
+improved,jamo-04,FRAG,기타,ㄱ,250,13,3,3,0.0,1.0
+improved,jamo-04,FRAG,가림,ㅢ,255,3,8,8,0.0,0.488
+improved,jamo-04,IDSW,기타,ㄲ,260,9,32,66,0.0,1.0
+improved,jamo-04,IDSW,기타,ㄲ,268,9,66,72,0.0,1.0
+improved,jamo-04,FRAG,기타,ㄱ,270,13,3,3,0.0,1.0
+improved,jamo-04,FRAG,기타,ㄱ,277,1,10,10,0.12353923205342238,1.0
+improved,jamo-04,IDSW,기타,ㄲ,279,9,72,77,0.0,1.0
+improved,jamo-04,IDSW,기타,ㄲ,279,12,28,6,0.11955593509820667,1.0
+improved,jamo-04,FRAG,화면 경계,ㅠ,286,10,30,30,0.0,0.912
+improved,jamo-04,FRAG,가림,ㅌ,290,14,9,9,0.0,0.25
+improved,jamo-04,FRAG,기타,ㄱ,291,13,3,3,0.0,1.0
+improved,jamo-04,FRAG,화면 경계,ㅠ,298,10,30,30,0.0,1.0
+baseline+recover_lost+reid_buffer+freeze_out_of_frame,jamo-01,FRAG,기타,ㄴ,43,3,5,5,0.008555445870352089,1.0
+baseline+recover_lost+reid_buffer+freeze_out_of_frame,jamo-01,FRAG,기타,ㄴ,64,3,5,5,0.016245487364620937,1.0
+baseline+recover_lost+reid_buffer+freeze_out_of_frame,jamo-01,FRAG,기타,ㅕ,72,2,3,3,0.15646919175569224,1.0
+baseline+recover_lost+reid_buffer+freeze_out_of_frame,jamo-01,FRAG,가림,ㅊ,99,6,7,7,0.0,0.393
+baseline+recover_lost+reid_buffer+freeze_out_of_frame,jamo-01,FRAG,교차(다른 자모),ㅕ,132,2,3,3,0.4743519029233315,1.0
+baseline+recover_lost+reid_buffer+freeze_out_of_frame,jamo-01,FRAG,교차(다른 자모),ㄹ,134,5,4,4,0.44252563410685375,1.0
+baseline+recover_lost+reid_buffer+freeze_out_of_frame,jamo-01,FRAG,기타,ㅕ,139,2,3,3,0.19608274647887325,1.0
+baseline+recover_lost+reid_buffer+freeze_out_of_frame,jamo-01,IDSW,기타,ㅊ,155,1,2,11,0.01903973509933775,0.64
+baseline+recover_lost+reid_buffer+freeze_out_of_frame,jamo-01,FRAG,기타,ㅔ,171,4,8,8,0.0,0.783
+baseline+recover_lost+reid_buffer+freeze_out_of_frame,jamo-01,FRAG,기타,ㅊ,174,8,1,1,0.06676485027000491,1.0
+baseline+recover_lost+reid_buffer+freeze_out_of_frame,jamo-01,FRAG,기타,ㅕ,202,7,6,6,0.0,0.618
+baseline+recover_lost+reid_buffer+freeze_out_of_frame,jamo-01,FRAG,기타,ㄹ,221,5,4,4,0.1693548387096774,0.568
+baseline+recover_lost+reid_buffer+freeze_out_of_frame,jamo-01,FRAG,기타,ㄴ,226,3,5,5,0.044574515983791085,1.0
+baseline+recover_lost+reid_buffer+freeze_out_of_frame,jamo-01,FRAG,기타,ㄹ,226,5,4,4,0.044574515983791085,0.909
+baseline+recover_lost+reid_buffer+freeze_out_of_frame,jamo-01,IDSW,화면 경계,ㅔ,285,4,8,13,0.0,0.78
+baseline+recover_lost+reid_buffer+freeze_out_of_frame,jamo-01,FRAG,기타,ㅕ,288,2,3,3,0.0,0.717
+baseline+recover_lost+reid_buffer+freeze_out_of_frame,jamo-02,FRAG,기타,ㅂ,30,2,8,8,0.049016446307642694,1.0
+baseline+recover_lost+reid_buffer+freeze_out_of_frame,jamo-02,IDSW,기타,ㄱ,47,6,9,14,0.0,1.0
+baseline+recover_lost+reid_buffer+freeze_out_of_frame,jamo-02,FRAG,기타,ㅍ,84,8,6,6,0.18083182640144665,1.0
+baseline+recover_lost+reid_buffer+freeze_out_of_frame,jamo-02,FRAG,기타,ㅍ,88,8,6,6,0.16363636363636364,1.0
+baseline+recover_lost+reid_buffer+freeze_out_of_frame,jamo-02,IDSW,화면 경계,ㅑ,89,1,11,20,0.0,1.0
+baseline+recover_lost+reid_buffer+freeze_out_of_frame,jamo-02,FRAG,기타,ㅍ,91,8,6,6,0.09492635024549918,1.0
+baseline+recover_lost+reid_buffer+freeze_out_of_frame,jamo-02,IDSW,기타,ㅍ,97,8,6,23,0.0,1.0
+baseline+recover_lost+reid_buffer+freeze_out_of_frame,jamo-02,IDSW,화면 경계,ㅂ,102,2,8,10,0.0,0.8
+baseline+recover_lost+reid_buffer+freeze_out_of_frame,jamo-02,IDSW,기타,ㅔ,111,5,10,24,0.0,0.591
+baseline+recover_lost+reid_buffer+freeze_out_of_frame,jamo-02,IDSW,교차(다른 자모),ㄴ,116,4,5,23,0.32552404438964244,1.0
+baseline+recover_lost+reid_buffer+freeze_out_of_frame,jamo-02,IDSW,교차(다른 자모),ㄴ,119,4,23,5,0.5709900230237912,1.0
+baseline+recover_lost+reid_buffer+freeze_out_of_frame,jamo-02,FRAG,기타,ㄱ,126,6,14,14,0.0,1.0
+baseline+recover_lost+reid_buffer+freeze_out_of_frame,jamo-02,FRAG,기타,ㄴ,127,4,5,5,0.06509539842873176,1.0
+baseline+recover_lost+reid_buffer+freeze_out_of_frame,jamo-02,FRAG,기타,ㅍ,128,8,23,23,0.0,1.0
+baseline+recover_lost+reid_buffer+freeze_out_of_frame,jamo-02,FRAG,기타,ㅃ,129,10,3,3,0.0,1.0
+baseline+recover_lost+reid_buffer+freeze_out_of_frame,jamo-02,FRAG,화면 경계,ㅃ,143,7,7,7,0.0,0.696
+baseline+recover_lost+reid_buffer+freeze_out_of_frame,jamo-02,FRAG,화면 경계,ㅍ,154,8,23,23,0.0,1.0
+baseline+recover_lost+reid_buffer+freeze_out_of_frame,jamo-02,FRAG,화면 경계,ㅏ,161,3,2,2,0.0,1.0
+baseline+recover_lost+reid_buffer+freeze_out_of_frame,jamo-02,IDSW,기타,ㅂ,162,2,10,27,0.0,0.967
+baseline+recover_lost+reid_buffer+freeze_out_of_frame,jamo-02,FRAG,기타,ㅍ,199,8,23,23,0.08710801393728224,1.0
+baseline+recover_lost+reid_buffer+freeze_out_of_frame,jamo-02,FRAG,기타,ㅃ,208,12,12,12,0.24623115577889448,1.0
+baseline+recover_lost+reid_buffer+freeze_out_of_frame,jamo-02,FRAG,기타,ㄱ,216,6,14,14,0.0,1.0
+baseline+recover_lost+reid_buffer+freeze_out_of_frame,jamo-02,IDSW,화면 경계,ㅃ,225,7,7,31,0.0,0.806
+baseline+recover_lost+reid_buffer+freeze_out_of_frame,jamo-02,IDSW,기타,ㅃ,229,10,3,10,0.0,0.724
+baseline+recover_lost+reid_buffer+freeze_out_of_frame,jamo-02,IDSW,기타,ㅃ,229,12,12,4,0.13527575442247658,0.974
+baseline+recover_lost+reid_buffer+freeze_out_of_frame,jamo-02,IDSW,기타,ㄱ,235,6,14,33,0.0,1.0
+baseline+recover_lost+reid_buffer+freeze_out_of_frame,jamo-02,FRAG,기타,ㅃ,236,11,4,4,0.2323469088778201,0.581
+baseline+recover_lost+reid_buffer+freeze_out_of_frame,jamo-02,FRAG,기타,ㄱ,240,6,33,33,0.0,1.0
+baseline+recover_lost+reid_buffer+freeze_out_of_frame,jamo-02,IDSW,기타,ㅃ,256,12,4,35,0.0,0.975
+baseline+recover_lost+reid_buffer+freeze_out_of_frame,jamo-02,IDSW,기타,ㅜ,279,9,1,12,0.0,1.0
+baseline+recover_lost+reid_buffer+freeze_out_of_frame,jamo-02,FRAG,기타,ㄱ,281,6,33,33,0.0,1.0
+baseline+recover_lost+reid_buffer+freeze_out_of_frame,jamo-02,FRAG,기타,ㅏ,283,3,2,2,0.0,0.913
+baseline+recover_lost+reid_buffer+freeze_out_of_frame,jamo-02,FRAG,기타,ㄱ,295,6,33,33,0.0,1.0
+baseline+recover_lost+reid_buffer+freeze_out_of_frame,jamo-03,FRAG,기타,ㅡ,13,7,14,14,0.0,1.0
+baseline+recover_lost+reid_buffer+freeze_out_of_frame,jamo-03,FRAG,기타,ㅠ,27,5,10,10,0.1810844370860927,1.0
+baseline+recover_lost+reid_buffer+freeze_out_of_frame,jamo-03,FRAG,기타,ㅡ,27,7,14,14,0.0,1.0
+baseline+recover_lost+reid_buffer+freeze_out_of_frame,jamo-03,IDSW,기타,ㅜ,32,3,16,25,0.0,1.0
+baseline+recover_lost+reid_buffer+freeze_out_of_frame,jamo-03,IDSW,기타,ㄹ,45,1,1,26,0.08713480266529984,1.0
+baseline+recover_lost+reid_buffer+freeze_out_of_frame,jamo-03,FRAG,기타,ㅡ,69,7,14,14,0.0,1.0
+baseline+recover_lost+reid_buffer+freeze_out_of_frame,jamo-03,FRAG,기타,ㅊ,71,2,11,11,0.0,0.825
+baseline+recover_lost+reid_buffer+freeze_out_of_frame,jamo-03,FRAG,기타,ㅜ,81,3,25,25,0.017857142857142856,1.0
+baseline+recover_lost+reid_buffer+freeze_out_of_frame,jamo-03,FRAG,화면 경계,ㄴ,87,4,4,4,0.0,0.639
+baseline+recover_lost+reid_buffer+freeze_out_of_frame,jamo-03,IDSW,기타,ㅟ,91,10,9,29,0.007456266131344996,1.0
+baseline+recover_lost+reid_buffer+freeze_out_of_frame,jamo-03,FRAG,기타,ㅅ,97,8,6,6,0.0,0.744
+baseline+recover_lost+reid_buffer+freeze_out_of_frame,jamo-03,FRAG,기타,ㅜ,100,3,25,25,0.15355086372360843,1.0
+baseline+recover_lost+reid_buffer+freeze_out_of_frame,jamo-03,FRAG,기타,ㅜ,108,12,3,3,0.0,1.0
+baseline+recover_lost+reid_buffer+freeze_out_of_frame,jamo-03,IDSW,가림,ㅜ,117,6,2,34,0.0,0.427
+baseline+recover_lost+reid_buffer+freeze_out_of_frame,jamo-03,FRAG,기타,ㄹ,123,1,26,26,0.0,0.739
+baseline+recover_lost+reid_buffer+freeze_out_of_frame,jamo-03,FRAG,기타,ㄹ,157,1,26,26,0.0,1.0
+baseline+recover_lost+reid_buffer+freeze_out_of_frame,jamo-03,IDSW,기타,ㅟ,159,10,29,35,0.0,1.0
+baseline+recover_lost+reid_buffer+freeze_out_of_frame,jamo-03,IDSW,화면 경계,ㅐ,171,11,23,36,0.0,0.615
+baseline+recover_lost+reid_buffer+freeze_out_of_frame,jamo-03,IDSW,기타,ㄹ,177,1,26,37,0.0,1.0
+baseline+recover_lost+reid_buffer+freeze_out_of_frame,jamo-03,FRAG,기타,ㅡ,182,7,14,14,0.0,1.0
+baseline+recover_lost+reid_buffer+freeze_out_of_frame,jamo-03,FRAG,기타,ㅡ,186,7,14,14,0.0,1.0
+baseline+recover_lost+reid_buffer+freeze_out_of_frame,jamo-03,FRAG,기타,ㅟ,196,10,35,35,0.06445012787723785,1.0
+baseline+recover_lost+reid_buffer+freeze_out_of_frame,jamo-03,IDSW,기타,ㅜ,197,6,34,38,0.09982935153583618,0.744
+baseline+recover_lost+reid_buffer+freeze_out_of_frame,jamo-03,FRAG,교차(다른 자모),ㅠ,198,5,10,10,0.47680412371134023,0.635
+baseline+recover_lost+reid_buffer+freeze_out_of_frame,jamo-03,FRAG,기타,ㅜ,207,13,12,12,0.2127316680096696,1.0
+baseline+recover_lost+reid_buffer+freeze_out_of_frame,jamo-03,FRAG,기타,ㅜ,213,12,3,3,0.03746654772524532,1.0
+baseline+recover_lost+reid_buffer+freeze_out_of_frame,jamo-03,FRAG,기타,ㅜ,213,13,12,12,0.03746654772524532,1.0
+baseline+recover_lost+reid_buffer+freeze_out_of_frame,jamo-03,IDSW,기타,ㅜ,215,3,25,42,0.04873833390943657,0.845
+baseline+recover_lost+reid_buffer+freeze_out_of_frame,jamo-03,FRAG,기타,ㅡ,227,7,14,14,0.04240282685512368,1.0
+baseline+recover_lost+reid_buffer+freeze_out_of_frame,jamo-03,FRAG,기타,ㅊ,229,2,11,11,0.0,1.0
+baseline+recover_lost+reid_buffer+freeze_out_of_frame,jamo-03,FRAG,기타,ㅐ,229,9,8,8,0.0,0.903
+baseline+recover_lost+reid_buffer+freeze_out_of_frame,jamo-03,FRAG,기타,ㅡ,232,7,14,14,0.0,1.0
+baseline+recover_lost+reid_buffer+freeze_out_of_frame,jamo-03,FRAG,기타,ㅅ,244,8,6,6,0.06989247311827956,1.0
+baseline+recover_lost+reid_buffer+freeze_out_of_frame,jamo-03,FRAG,기타,ㅜ,249,13,12,12,0.0,0.591
+baseline+recover_lost+reid_buffer+freeze_out_of_frame,jamo-03,FRAG,가림,ㅜ,255,14,5,5,0.0,0.469
+baseline+recover_lost+reid_buffer+freeze_out_of_frame,jamo-03,FRAG,기타,ㅜ,266,3,42,42,0.1670792079207921,1.0
+baseline+recover_lost+reid_buffer+freeze_out_of_frame,jamo-03,FRAG,교차(다른 자모),ㅅ,267,8,6,6,0.4228255404725993,1.0
+baseline+recover_lost+reid_buffer+freeze_out_of_frame,jamo-03,FRAG,기타,ㅜ,269,13,12,12,0.2089489235964542,1.0
+baseline+recover_lost+reid_buffer+freeze_out_of_frame,jamo-03,FRAG,기타,ㅟ,275,10,35,35,0.17931422147273748,1.0
+baseline+recover_lost+reid_buffer+freeze_out_of_frame,jamo-03,IDSW,기타,ㅜ,277,3,42,6,0.2766756032171582,1.0
+baseline+recover_lost+reid_buffer+freeze_out_of_frame,jamo-03,FRAG,기타,ㅅ,278,8,6,6,0.2646363875032817,1.0
+baseline+recover_lost+reid_buffer+freeze_out_of_frame,jamo-03,FRAG,기타,ㅜ,279,3,6,6,0.2398769861609431,1.0
+baseline+recover_lost+reid_buffer+freeze_out_of_frame,jamo-03,FRAG,기타,ㅅ,281,8,6,6,0.21945432977461446,1.0
+baseline+recover_lost+reid_buffer+freeze_out_of_frame,jamo-03,IDSW,화면 경계,ㄹ,286,1,37,26,0.0,1.0
+baseline+recover_lost+reid_buffer+freeze_out_of_frame,jamo-03,FRAG,기타,ㄴ,286,4,4,4,0.007927070947284977,1.0
+baseline+recover_lost+reid_buffer+freeze_out_of_frame,jamo-03,FRAG,기타,ㅟ,287,10,35,35,0.10625,1.0
+baseline+recover_lost+reid_buffer+freeze_out_of_frame,jamo-03,FRAG,기타,ㅜ,290,13,12,12,0.07274063188831742,1.0
+baseline+recover_lost+reid_buffer+freeze_out_of_frame,jamo-03,FRAG,기타,ㅟ,291,10,35,35,0.04222302417899675,1.0
+baseline+recover_lost+reid_buffer+freeze_out_of_frame,jamo-03,FRAG,화면 경계,ㄹ,293,1,26,26,0.0,1.0
+baseline+recover_lost+reid_buffer+freeze_out_of_frame,jamo-03,FRAG,기타,ㄹ,296,1,26,26,0.0,1.0
+baseline+recover_lost+reid_buffer+freeze_out_of_frame,jamo-04,FRAG,기타,ㅠ,6,4,12,12,0.12972972972972974,1.0
+baseline+recover_lost+reid_buffer+freeze_out_of_frame,jamo-04,FRAG,기타,ㄲ,7,8,13,13,0.11071744906997343,1.0
+baseline+recover_lost+reid_buffer+freeze_out_of_frame,jamo-04,IDSW,기타,ㄲ,11,8,13,17,0.030475416497358798,1.0
+baseline+recover_lost+reid_buffer+freeze_out_of_frame,jamo-04,FRAG,화면 경계,ㄲ,27,12,6,6,0.0,0.971
+baseline+recover_lost+reid_buffer+freeze_out_of_frame,jamo-04,IDSW,기타,ㄲ,33,8,17,19,0.0,0.929
+baseline+recover_lost+reid_buffer+freeze_out_of_frame,jamo-04,FRAG,화면 경계,ㄲ,60,8,19,19,0.0,1.0
+baseline+recover_lost+reid_buffer+freeze_out_of_frame,jamo-04,FRAG,기타,ㅠ,60,10,18,18,0.0,0.637
+baseline+recover_lost+reid_buffer+freeze_out_of_frame,jamo-04,FRAG,화면 경계,ㄲ,66,8,19,19,0.0,1.0
+baseline+recover_lost+reid_buffer+freeze_out_of_frame,jamo-04,FRAG,기타,ㄱ,67,1,10,10,0.0,1.0
+baseline+recover_lost+reid_buffer+freeze_out_of_frame,jamo-04,IDSW,기타,ㅘ,78,2,11,20,0.12270795385549484,1.0
+baseline+recover_lost+reid_buffer+freeze_out_of_frame,jamo-04,FRAG,가림,ㅌ,79,14,9,9,0.0,0.353
+baseline+recover_lost+reid_buffer+freeze_out_of_frame,jamo-04,FRAG,기타,ㄱ,90,1,10,10,0.0,0.789
+baseline+recover_lost+reid_buffer+freeze_out_of_frame,jamo-04,FRAG,기타,ㅠ,91,4,12,12,0.042833607907743,0.533
+baseline+recover_lost+reid_buffer+freeze_out_of_frame,jamo-04,FRAG,기타,ㅌ,91,14,9,9,0.0,1.0
+baseline+recover_lost+reid_buffer+freeze_out_of_frame,jamo-04,FRAG,기타,ㅙ,96,6,4,4,0.1744186046511628,0.784
+baseline+recover_lost+reid_buffer+freeze_out_of_frame,jamo-04,IDSW,기타,ㅘ,101,2,20,11,0.0,0.81
+baseline+recover_lost+reid_buffer+freeze_out_of_frame,jamo-04,FRAG,기타,ㄲ,103,8,19,19,0.0,1.0
+baseline+recover_lost+reid_buffer+freeze_out_of_frame,jamo-04,IDSW,화면 경계,ㄲ,105,9,2,24,0.0,1.0
+baseline+recover_lost+reid_buffer+freeze_out_of_frame,jamo-04,FRAG,가림,ㅢ,106,3,8,8,0.0,0.488
+baseline+recover_lost+reid_buffer+freeze_out_of_frame,jamo-04,IDSW,교차(다른 자모),ㅙ,107,6,4,12,0.4573103700989373,1.0
+baseline+recover_lost+reid_buffer+freeze_out_of_frame,jamo-04,FRAG,화면 경계,ㄱ,108,13,3,3,0.0,1.0
+baseline+recover_lost+reid_buffer+freeze_out_of_frame,jamo-04,FRAG,가림,ㅁ,111,5,1,1,0.0,0.444
+baseline+recover_lost+reid_buffer+freeze_out_of_frame,jamo-04,IDSW,기타,ㅠ,113,4,12,4,0.205607476635514,1.0
+baseline+recover_lost+reid_buffer+freeze_out_of_frame,jamo-04,FRAG,기타,ㅁ,113,5,1,1,0.0,0.528
+baseline+recover_lost+reid_buffer+freeze_out_of_frame,jamo-04,FRAG,기타,ㄲ,113,8,19,19,0.0,1.0
+baseline+recover_lost+reid_buffer+freeze_out_of_frame,jamo-04,IDSW,화면 경계,ㄲ,114,12,6,25,0.0,0.659
+baseline+recover_lost+reid_buffer+freeze_out_of_frame,jamo-04,FRAG,기타,ㅠ,117,4,4,4,0.09516256938937351,1.0
+baseline+recover_lost+reid_buffer+freeze_out_of_frame,jamo-04,IDSW,기타,ㅠ,141,4,4,6,0.06933333333333333,1.0
+baseline+recover_lost+reid_buffer+freeze_out_of_frame,jamo-04,FRAG,기타,ㅙ,147,6,12,12,0.06567270145544905,1.0
+baseline+recover_lost+reid_buffer+freeze_out_of_frame,jamo-04,FRAG,가림,ㅌ,161,7,7,7,0.0,0.227
+baseline+recover_lost+reid_buffer+freeze_out_of_frame,jamo-04,FRAG,기타,ㄲ,165,9,24,24,0.0,1.0
+baseline+recover_lost+reid_buffer+freeze_out_of_frame,jamo-04,FRAG,기타,ㄲ,186,9,24,24,0.03496997527375486,1.0
+baseline+recover_lost+reid_buffer+freeze_out_of_frame,jamo-04,FRAG,기타,ㅛ,188,11,5,5,0.0,0.629
+baseline+recover_lost+reid_buffer+freeze_out_of_frame,jamo-04,FRAG,화면 경계,ㅌ,190,14,9,9,0.0,0.585
+baseline+recover_lost+reid_buffer+freeze_out_of_frame,jamo-04,FRAG,화면 경계,ㄱ,191,1,10,10,0.09415204678362574,1.0
+baseline+recover_lost+reid_buffer+freeze_out_of_frame,jamo-04,FRAG,기타,ㄲ,191,8,19,19,0.09415204678362574,1.0
+baseline+recover_lost+reid_buffer+freeze_out_of_frame,jamo-04,FRAG,기타,ㅌ,192,7,7,7,0.0,0.723
+baseline+recover_lost+reid_buffer+freeze_out_of_frame,jamo-04,IDSW,화면 경계,ㄲ,201,8,19,26,0.008398133748055987,1.0
+baseline+recover_lost+reid_buffer+freeze_out_of_frame,jamo-04,IDSW,화면 경계,ㄲ,202,8,26,19,0.0,1.0
+baseline+recover_lost+reid_buffer+freeze_out_of_frame,jamo-04,IDSW,화면 경계,ㄲ,203,8,19,26,0.0,1.0
+baseline+recover_lost+reid_buffer+freeze_out_of_frame,jamo-04,FRAG,기타,ㅌ,214,14,9,9,0.0,0.512
+baseline+recover_lost+reid_buffer+freeze_out_of_frame,jamo-04,FRAG,화면 경계,ㄱ,240,1,10,10,0.0,0.724
+baseline+recover_lost+reid_buffer+freeze_out_of_frame,jamo-04,FRAG,기타,ㄱ,250,13,3,3,0.0,1.0
+baseline+recover_lost+reid_buffer+freeze_out_of_frame,jamo-04,FRAG,가림,ㅢ,255,3,8,8,0.0,0.488
+baseline+recover_lost+reid_buffer+freeze_out_of_frame,jamo-04,FRAG,기타,ㄱ,270,13,3,3,0.0,1.0
+baseline+recover_lost+reid_buffer+freeze_out_of_frame,jamo-04,IDSW,기타,ㄱ,277,1,10,4,0.12353923205342238,1.0
+baseline+recover_lost+reid_buffer+freeze_out_of_frame,jamo-04,IDSW,기타,ㄲ,277,12,25,10,0.12353923205342238,1.0
+baseline+recover_lost+reid_buffer+freeze_out_of_frame,jamo-04,IDSW,기타,ㄲ,279,12,10,25,0.11955593509820667,1.0
+baseline+recover_lost+reid_buffer+freeze_out_of_frame,jamo-04,IDSW,기타,ㄱ,280,1,4,10,0.10986267166042447,1.0
+baseline+recover_lost+reid_buffer+freeze_out_of_frame,jamo-04,IDSW,기타,ㄱ,282,1,10,4,0.08062525709584534,1.0
+baseline+recover_lost+reid_buffer+freeze_out_of_frame,jamo-04,FRAG,가림,ㅌ,290,14,9,9,0.0,0.25
+baseline+recover_lost+reid_buffer+freeze_out_of_frame,jamo-04,FRAG,기타,ㄱ,291,13,3,3,0.0,1.0
+baseline+recover_lost+reid_buffer+freeze_out_of_frame,jamo-04,FRAG,화면 경계,ㅠ,298,10,18,18,0.0,1.0
