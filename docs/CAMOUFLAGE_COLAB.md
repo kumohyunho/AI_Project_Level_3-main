@@ -70,3 +70,32 @@ GPU가 없으면 학습 셀이 중단되며 CPU 학습으로 조용히 전환하
 이번 환경에서 실제 표본 확보·전처리·검사까지 실행했습니다: COD10K 320쌍(Train 256/Test 64), MoCA 3개 영상 90프레임.
 주석이 있는 MoCA 18프레임을 더해 검출 데이터는 train 237/val 31/test 70장이며 #8 검사 결과 오류 0·ID 미확인 경고 3개입니다.
 전체 테스트 84개와 변경 코드의 미사용 import·변수 검사를 통과했습니다. 전체 다운로드·Colab 인증·GPU 학습은 미실행입니다.
+
+## ④에서 Train/Test 중복으로 중단될 때
+
+사용자의 전체 데이터 실행에서 `COD10K-CAM-1-Aquatic-3-Crab-32.jpg`가 Train과 Test에 동일 바이트로 존재한다는
+오류가 보고되었습니다. 기존 검사기는 누수를 막기 위해 중단한 것입니다. 재다운로드나 원본 삭제가 필요한 오류가 아닙니다.
+
+`feature/camouflage-dedup-fix` 브랜치는 명시적인 `--cod10k-duplicates prefer-test` 옵션을 추가합니다.
+
+* 공식 Test 이미지를 보존하고 같은 해시의 Train 사본은 **생성할 학습 데이터에서만 제외**합니다.
+* 남은 Train 이미지는 SHA256 그룹 단위로 train/val을 나눠 같은 이미지가 두 분할에 걸리지 않게 합니다.
+* 제외 목록·해시·보존 Test 파일명은 생성된 `splits.json`의 `cod10k_duplicates`에 기록합니다.
+* 원본 이미지·마스크는 삭제하지 않습니다. 기존 출력 폴더도 덮어쓰지 않습니다.
+* 기본 `error` 정책과 최종 누수 검사는 유지됩니다. Colab 노트북 ④는 prefer-test를 명시하고 실제 오류 로그를 출력합니다.
+* 같은 분할 내부의 반복 이미지는 보존하며 보고서에 기록합니다. 재인코딩·유사 이미지 중복까지 없앴다는 뜻은 아닙니다.
+  이 정책으로 train/val 구성과 개수가 달라지므로 이전 실험 및 공식 벤치마크와 같은 조건이라고 보고하면 안 됩니다.
+
+이미 다운로드한 Colab에서는 코드 브랜치만 업데이트하고 기존 RAW 경로로 아래 전처리를 실행합니다.
+
+```bash
+python camouflage_dataset.py --cod10k datasets/raw/camouflage-colab/COD10K-v3 --moca-frames datasets/raw/camouflage-colab/MoCA/frames --moca-csv datasets/raw/camouflage-colab/MoCA/boxes.csv --fps 24 --cod10k-duplicates prefer-test --output datasets/camouflage
+```
+
+성공한 뒤 기존 노트북 ④를 다시 실행하면 `splits.json`이 있어 전처리를 건너뛰고 #8 검사와 미리보기를 진행합니다.
+기존 출력 폴더 충돌이 따로 발생하면 삭제하지 말고 내용을 확인하거나 새 DATA/REVIEW 경로를 지정하세요.
+
+수정 검증: 기존 중복 중단, Test 우선 보존, 원본 바이트 보존, Train 해시 그룹 분리와 재현성,
+데이터 부족 시 중단, Test 내부 반복 보존을 포함한 전체 테스트 89개 통과.
+로컬 실제 표본에도 새 정책을 적용해 #8 검사 오류 0·ID 미확인 경고 3개를 확인했습니다.
+사용자의 전체 Colab 데이터에서 실제 제외되는 수와 남은 오류는 실행 출력·명세로 확인해야 하며 여기서 추정하지 않습니다.

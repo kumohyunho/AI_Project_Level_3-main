@@ -96,6 +96,8 @@ python camouflage_dataset.py --cod10k datasets/raw/COD10K-v3 --moca-frames datas
 * MoCA: 최소 3개 영상을 준비하고 **영상 단위** 약 70%/15%/15% 분할. 작은 데이터에서도 각 분할에 최소 한 영상 확보.
 * 같은 seed와 입력이면 같은 분할. 서로 다른 분할에 파일 내용이 동일한 이미지가 있으면 오류로 중단.
   재인코딩·유사 장면 중복까지 탐지하는 것은 아니므로 COD10K/MoCA의 원본 영상 출처 중복도 확인해야 합니다.
+  COD10K 원본 Train/Test 중복을 처리하려면 `--cod10k-duplicates prefer-test`를 명시하세요.
+  Test 우선 보존·중복 Train 제외·Train 해시 그룹 분할과 제외 내역 기록을 수행하며, 원본과 최종 누수 검사는 유지합니다.
 * 잘못된 박스·누락 마스크·크기 불일치·중복 ID·기존 출력 경로는 오류로 중단. 성공할 때만 최종 폴더로 이동.
 
 ```text
