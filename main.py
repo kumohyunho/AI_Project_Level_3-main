@@ -232,6 +232,7 @@ class Window(QMainWindow):
         for name in GUI_CLASSES:
             check = QCheckBox(CLASS_LABELS[name])
             check.setChecked(name == "person")
+            check.setToolTip("끄고 확장 기능만 켜면 기본 검출기 없이 확장 기능만 실행합니다 (예: 한글 자모만).")
             model_bar.addWidget(check)
             self.class_checks[name] = check
         self.mosaic_check = QCheckBox("얼굴 모자이크")
@@ -416,9 +417,9 @@ class Window(QMainWindow):
 
     def pipeline_config(self):
         classes = [name for name, check in self.class_checks.items() if check.isChecked()]
-        if not classes:
-            raise ValueError("추적할 대상을 하나 이상 선택하세요.")
         enabled = [key for key, check in self.extension_checks.items() if check.isChecked() and check.isEnabled()]
+        if not classes and not enabled:
+            raise ValueError("추적 대상(사람)이나 확장 기능을 하나 이상 선택하세요.")
         return PipelineConfig(weights=self.model.currentData(), classes=classes,
                               tracker=self.tracker.currentData(), mosaic=self.mosaic_check.isChecked(),
                               extensions=enabled)
