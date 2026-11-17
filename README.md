@@ -188,7 +188,94 @@ CrowdHuman 가중치(`models/person_crowdhuman.pt`)는 이 결과 때문에 기�
 
 ## 확장: 보호색 동물 추적 (kumohyunho / Codex)
 
-COD10K 마스크·MoCA 박스를 단일 클래스 YOLO 라벨로 바꾸고, 전용 YOLO 검출기 + ByteTrack으로 ID와 이동 궤적을 표시합니다.
-전처리·학습·영상 실행·희소 주석 추적 평가 절차는 [`docs/CAMOUFLAGE.md`](docs/CAMOUFLAGE.md),
-GPU 학습 예시는 [`colab/train_camouflage.ipynb`](colab/train_camouflage.ipynb)를 참고하세요.
-실제 데이터 학습·실영상 성능 측정은 **미실행**이며, `models/camouflage.pt`와 학습 설정 `.json`을 설치하면 GUI 확장이 활성화됩니다.
+학습에 사용하지 않은 영상에서 배경과 구분하기 어려운 동물을 검출하고, 개체별 ID와 이동 궤적을 유지하는 것이 목표입니다.
+COCO 사전학습 YOLO11n을 COD10K·MoCA 검출 정답으로 파인튜닝하며, ByteTrack은 검출 결과를 연결합니다.
+클래스는 **`0: camouflaged_animal` 하나**입니다. 개·고양이·새 등을 종별 클래스로 분류하지 않으며, 같은 클래스 안의 개체를 서로 다른 추적 ID로 구분합니다.
+
+### 진행 현황 (2026-11-17)
+
+| 단계 | 현재 상태 | 근거·확인 범위 |
+|---|---|---|
+| 데이터 확보·전처리 | COD10K·MoCA 이미지와 YOLO 정답 준비 | 사용자 Colab 출력: train 8,096 / val 1,382 / test 3,198장. 데이터는 GitHub에 포함하지 않음 |
+| 첫 파인튜닝 | Colab GPU에서 3에폭 학습 완료 | 초기 학습률 0.0005, 크기 640, 배치 8. [`models/camouflage.json`](models/camouflage.json)에 기록 |
+| 가중치·설정 설치 | 저장소에 모델 쌍 포함 | [`models/camouflage.pt`](models/camouflage.pt), [`models/camouflage.json`](models/camouflage.json) |
+| 영상 추적·GUI | 사용자 Windows GUI에서 박스·ID·궤적 출력 확인 | 갑오징어·개·고양이 영상 관찰. 정확도 평가 완료를 의미하지 않음 |
+| NMS 비교 | IoU 0.3과 0.7로 영상 비교 | 갑오징어의 중복 박스는 0.3에서 감소했으나, 겹친 개·고양이의 개별 검출은 0.7에서도 실패 사례 확인 |
+| 진단 기록 | 작업 브랜치에서 저장·재생 확인 | NMS 이후 검출 후보와 실제 출력 트랙을 같은 프레임에서 비교 |
+| 학습 정답 점검 | 여러 동물을 한 박스로 묶은 사례 확인 | COD10K `foreground_union` 전처리와 실제 정답 미리보기 확인 |
+| 개체별 정답 수정 | 주석 작업용 사본 준비 완료 | 해마·오리 train 이미지 2장과 기존 라벨을 ZIP으로 Drive에 보존. 새 박스 작성·검수는 아직 미완료 |
+| 수정 데이터 재학습·정량 평가 | 미실행 | 개체별 정답 수정 후 기존 모델과 동일 조건 비교 필요 |
+
+첫 모델의 저장된 **검출 평가 기록**은 다음과 같습니다. 이번 문서 작성 중 재측정한 값이 아니며, 개체별 정답을 수정하기 전 데이터 기준입니다.
+
+| 분할 | mAP50 | mAP50–95 |
+|---|---:|---:|
+| val | 63.54% | 39.66% |
+| test | 52.98% | 29.04% |
+
+이 값은 추적 HOTA·IDF1·MOTA가 아니며, 다중 동물을 개별 검출하는 성능을 보장하지 않습니다.
+개체 ID 정답에 기반한 실제 동물 추적 성능 평가는 **미실행**입니다.
+
+### GUI·Colab 사용 범위
+
+| 목적 | 필요한 파일·환경 |
+|---|---|
+| 새 영상 추적 | `camouflage.pt` + 같은 이름의 학습 설정 `.json` + 원본 영상. 학습 데이터 다운로드 불필요 |
+| 학습 이미지·정답 확인 | 이미지·라벨이 함께 있는 데이터 폴더의 `splits.json` 또는 `dataset.yaml` 선택 |
+| GUI에서 학습률별 재학습 | 실제 train/val 이미지·라벨과 초기 가중치 필요. 학습률 변경은 재학습이며 기존 모델 결과를 즉시 변경하지 않음 |
+| Colab GPU 재학습 | Drive 백업을 Colab 로컬 공간에 복원하여 사용. PC에는 생성된 모델·설정만 가져와 영상 추적 가능 |
+
+왼쪽 `학습(train) / 검증(val) / 테스트(test)` 선택은 **정답 이미지 열람용**이며, 실행 중인 영상의 학습 모드를 바꾸지 않습니다.
+NMS IoU는 YOLO 검출 후 겹친 후보를 제거하는 추론 설정입니다. ByteTrack의 연결 임계값이나 학습률과 다릅니다.
+NMS를 낮추면 중복 후보가 줄어들 수 있지만, 가까이 있는 서로 다른 동물의 정상 박스도 제거할 수 있습니다.
+
+진단 기능이 포함된 브랜치에서는 `진단 기록 저장`을 체크하고 **추적을 새로 실행**한 뒤 `진단 영상 재생`·`진단 요약 열기`로 확인합니다.
+`runs/camouflage/gui_<실행번호>/`에 `tracked.mp4`, `tracks.csv`, 실행 설정과 함께
+`diagnostic.mp4`, `diagnostic_frames.jsonl`, `diagnostic_events.csv`, `summary.json`, `report.html`을 저장합니다.
+진단 영상 왼쪽은 NMS 이후 검출 후보, 오른쪽은 출력 트랙입니다. 낮은 신뢰도의 후보 박스가 있다고 해서 새 ID가 생성된 것은 아닙니다.
+진단은 검토할 의심 구간을 찾는 기능이며, 정답 기반 오탐률·IDSW 점수를 자동 확정하지 않습니다.
+
+### 발견한 정답 문제와 다음 작업
+
+사용자 Colab에서 복원한 `splits.json`의 박스 개수 분포는 COD10K **5,059장 모두 1개**, MoCA **7,617장 모두 1개**였습니다.
+현재 데이터에는 이미지당 정답 박스가 여러 개인 사례가 없습니다. 단, 이것만으로 모든 이미지에 여러 동물이 있다고 판단하지는 않습니다.
+[`camouflage_dataset.py`](camouflage_dataset.py)의 기본 `foreground_union`은 이진 마스크의 전경 전체를 감싸므로, 여러 동물이 같은 전경에 있으면 하나의 정답 박스가 됩니다.
+
+| 확인한 이미지 | 분할 | 관찰 결과·처리 방침 |
+|---|---|---|
+| `cod_COD10K-CAM-1-Aquatic-7-Flounder-290.jpg` | test | 물고기 두 마리가 정답 박스 하나에 포함. train으로 이동하지 않고 테스트 사례로 유지 |
+| `cod_COD10K-CAM-1-Aquatic-15-SeaHorse-1040.jpg` | train | 여러 해마 영역을 포함하는 큰 박스. 가림과 개체 범위를 확인한 뒤 개별 주석 필요 |
+| `cod_COD10K-CAM-2-Terrestrial-30-Duck-1874.jpg` | train | 어미·새끼 오리를 한 박스로 묶음. 식별 가능한 개체마다 주석 필요 |
+
+개·고양이 진단에서는 여러 동물을 감싼 큰 박스와 낮은 신뢰도의 작은 후보가 함께 나왔고, 붉은 통에도 낮은 신뢰도 오탐 후보가 생겼습니다.
+이 관찰은 개별 검출 능력과 정답 품질을 점검해야 한다는 근거이며, 학습률이나 추적기 하나만을 원인으로 확정하지 않습니다.
+이진 마스크에 `instance` 옵션만 켜도 개체가 자동 분리되지는 않습니다. 연결 성분도 가려진 한 동물의 몸 조각과 서로 다른 동물을 구분하지 못할 수 있습니다.
+
+```mermaid
+flowchart TD
+    A[기존 데이터·모델 보존] --> B[train·val의 다중 동물 정답 조사]
+    B --> C[개체별 원본 주석 확인 또는 수동 박스 작성]
+    C --> D[새 데이터 버전 저장·구조 및 시각 검수]
+    D --> E[Colab에서 동일 초기 가중치·학습 조건으로 재학습]
+    E --> F[val로 설정 선택 후 test 정량 평가]
+    F --> G[학습 미사용 영상에서 검출·ID·궤적 비교]
+```
+
+현재 Drive에는 사용자 확인 기준으로 `detection_data.tar.gz` 백업과 주석 작업용 `instance-review-fb1f0966.zip`이 있습니다.
+주석 ZIP의 `images/`는 CVAT 등에 올릴 이미지이고, `original_labels/`는 비교용 기존 정답입니다.
+라벨 `camouflaged_animal` 하나로 동물마다 박스를 작성하되, 여러 동물을 묶은 큰 박스는 새 정답에서 교체합니다.
+기존 데이터에 바로 덮어쓰지 않고 새 버전으로 보존·검수합니다. 두 장의 수정만으로 전체 문제가 해결됐다고 보고하지 않습니다.
+별도 영상도 정량 평가하려면 개체별 박스·ID 정답이 필요하며, 비교용 test 이미지·영상은 학습에 넣지 않습니다.
+
+### 코드·PR 위치
+
+2026-11-17 문서 갱신 시점의 main(`336c1a3`)에는 학습·검사·학습률 비교와 [#25 전용 화면](https://github.com/kumohyunho/AI_Project_Level_3-main/pull/25)이 포함되어 있습니다.
+[#26 탭 연결](https://github.com/kumohyunho/AI_Project_Level_3-main/pull/26),
+[#27 추적기 진단](https://github.com/kumohyunho/AI_Project_Level_3-main/pull/27),
+[#28 보호색 진단 저장](https://github.com/kumohyunho/AI_Project_Level_3-main/pull/28)은 **작업 브랜치로 병합된 상태이며, 이 시점의 main에는 아직 포함되지 않았습니다.**
+이 세 기능을 모두 확인하는 브랜치는 [`codex/camouflage-diagnostics-main`](https://github.com/kumohyunho/AI_Project_Level_3-main/tree/codex/camouflage-diagnostics-main)입니다.
+PR의 `Merged` 표시와 main 반영 여부는 별개이므로 실제 base·커밋 포함 관계를 확인하세요.
+
+상세 절차: [전처리·학습·추적](docs/CAMOUFLAGE.md), [Colab 준비](docs/CAMOUFLAGE_COLAB.md),
+[데이터 검사](docs/CAMOUFLAGE_DATA_CHECK.md), [NMS 검증](docs/CAMOUFLAGE_NMS_VALIDATION.md),
+[학습률 비교](docs/CAMOUFLAGE_LEARNING_RATES.md), [전용 화면](docs/CAMOUFLAGE_WORKSPACE.md).
