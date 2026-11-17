@@ -21,7 +21,7 @@ from PySide6.QtWidgets import (
 
 import extensions
 from camouflage_tracking_page import CamouflagePage
-from pipeline import (MODEL_DIR, ROOT, TRACKABLE_CLASSES, PipelineConfig, available_weights,
+from pipeline import (MODEL_DIR, ROOT, PipelineConfig, available_weights,
                       default_weights, tracker_choices)
 from results_io import ResultWriter, load_results
 from tracker import STATUS_EXITED, STATUS_OCCLUDED, STATUS_REAPPEARED, STATUS_REENTERED
@@ -29,6 +29,9 @@ from tracking import TrackingThread
 
 MODE_TRACK, MODE_ORIGINAL, MODE_REPLAY = "추적", "원본 재생", "결과 재생"
 CLASS_LABELS = {"person": "사람", "cat": "고양이", "dog": "개", "bird": "새"}
+# GUI에서 고를 수 있는 추적 대상. 기본 모델(person.pt)은 사람 전용이라 고양이·개·새는 화면에서 뺐습니다.
+# 이전에 저장한 결과에 남아 있는 고양이·개·새 행은 CLASS_LABELS로 그대로 표시합니다.
+GUI_CLASSES = ["person"]
 TRACKER_LABELS = {"baseline": "ByteTrack 기본", "improved": "ByteTrack 개선"}
 
 STYLE = """
@@ -226,7 +229,7 @@ class Window(QMainWindow):
         model_bar.addWidget(self.tracker)
         model_bar.addWidget(QLabel("대상"))
         self.class_checks = {}
-        for name in TRACKABLE_CLASSES:
+        for name in GUI_CLASSES:
             check = QCheckBox(CLASS_LABELS[name])
             check.setChecked(name == "person")
             model_bar.addWidget(check)
