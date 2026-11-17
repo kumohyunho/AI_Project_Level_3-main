@@ -5,6 +5,7 @@ GUI 없이 실행할 때 사용합니다. 한국어 화면은 main.py의 보호�
 import argparse
 import json
 import math
+import sys
 from pathlib import Path
 from time import perf_counter
 
@@ -57,7 +58,7 @@ def run(args):
     if args.camera is None and not Path(source).is_file():
         raise FileNotFoundError(f"영상이 없습니다: {source}")
     capture = cv2.VideoCapture(source)
-    writer = extension = None
+    writer = extension = diagnostic = diagnostic_video = None
     results = ResultWriter()
     frames, elapsed = 0, 0.0
     try:
@@ -68,6 +69,24 @@ def run(args):
         config = read_tracker_config(args.tracker_config, args.weights) if args.tracker_config else None
         extension = make_extension(args.weights, args.device, fps, config, nms_iou=nms_iou)
         output.mkdir(parents=True)
+        if getattr(args, "diagnostics", False):
+            from camouflage_diagnostics import DiagnosticRecorder, draw_detections, file_sha256, label_panel
+
+            reported_frames = capture.get(cv2.CAP_PROP_FRAME_COUNT) if args.camera is None else 0
+            diagnostic = DiagnosticRecorder(output, dict(
+                weights_sha256=file_sha256(args.weights),
+                model_metadata_sha256=file_sha256(Path(args.weights).with_suffix(".json")),
+                inference_file_sha256=(file_sha256(Path(args.weights).with_suffix(".inference.json"))
+                                       if Path(args.weights).with_suffix(".inference.json").is_file() else None),
+                source_sha256=file_sha256(source) if args.camera is None else None,
+                input_fps=fps, python=sys.version.split()[0], opencv=cv2.__version__,
+                ultralytics=getattr(sys.modules.get("ultralytics"), "__version__", None),
+                torch=getattr(sys.modules.get("torch"), "__version__", None),
+                device=args.device,
+                frame_limit=args.frames, source_type="camera" if args.camera is not None else "video",
+                container_reported_frames=int(reported_frames) if math.isfinite(reported_frames) and reported_frames > 0 else None,
+                detection=extension.inference_config, tracker=extension.tracker_config.to_dict()))
+            extension.enable_diagnostics(diagnostic)
         while args.frames is None or frames < args.frames:
             ok, frame = capture.read()
             if not ok:
@@ -77,13 +96,24 @@ def run(args):
                 writer = cv2.VideoWriter(str(output / "tracked.mp4"), cv2.VideoWriter_fourcc(*"mp4v"), fps, (w, h))
                 if not writer.isOpened():
                     raise RuntimeError("MP4 출력 코덱을 열 수 없습니다.")
+                if diagnostic is not None:
+                    diagnostic_video = cv2.VideoWriter(str(output/"diagnostic.mp4"), cv2.VideoWriter_fourcc(*"mp4v"), fps, (w*2, h))
+                    if not diagnostic_video.isOpened():
+                        raise RuntimeError("진단 영상 출력 코덱을 열 수 없습니다.")
             frames += 1
             started = perf_counter()
             rows = extension.process(frame, frames)
             elapsed += perf_counter() - started
             results.add(frames, (frames - 1) * 1000 / fps, rows)
+            if diagnostic is not None:
+                detection_panel = draw_detections(frame, extension.byte_tracker.trace)
             draw_tracks(frame, rows)
             writer.write(frame)
+            if diagnostic_video is not None:
+                tracking_panel = label_panel(frame.copy(), f"FRAME {frames} | VISIBLE TRACKS")
+                diagnostic_video.write(np.hstack((detection_panel, tracking_panel)))
+            if diagnostic is not None and frames % 25 == 0:
+                print(f"진단 기록: {frames}프레임", flush=True)
         if not frames:
             raise ValueError("읽은 영상 프레임이 없습니다.")
         meta = dict(source=str(Path(source).resolve()) if args.camera is None else str(source),
@@ -93,13 +123,30 @@ def run(args):
                     processing_ms=elapsed * 1000 / frames, processing_fps=frames / max(elapsed, 1e-9),
                     timing_scope="모델 초기화·파일 입출력·화면 그리기를 제외한 검출+추적 평균",
                     note="검출된 트랙만 저장. 완전 가림 중의 예측은 실제 검출 결과로 저장하지 않음.")
+        if diagnostic is not None:
+            meta["diagnostics"] = dict(summary="diagnostic_summary.json", frames="diagnostic_frames.jsonl",
+                                       events="diagnostic_events.csv", report="diagnostic_report.html", video="diagnostic.mp4")
+            meta["timing_scope"] = "모델 초기화·영상 입출력·화면 그리기 제외 · 검출·추적·진단 분석·프레임 기록 포함"
+        writer.release()
+        writer = None
+        if diagnostic_video is not None:
+            diagnostic_video.release()
+            diagnostic_video = None
         results.save(output / "tracks.csv", meta)
+        if diagnostic is not None:
+            if diagnostic.frames != frames:
+                raise RuntimeError("처리 프레임 수와 진단 기록 수가 다릅니다.")
+            diagnostic.finish("completed", dict(processed_frames=frames))
         print(json.dumps(meta, ensure_ascii=False, indent=2))
         return meta
     finally:
         capture.release()
         if writer is not None:
             writer.release()
+        if diagnostic_video is not None:
+            diagnostic_video.release()
+        if diagnostic is not None and not diagnostic.closed:
+            diagnostic.finish("failed", dict(error=str(sys.exc_info()[1] or "처리 미완료")))
         if extension is not None:
             extension.close()
 
@@ -115,6 +162,7 @@ def parser():
     p.add_argument("--tracker-config", type=Path, help="검증 영상에서 고른 추적 설정 JSON")
     p.add_argument("--nms-iou", type=float, help="보호색 NMS 명시값. 생략 시 모델 옆 실행 설정 또는 기존 기본값")
     p.add_argument("--frames", type=int, help="동작 확인 시 처리 프레임 제한")
+    p.add_argument("--diagnostics", action="store_true", help="프레임 연결 기록·의심 구간 요약·검출/추적 진단 영상 저장")
     return p
 
 
