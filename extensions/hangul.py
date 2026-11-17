@@ -5,6 +5,7 @@
 1. 검출: 합성 데이터(``hangul_dataset.py``)로 YOLO11n Fine-tuning → ``models/hangul_jamo.pt`` (40클래스)
 2. 추적: 자모는 회전하면 다른 글자로 보이므로(ㅏ↔ㅓ, ㅗ↔ㅜ) 클래스와 무관하게 위치·움직임으로 연결
 3. 분류: 트랙별로 여러 프레임의 검출 클래스를 모아 다수결로 자모를 정해 표시
+4. 조합: 자모가 모여 글자 모양을 이루면 글자·단어로 읽어 함께 표시 (``extensions/hangul_compose.py``)
 
 ``models/hangul_jamo.pt``가 있으면 GUI의 "한글 자모" 체크박스가 활성화됩니다.
 """
@@ -40,12 +41,19 @@ class JamoVotes:
     회전·가림 때문에 몇 프레임 다른 자모로 검출되어도 화면에 보이는 자모는 바뀌지 않습니다.
     """
 
-    def __init__(self):
+    def __init__(self, decay=1.0):
+        # decay < 1이면 표를 더할 때마다 그 트랙의 예전 표를 이 비율로 줄입니다 (최근 판정에 더 무게).
+        # 자모끼리 스치며 ID가 뒤바뀌어도 예전 자모의 표가 오래 남지 않습니다. 1.0이면 전체 다수결.
+        self.decay = decay
         self.scores = defaultdict(lambda: defaultdict(float))
         self.frames = defaultdict(int)       # 트랙별 투표한 프레임 수
         self.disagree = defaultdict(int)     # 그 프레임의 검출이 다수결 결과와 달랐던 횟수
 
     def add(self, track_id, class_name, score):
+        if self.decay < 1.0:
+            votes = self.scores[track_id]
+            for name in votes:
+                votes[name] *= self.decay
         self.scores[track_id][class_name] += float(score)
         self.frames[track_id] += 1
         if class_name != self.best(track_id):
@@ -86,6 +94,11 @@ class HangulJamoExtension(DetectTrackExtension):
     verify = "off"
     verify_frames = 8          # 판단에 쓰는 검출 횟수 (1이면 되돌려 받은 그 프레임만 보고 판단)
     verify_share = 0.2         # 이전 표에서 이 비율 이상을 받은 자모면 같은 자모로 인정 (자주 헷갈리는 쌍 허용)
+    # 자모가 모여 글자 모양이 되면 단어로 읽어 표시합니다. 단어는 cls_name "단어", ID는 1001부터 (자모 ID와 구분).
+    compose = True
+    compose_frames = 8         # 같은 단어가 같은 자리에서 이만큼 이어져야 표시 (우연히 잠깐 맞물린 것은 버림)
+    compose_speed = 0.35       # 이 속도(자모 크기/초)보다 느린, 즉 멈춰 있는 자모만 조합 (떠다니다 우연히 붙은 것 제외)
+    vote_decay = 0.97          # 다수결 표의 감쇠 (JamoVotes 참고). 검증 영상에서 1.0·0.97·0.9 중 0.97이 가장 좋았음 (docs/HANGUL.md)
 
     def __init__(self, device="cpu", fps=30.0):
         super().__init__(device, fps)
@@ -114,10 +127,16 @@ class HangulJamoExtension(DetectTrackExtension):
             self.tracker_config = tracker if isinstance(tracker, TrackerConfig) else tracker_config(tracker)
         self.byte_tracker = ByteTracker(self.tracker_config, self.fps)
         self.motion = MotionRecorder(self.fps)
-        self.votes = JamoVotes()
+        self.votes = JamoVotes(self.vote_decay)
         self.display_ids = {}      # 추적기 ID → 화면·결과에 쓰는 ID
         self.next_display_id = 1
         self.rejected = 0          # 자모가 달라 ID 복원을 취소한 횟수
+        from tracker import MotionRecorder as _Motion
+
+        from .hangul_compose import WordStabilizer
+
+        self.words = WordStabilizer(min_frames=self.compose_frames)
+        self.word_motion = _Motion(self.fps)
         self.pending = {}          # 추적기 ID → 되돌려 받은 뒤 모으는 중인 표 (JamoVotes)
 
     def _display_id(self, track_id, renew=False):
@@ -199,4 +218,25 @@ class HangulJamoExtension(DetectTrackExtension):
             rows.append(TrackRow(display, KIND.get(name, name), box, track.score, track.status,
                                  state.direction, state.distance, state.speed, tuple(state.trail),
                                  source=self.key, label=CHAR.get(name, name)))
-        return sorted(rows, key=lambda r: r.track_id)
+        rows.sort(key=lambda r: r.track_id)
+        if self.compose:
+            rows += self.word_rows(rows, frame_index)
+        return rows
+
+    def word_rows(self, rows, frame_index):
+        """화면의 자모 트랙을 글자·단어로 읽어, 안정적으로 이어진 단어를 ``TrackRow``로 돌려줍니다."""
+        from pipeline import TrackRow
+
+        from .hangul_compose import Jamo, read_words
+
+        jamo = [r for r in rows if r.cls_name in ("자음", "모음")]
+        if not jamo:
+            return []
+        size = float(np.median([max(r.box[2] - r.box[0], r.box[3] - r.box[1]) for r in jamo]))
+        items = [Jamo(r.track_id, r.label, r.box) for r in jamo if r.speed < self.compose_speed * size]
+        result = []
+        for word_id, word in self.words.update(read_words(items)):
+            state = self.word_motion.update(word_id, word.box, frame_index)
+            result.append(TrackRow(word_id, "단어", word.box, 1.0, "추적 중", state.direction, state.distance,
+                                   state.speed, (), source=self.key, label=word.text))
+        return result

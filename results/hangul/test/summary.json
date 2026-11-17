@@ -7,8 +7,8 @@
     "jamo-03",
     "jamo-04"
   ],
-  "det_ms": 52.91047073916616,
-  "created": "2026-11-16T08:42:24",
+  "det_ms": 67.7169917991635,
+  "created": "2026-11-17T03:45:58",
   "results": {
     "baseline": {
       "tracking": {
@@ -31,46 +31,63 @@
         "matched": 11019,
         "detection_rate": 81.10554983070809,
         "frame_accuracy": 95.21236253318165,
-        "shown_accuracy": 98.3573827026046,
-        "shown_accuracy_voting_frames": 98.52104664391354,
+        "shown_accuracy": 98.42998457210273,
+        "shown_accuracy_voting_frames": 98.60637087599545,
         "voting_frames": 10548,
-        "final_accuracy": 99.54623831563663,
+        "final_accuracy": 98.19402849623378,
         "tracks": 108,
-        "track_accuracy": 99.07407407407408,
+        "track_accuracy": 98.14814814814815,
         "by_angle": {
           "0~15°": {
             "gt_boxes": 8297,
             "detection_rate": 80.43871278775461,
             "frame_accuracy": 94.64678178963894,
-            "shown_accuracy": 98.42673059634402
+            "shown_accuracy": 98.54659874138447
           },
           "15~30°": {
             "gt_boxes": 3824,
             "detection_rate": 83.83891213389121,
             "frame_accuracy": 96.38359702938327,
-            "shown_accuracy": 98.47161572052401
+            "shown_accuracy": 98.53399875233936
           },
           "30~45°": {
             "gt_boxes": 1465,
             "detection_rate": 77.74744027303754,
             "frame_accuracy": 95.18963922294172,
-            "shown_accuracy": 97.62949956101843
+            "shown_accuracy": 97.45390693590869
+          }
+        },
+        "by_visibility": {
+          "온전히 보임 (95% 이상)": {
+            "gt_boxes": 11147,
+            "detection_rate": 93.13716695074908,
+            "shown_accuracy": 98.89231361972645
+          },
+          "일부 가림·경계 (30~95%)": {
+            "gt_boxes": 1363,
+            "detection_rate": 46.58840792369772,
+            "shown_accuracy": 91.02362204724409
+          },
+          "거의 안 보임 (30% 미만)": {
+            "gt_boxes": 1076,
+            "detection_rate": 0.18587360594795538,
+            "shown_accuracy": 50.0
           }
         },
         "by_kind": {
           "자음": {
             "gt_boxes": 6967,
             "detection_rate": 83.13477824027558,
-            "shown_accuracy": 98.9986187845304
+            "shown_accuracy": 99.01588397790056
           },
           "모음": {
             "gt_boxes": 6619,
             "detection_rate": 78.96963287505666,
-            "shown_accuracy": 97.64683374784771
+            "shown_accuracy": 97.780753778458
           }
         }
       },
-      "track_ms": 0.693190250834353,
+      "track_ms": 0.7105945625022514,
       "config": {
         "high_thresh": 0.5,
         "low_thresh": 0.1,
@@ -122,7 +139,7 @@
           "gt_boxes": 300,
           "detection_rate": 95.33333333333333,
           "frame_accuracy": 98.93617021276596,
-          "shown_accuracy": 98.95104895104895
+          "shown_accuracy": 99.3006993006993
         },
         {
           "char": "ㅂ",
@@ -210,7 +227,7 @@
           "gt_boxes": 300,
           "detection_rate": 83.0,
           "frame_accuracy": 70.56451612903226,
-          "shown_accuracy": 85.94377510040161
+          "shown_accuracy": 87.14859437751004
         },
         {
           "char": "ㅜ",
@@ -218,7 +235,7 @@
           "gt_boxes": 1750,
           "detection_rate": 79.2,
           "frame_accuracy": 94.85238455715367,
-          "shown_accuracy": 98.05194805194805
+          "shown_accuracy": 98.12409812409813
         },
         {
           "char": "ㅠ",
@@ -226,7 +243,7 @@
           "gt_boxes": 849,
           "detection_rate": 73.26266195524146,
           "frame_accuracy": 90.78260869565217,
-          "shown_accuracy": 99.35691318327974
+          "shown_accuracy": 99.51768488745981
         },
         {
           "char": "ㅡ",
@@ -234,7 +251,7 @@
           "gt_boxes": 300,
           "detection_rate": 89.66666666666667,
           "frame_accuracy": 97.24409448818898,
-          "shown_accuracy": 97.76951672862454
+          "shown_accuracy": 96.6542750929368
         },
         {
           "char": "ㅐ",
@@ -250,7 +267,7 @@
           "gt_boxes": 547,
           "detection_rate": 75.68555758683729,
           "frame_accuracy": 89.11917098445596,
-          "shown_accuracy": 93.71980676328502
+          "shown_accuracy": 94.20289855072464
         },
         {
           "char": "ㅘ",
@@ -266,7 +283,7 @@
           "gt_boxes": 300,
           "detection_rate": 86.66666666666667,
           "frame_accuracy": 97.65625,
-          "shown_accuracy": 98.46153846153847
+          "shown_accuracy": 98.84615384615384
         },
         {
           "char": "ㅟ",
@@ -274,7 +291,7 @@
           "gt_boxes": 300,
           "detection_rate": 72.0,
           "frame_accuracy": 91.91919191919192,
-          "shown_accuracy": 92.12962962962963
+          "shown_accuracy": 93.05555555555556
         },
         {
           "char": "ㅢ",
@@ -763,7 +780,7 @@
         [
           "ㅛ",
           "ㅗ",
-          35
+          32
         ],
         [
           "ㄱ",
@@ -773,31 +790,31 @@
         [
           "ㅔ",
           "ㅖ",
-          20
+          18
         ],
         [
           "ㅜ",
           "ㅠ",
-          18
+          17
         ],
         [
           "ㅟ",
           "ㅝ",
-          17
-        ],
-        [
-          "ㅊ",
-          "ㅡ",
-          8
-        ],
-        [
-          "ㅔ",
-          "ㅓ",
-          6
+          15
         ],
         [
           "ㅡ",
           "ㅜ",
+          9
+        ],
+        [
+          "ㅊ",
+          "ㅡ",
+          7
+        ],
+        [
+          "ㅔ",
+          "ㅓ",
           6
         ],
         [
@@ -816,18 +833,8 @@
           4
         ],
         [
-          "ㅠ",
-          "ㄲ",
-          4
-        ],
-        [
           "ㅘ",
           "ㅚ",
-          4
-        ],
-        [
-          "ㅙ",
-          "ㄱ",
           4
         ],
         [
@@ -841,13 +848,18 @@
           3
         ],
         [
+          "ㅠ",
+          "ㄲ",
+          3
+        ],
+        [
           "ㄲ",
           "ㅈ",
           3
         ],
         [
-          "ㅁ",
-          "ㄷ",
+          "ㅙ",
+          "ㄱ",
           3
         ],
         [
@@ -864,6 +876,16 @@
           "ㅜ",
           "ㅅ",
           2
+        ],
+        [
+          "ㅁ",
+          "ㄷ",
+          2
+        ],
+        [
+          "ㅊ",
+          "ㅈ",
+          1
         ],
         [
           "ㄹ",
@@ -893,46 +915,63 @@
         "matched": 10888,
         "detection_rate": 80.14132194906522,
         "frame_accuracy": 95.03981579199846,
-        "shown_accuracy": 96.17927994121969,
-        "shown_accuracy_voting_frames": 96.29665163580543,
+        "shown_accuracy": 97.28141072740632,
+        "shown_accuracy_voting_frames": 97.40957497841312,
         "voting_frames": 10423,
-        "final_accuracy": 96.59257898603968,
+        "final_accuracy": 94.30565760470242,
         "tracks": 111,
-        "track_accuracy": 98.1981981981982,
+        "track_accuracy": 95.49549549549549,
         "by_angle": {
           "0~15°": {
             "gt_boxes": 8297,
             "detection_rate": 78.79956610823189,
             "frame_accuracy": 94.39461883408072,
-            "shown_accuracy": 96.72682777607831
+            "shown_accuracy": 97.75160599571734
           },
           "15~30°": {
             "gt_boxes": 3824,
             "detection_rate": 83.86506276150628,
             "frame_accuracy": 96.31782945736434,
-            "shown_accuracy": 95.0420954162769
+            "shown_accuracy": 96.60118490801372
           },
           "30~45°": {
             "gt_boxes": 1465,
             "detection_rate": 78.02047781569966,
             "frame_accuracy": 95.10618651892891,
-            "shown_accuracy": 96.23797025371829
+            "shown_accuracy": 96.50043744531933
+          }
+        },
+        "by_visibility": {
+          "온전히 보임 (95% 이상)": {
+            "gt_boxes": 11147,
+            "detection_rate": 91.6479770341796,
+            "shown_accuracy": 97.44518402505874
+          },
+          "일부 가림·경계 (30~95%)": {
+            "gt_boxes": 1363,
+            "detection_rate": 48.93617021276596,
+            "shown_accuracy": 94.75262368815592
+          },
+          "거의 안 보임 (30% 미만)": {
+            "gt_boxes": 1076,
+            "detection_rate": 0.4646840148698885,
+            "shown_accuracy": 100.0
           }
         },
         "by_kind": {
           "자음": {
             "gt_boxes": 6967,
             "detection_rate": 81.71379359839243,
-            "shown_accuracy": 96.73282979097137
+            "shown_accuracy": 97.69892850869489
           },
           "모음": {
             "gt_boxes": 6619,
             "detection_rate": 78.48617615954072,
-            "shown_accuracy": 95.57266602502406
+            "shown_accuracy": 96.82386910490857
           }
         }
       },
-      "track_ms": 1.1072372325003244,
+      "track_ms": 1.1175525133345823,
       "config": {
         "high_thresh": 0.5,
         "low_thresh": 0.1,
@@ -960,7 +999,7 @@
           "gt_boxes": 830,
           "detection_rate": 74.57831325301204,
           "frame_accuracy": 98.44290657439447,
-          "shown_accuracy": 93.05331179321486
+          "shown_accuracy": 97.09208400646203
         },
         {
           "char": "ㄴ",
@@ -968,7 +1007,7 @@
           "gt_boxes": 792,
           "detection_rate": 83.08080808080808,
           "frame_accuracy": 98.4399375975039,
-          "shown_accuracy": 96.35258358662614
+          "shown_accuracy": 96.80851063829788
         },
         {
           "char": "ㄹ",
@@ -992,7 +1031,7 @@
           "gt_boxes": 273,
           "detection_rate": 76.19047619047619,
           "frame_accuracy": 100.0,
-          "shown_accuracy": 80.76923076923077
+          "shown_accuracy": 86.53846153846153
         },
         {
           "char": "ㅅ",
@@ -1008,7 +1047,7 @@
           "gt_boxes": 1148,
           "detection_rate": 89.98257839721255,
           "frame_accuracy": 93.4156378600823,
-          "shown_accuracy": 100.0
+          "shown_accuracy": 99.90319457889642
         },
         {
           "char": "ㅌ",
@@ -1024,7 +1063,7 @@
           "gt_boxes": 300,
           "detection_rate": 78.33333333333333,
           "frame_accuracy": 87.5598086124402,
-          "shown_accuracy": 91.06382978723404
+          "shown_accuracy": 83.82978723404256
         },
         {
           "char": "ㄲ",
@@ -1032,7 +1071,7 @@
           "gt_boxes": 827,
           "detection_rate": 76.42079806529625,
           "frame_accuracy": 99.34102141680395,
-          "shown_accuracy": 98.25949367088607
+          "shown_accuracy": 98.57594936708861
         },
         {
           "char": "ㅃ",
@@ -1040,7 +1079,7 @@
           "gt_boxes": 1164,
           "detection_rate": 78.09278350515464,
           "frame_accuracy": 98.98190045248869,
-          "shown_accuracy": 94.82948294829482
+          "shown_accuracy": 98.23982398239824
         },
         {
           "char": "ㅏ",
@@ -1072,7 +1111,7 @@
           "gt_boxes": 300,
           "detection_rate": 83.33333333333333,
           "frame_accuracy": 70.28112449799197,
-          "shown_accuracy": 100.0
+          "shown_accuracy": 86.0
         },
         {
           "char": "ㅜ",
@@ -1080,7 +1119,7 @@
           "gt_boxes": 1750,
           "detection_rate": 77.71428571428571,
           "frame_accuracy": 95.23443504996156,
-          "shown_accuracy": 96.32352941176471
+          "shown_accuracy": 96.98529411764706
         },
         {
           "char": "ㅠ",
@@ -1088,7 +1127,7 @@
           "gt_boxes": 849,
           "detection_rate": 75.26501766784452,
           "frame_accuracy": 89.74358974358974,
-          "shown_accuracy": 86.85446009389672
+          "shown_accuracy": 95.93114241001565
         },
         {
           "char": "ㅡ",
@@ -1096,7 +1135,7 @@
           "gt_boxes": 300,
           "detection_rate": 88.0,
           "frame_accuracy": 96.86274509803921,
-          "shown_accuracy": 92.8030303030303
+          "shown_accuracy": 93.56060606060606
         },
         {
           "char": "ㅐ",
@@ -1104,7 +1143,7 @@
           "gt_boxes": 550,
           "detection_rate": 62.54545454545455,
           "frame_accuracy": 95.0920245398773,
-          "shown_accuracy": 96.80232558139535
+          "shown_accuracy": 97.96511627906976
         },
         {
           "char": "ㅔ",
@@ -1112,7 +1151,7 @@
           "gt_boxes": 547,
           "detection_rate": 75.86837294332724,
           "frame_accuracy": 88.88888888888889,
-          "shown_accuracy": 94.6987951807229
+          "shown_accuracy": 95.18072289156626
         },
         {
           "char": "ㅘ",
@@ -1128,7 +1167,7 @@
           "gt_boxes": 300,
           "detection_rate": 86.0,
           "frame_accuracy": 97.23320158102767,
-          "shown_accuracy": 88.75968992248062
+          "shown_accuracy": 97.67441860465117
         },
         {
           "char": "ㅟ",
@@ -1136,7 +1175,7 @@
           "gt_boxes": 300,
           "detection_rate": 67.66666666666667,
           "frame_accuracy": 91.93548387096774,
-          "shown_accuracy": 93.10344827586206
+          "shown_accuracy": 94.08866995073892
         },
         {
           "char": "ㅢ",
@@ -1633,53 +1672,48 @@
       ],
       "confusion_shown": [
         [
+          "ㅛ",
+          "ㅗ",
+          35
+        ],
+        [
           "ㅠ",
           "ㅙ",
-          82
-        ],
-        [
-          "ㅃ",
-          "ㅔ",
-          47
-        ],
-        [
-          "ㄱ",
-          "ㅍ",
-          41
-        ],
-        [
-          "ㅂ",
-          "ㅑ",
-          30
-        ],
-        [
-          "ㅙ",
-          "ㅠ",
-          29
+          24
         ],
         [
           "ㅜ",
-          "ㅃ",
-          23
+          "ㅠ",
+          19
         ],
         [
           "ㄴ",
           "ㅂ",
-          21
+          18
         ],
         [
-          "ㅜ",
-          "ㅠ",
-          20
+          "ㅂ",
+          "ㅑ",
+          18
         ],
         [
           "ㅡ",
           "ㅜ",
-          19
+          17
         ],
         [
+          "ㅃ",
           "ㅔ",
-          "ㅖ",
+          16
+        ],
+        [
+          "ㄱ",
+          "ㅍ",
+          16
+        ],
+        [
+          "ㅍ",
+          "ㄱ",
           16
         ],
         [
@@ -1688,14 +1722,19 @@
           15
         ],
         [
-          "ㅟ",
-          "ㅝ",
+          "ㅜ",
+          "ㅃ",
+          15
+        ],
+        [
+          "ㅔ",
+          "ㅖ",
           14
         ],
         [
-          "ㅐ",
-          "ㅠ",
-          11
+          "ㅟ",
+          "ㅝ",
+          12
         ],
         [
           "ㅂ",
@@ -1703,18 +1742,28 @@
           10
         ],
         [
-          "ㄲ",
-          "ㅘ",
-          8
-        ],
-        [
           "ㅍ",
           "ㅃ",
-          6
+          7
+        ],
+        [
+          "ㅐ",
+          "ㅠ",
+          7
         ],
         [
           "ㅔ",
           "ㅓ",
+          6
+        ],
+        [
+          "ㅙ",
+          "ㅠ",
+          6
+        ],
+        [
+          "ㄲ",
+          "ㅘ",
           6
         ],
         [
@@ -1753,6 +1802,11 @@
           2
         ],
         [
+          "ㅊ",
+          "ㅈ",
+          1
+        ],
+        [
           "ㅘ",
           "ㅚ",
           1
@@ -1780,46 +1834,63 @@
         "matched": 11112,
         "detection_rate": 81.79007802149272,
         "frame_accuracy": 94.95901253180062,
-        "shown_accuracy": 97.57019438444924,
-        "shown_accuracy_voting_frames": 97.68208800527655,
+        "shown_accuracy": 98.15514758819295,
+        "shown_accuracy_voting_frames": 98.27569961368134,
         "voting_frames": 10613,
-        "final_accuracy": 97.63318934485241,
+        "final_accuracy": 95.72534197264218,
         "tracks": 73,
-        "track_accuracy": 98.63013698630137,
+        "track_accuracy": 97.26027397260275,
         "by_angle": {
           "0~15°": {
             "gt_boxes": 8297,
             "detection_rate": 81.18597083283115,
             "frame_accuracy": 94.33608987361522,
-            "shown_accuracy": 97.53562945368171
+            "shown_accuracy": 97.95130641330167
           },
           "15~30°": {
             "gt_boxes": 3824,
             "detection_rate": 84.3357740585774,
             "frame_accuracy": 96.27129540340727,
-            "shown_accuracy": 97.64341085271317
+            "shown_accuracy": 98.85271317829458
           },
           "30~45°": {
             "gt_boxes": 1465,
             "detection_rate": 78.5665529010239,
             "frame_accuracy": 94.87648673376029,
-            "shown_accuracy": 97.56733275412685
+            "shown_accuracy": 97.39357080799304
+          }
+        },
+        "by_visibility": {
+          "온전히 보임 (95% 이상)": {
+            "gt_boxes": 11147,
+            "detection_rate": 93.43321072934422,
+            "shown_accuracy": 98.37734037445992
+          },
+          "일부 가림·경계 (30~95%)": {
+            "gt_boxes": 1363,
+            "detection_rate": 50.770359501100515,
+            "shown_accuracy": 94.79768786127168
+          },
+          "거의 안 보임 (30% 미만)": {
+            "gt_boxes": 1076,
+            "detection_rate": 0.4646840148698885,
+            "shown_accuracy": 100.0
           }
         },
         "by_kind": {
           "자음": {
             "gt_boxes": 6967,
             "detection_rate": 83.89550739199082,
-            "shown_accuracy": 98.46022241231822
+            "shown_accuracy": 99.23011120615911
           },
           "모음": {
             "gt_boxes": 6619,
             "detection_rate": 79.57395376945158,
-            "shown_accuracy": 96.58249477881147
+            "shown_accuracy": 96.96221758116575
           }
         }
       },
-      "track_ms": 0.6795255749968495,
+      "track_ms": 0.8344605766692818,
       "config": {
         "high_thresh": 0.5,
         "low_thresh": 0.1,
@@ -1847,7 +1918,7 @@
           "gt_boxes": 830,
           "detection_rate": 77.34939759036145,
           "frame_accuracy": 98.3108108108108,
-          "shown_accuracy": 96.41744548286604
+          "shown_accuracy": 98.13084112149532
         },
         {
           "char": "ㄴ",
@@ -1895,7 +1966,7 @@
           "gt_boxes": 1148,
           "detection_rate": 89.98257839721255,
           "frame_accuracy": 93.4156378600823,
-          "shown_accuracy": 100.0
+          "shown_accuracy": 99.90319457889642
         },
         {
           "char": "ㅌ",
@@ -1927,7 +1998,7 @@
           "gt_boxes": 1164,
           "detection_rate": 82.30240549828179,
           "frame_accuracy": 99.03121636167923,
-          "shown_accuracy": 94.98956158663883
+          "shown_accuracy": 98.64300626304802
         },
         {
           "char": "ㅏ",
@@ -1959,7 +2030,7 @@
           "gt_boxes": 300,
           "detection_rate": 83.33333333333333,
           "frame_accuracy": 70.28112449799197,
-          "shown_accuracy": 100.0
+          "shown_accuracy": 86.0
         },
         {
           "char": "ㅜ",
@@ -1967,7 +2038,7 @@
           "gt_boxes": 1750,
           "detection_rate": 79.88571428571429,
           "frame_accuracy": 94.52363090772693,
-          "shown_accuracy": 96.49499284692418
+          "shown_accuracy": 97.13876967095851
         },
         {
           "char": "ㅠ",
@@ -1975,7 +2046,7 @@
           "gt_boxes": 849,
           "detection_rate": 75.50058892815076,
           "frame_accuracy": 89.45578231292517,
-          "shown_accuracy": 91.26365054602184
+          "shown_accuracy": 94.69578783151326
         },
         {
           "char": "ㅡ",
@@ -1983,7 +2054,7 @@
           "gt_boxes": 300,
           "detection_rate": 89.66666666666667,
           "frame_accuracy": 97.24409448818898,
-          "shown_accuracy": 97.76951672862454
+          "shown_accuracy": 96.6542750929368
         },
         {
           "char": "ㅐ",
@@ -1999,7 +2070,7 @@
           "gt_boxes": 547,
           "detection_rate": 75.86837294332724,
           "frame_accuracy": 88.88888888888889,
-          "shown_accuracy": 94.6987951807229
+          "shown_accuracy": 95.18072289156626
         },
         {
           "char": "ㅘ",
@@ -2015,7 +2086,7 @@
           "gt_boxes": 300,
           "detection_rate": 86.0,
           "frame_accuracy": 97.23320158102767,
-          "shown_accuracy": 88.75968992248062
+          "shown_accuracy": 97.67441860465117
         },
         {
           "char": "ㅟ",
@@ -2023,7 +2094,7 @@
           "gt_boxes": 300,
           "detection_rate": 72.33333333333333,
           "frame_accuracy": 91.95979899497488,
-          "shown_accuracy": 92.16589861751152
+          "shown_accuracy": 93.08755760368663
         },
         {
           "char": "ㅢ",
@@ -2535,49 +2606,44 @@
       ],
       "confusion_shown": [
         [
+          "ㅛ",
+          "ㅗ",
+          35
+        ],
+        [
+          "ㅜ",
           "ㅃ",
-          "ㅔ",
-          48
+          18
         ],
         [
           "ㅠ",
           "ㄲ",
-          40
-        ],
-        [
-          "ㅙ",
-          "ㅠ",
-          29
-        ],
-        [
-          "ㅜ",
-          "ㅃ",
-          26
-        ],
-        [
-          "ㄱ",
-          "ㅙ",
-          23
-        ],
-        [
-          "ㅜ",
-          "ㅠ",
           18
+        ],
+        [
+          "ㅜ",
+          "ㅠ",
+          17
+        ],
+        [
+          "ㅠ",
+          "ㅙ",
+          16
         ],
         [
           "ㅟ",
           "ㅝ",
-          17
+          15
         ],
         [
           "ㅔ",
           "ㅖ",
-          16
+          14
         ],
         [
-          "ㅠ",
-          "ㅙ",
-          16
+          "ㅃ",
+          "ㅔ",
+          13
         ],
         [
           "ㅂ",
@@ -2585,13 +2651,23 @@
           12
         ],
         [
+          "ㄱ",
+          "ㅙ",
+          12
+        ],
+        [
+          "ㅡ",
+          "ㅜ",
+          9
+        ],
+        [
           "ㅔ",
           "ㅓ",
           6
         ],
         [
-          "ㅡ",
-          "ㅜ",
+          "ㅙ",
+          "ㅠ",
           6
         ],
         [
@@ -2613,6 +2689,11 @@
           "ㅜ",
           "ㅅ",
           2
+        ],
+        [
+          "ㅊ",
+          "ㅈ",
+          1
         ],
         [
           "ㅘ",

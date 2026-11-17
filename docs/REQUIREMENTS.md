@@ -172,5 +172,6 @@ ID가 보존된 `gt.txt`와 `seqinfo.ini`가 생성되는 것을 확인했습니
 * **결과 재생**: 저장한 추적 결과를 모델 없이 다시 재생해 검토합니다. 재생 화면에는 원본 영상이 나오므로 얼굴 모자이크는 적용되지 않습니다.
 * **진행 중인 확장 기능** (`extensions/`, 규칙은 `docs/COLLABORATION.md`)
   * 떠다니는 한글 자음·모음(40종) 검출·추적 (`extensions/hangul.py`, 설계 `docs/HANGUL.md`, 담당 Pdint)
-    test 영상에서 HOTA 65.82, IDF1 76.86, 자모 표시 정확도 97.6% (기본판 HOTA 59.22). 결과와 분석은 `docs/HANGUL.md` 7절
+    test 영상에서 HOTA 65.82, IDF1 76.86, 자모 표시 정확도 98.2% (기본판 HOTA 59.22). 결과와 분석은 `docs/HANGUL.md` 7절.
+    모인 자모를 글자·단어로 조합해 표시하고, 시연 영상 `hangul_demo.mp4`에서 "한글"·"객체추적"을 읽습니다 (8절)
   * 보호색 동물 검출·추적 (`extensions/camouflage.py`, 담당 kumohyunho)

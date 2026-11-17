@@ -108,7 +108,7 @@ class JamoTrackingTest(unittest.TestCase):
         self.assertEqual([(row.track_id, row.label) for row in rows], [(1, "ㅏ")])
         self.assertEqual(extension.votes.disagree[1], 0)
 
-    def reentry_scenario(self, returning_class, verify="reentry"):
+    def reentry_scenario(self, returning_class, verify="reentry", decay=None):
         """ㅏ가 오른쪽 밖으로 나간 뒤, 같은 색의 객체가 같은 자리로 다시 들어옵니다 (추적기는 이전 ID를 돌려줌)."""
         def script(index):
             if index <= 20:                      # 오른쪽으로 나가는 ㅏ
@@ -124,6 +124,8 @@ class JamoTrackingTest(unittest.TestCase):
 
         extension = make_extension(script)
         extension.verify = verify
+        if decay is not None:
+            extension.votes.decay = decay
         history = []
         for index in range(1, 91):
             boxes, _, _ = script(index)
@@ -148,10 +150,18 @@ class JamoTrackingTest(unittest.TestCase):
             self.assertEqual(extension.rejected, 1)
 
     def test_without_check_votes_follow_the_restored_id(self):
+        # 전체 다수결(감쇠 없음)에서는 이전 자모의 표가 따라와 틀린 자모가 계속 표시됩니다 (고치려는 문제).
+        extension, before, after = self.reentry_scenario(GIYEOK, verify="off", decay=1.0)
+        if extension.byte_tracker.next_id > 2:
+            self.skipTest("이 장면에서 추적기가 이전 ID를 복원하지 않았습니다.")
+        self.assertIn((1, "ㅏ"), after)
+
+    def test_vote_decay_recovers_after_restored_id(self):
+        # 표 감쇠(기본 0.97)가 있으면 몇 프레임 뒤 새 자모로 바로잡힙니다.
         extension, before, after = self.reentry_scenario(GIYEOK, verify="off")
         if extension.byte_tracker.next_id > 2:
             self.skipTest("이 장면에서 추적기가 이전 ID를 복원하지 않았습니다.")
-        self.assertIn((1, "ㅏ"), after)           # 확인을 끄면 틀린 자모가 표시됩니다 (고치려는 문제).
+        self.assertEqual(after, {(1, "ㄱ")})
 
     def test_no_detections(self):
         extension = make_extension(lambda index: ([], [], []))
