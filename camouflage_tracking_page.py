@@ -12,7 +12,7 @@ from PySide6.QtCore import QProcess, QProcessEnvironment, Qt, QTimer, QUrl, Sign
 from PySide6.QtGui import QDesktopServices, QImage, QPixmap
 from PySide6.QtMultimedia import QMediaPlayer
 from PySide6.QtMultimediaWidgets import QVideoWidget
-from PySide6.QtWidgets import (QApplication, QComboBox, QFileDialog, QHBoxLayout, QHeaderView,
+from PySide6.QtWidgets import (QApplication, QCheckBox, QComboBox, QFileDialog, QHBoxLayout, QHeaderView,
                                QLabel, QMessageBox, QPlainTextEdit, QPushButton, QSizePolicy,
                                QSlider, QSplitter, QTableWidget, QTableWidgetItem, QVBoxLayout, QWidget)
 
@@ -99,6 +99,7 @@ class CamouflagePage(QWidget):
         self.records, self.visible_records = [], []
         self.preview_image = None
         self.process = None
+        self.diagnostic_root = None
         self.cancelled = self.close_pending = self.external_busy = False
         layout = QVBoxLayout(self)
         actions = QHBoxLayout()
@@ -107,6 +108,7 @@ class CamouflagePage(QWidget):
         self.video_button = self.button(actions, "영상 열기", self.choose_video)
         self.learning_button = self.button(actions, "보호색 학습 비교", on_learning or self.open_learning)
         self.button(actions, "추적 결과 폴더 열기", self.open_output)
+        self.diagnostic_button = self.button(actions, "진단 요약 열기", self.open_diagnostics)
         actions.addStretch()
         layout.addLayout(actions)
         layout.addWidget(self.text_label("학습 데이터의 정답과 모델의 검출 결과를 구분해 확인하세요. 모델·원본 영상만으로 추적할 수 있습니다."))
@@ -155,10 +157,14 @@ class CamouflagePage(QWidget):
         self.raw_button = self.button(controls, "원본 재생", self.play_original)
         self.track_button = self.button(controls, "보호색 추적 실행", self.start_tracking)
         self.result_button = self.button(controls, "추적 결과 재생", self.play_result)
+        self.diagnostic_video_button = self.button(controls, "진단 영상 재생", self.play_diagnostic)
         video_layout.addLayout(controls)
         playback = QHBoxLayout()
         self.button(playback, "재생 일시정지", self.player.pause)
         self.button(playback, "중지", self.stop_all)
+        self.diagnostics = QCheckBox("진단 기록 저장")
+        self.diagnostics.setChecked(True)
+        playback.addWidget(self.diagnostics)
         self.device = QComboBox()
         self.device.addItem("CPU", "cpu")
         self.device.addItem("GPU 0 (CUDA 필요)", "0")
@@ -282,6 +288,7 @@ class CamouflagePage(QWidget):
         self.model_path = Path(path).resolve()
         self.model_info.setText(f"모델: {self.model_path}\n학습 기록: 에폭 {options.get('epochs', '미기록')} · 초기 학습률 {options.get('lr0', '미기록')} · val mAP50 {text} (재측정 아님)\n실행 NMS IoU: {inference['nms_iou']}")
         self.result_video = None
+        self.diagnostic_root = None
         self.player.stop()
         if self.video_path:
             self.player.setSource(QUrl.fromLocalFile(str(self.video_path)))
@@ -299,6 +306,7 @@ class CamouflagePage(QWidget):
             raise FileNotFoundError(f"영상이 없습니다: {path}")
         self.player.stop()
         self.video_path, self.result_video = path, None
+        self.diagnostic_root = None
         self.video_info.setText(f"원본: {path}")
         self.player.setSource(QUrl.fromLocalFile(str(path)))
         self.set_busy(self.is_busy())
@@ -319,23 +327,27 @@ class CamouflagePage(QWidget):
         return self.process is not None and self.process.state() != QProcess.NotRunning
 
     def set_busy(self, active):
-        for widget in (self.dataset_button, self.model_button, self.video_button, self.device, self.learning_button):
+        for widget in (self.dataset_button, self.model_button, self.video_button, self.device, self.learning_button, self.diagnostics):
             widget.setEnabled(not active)
         self.learning_button.setProperty("available", not active)
         self.learning_button.setEnabled(not active and not self.external_busy)
-        self.track_button.setEnabled(not active and self.video_path is not None and self.model_path is not None)
+        self.track_button.setEnabled(not active and not self.external_busy
+                                     and self.video_path is not None and self.model_path is not None)
         self.raw_button.setEnabled(not active and self.video_path is not None)
         self.result_button.setEnabled(not active and self.result_video is not None)
+        self.diagnostic_button.setEnabled(not active and self.diagnostic_root is not None)
+        self.diagnostic_video_button.setEnabled(not active and self.diagnostic_root is not None)
 
     def set_external_busy(self, active):
         self.external_busy = active
         self.set_busy(self.is_busy())
 
     def start_tracking(self):
-        if self.is_busy() or not self.video_path or not self.model_path:
+        if self.is_busy() or self.external_busy or not self.video_path or not self.model_path:
             return
         self.player.stop()
         self.result_video = None
+        self.diagnostic_root = None
         self.current_output = ROOT/"runs/camouflage"/f"gui_{uuid4().hex[:8]}"
         self.cancelled = False
         self.decoder = codecs.getincrementaldecoder("utf-8")(errors="replace")
@@ -355,7 +367,8 @@ class CamouflagePage(QWidget):
         process.errorOccurred.connect(self.process_error)
         process.start(sys.executable, ["-u", str(ROOT/"run_camouflage.py"), "--video", str(self.video_path),
                                       "--weights", str(self.model_path), "--device", self.device.currentData(),
-                                      "--output", str(self.current_output)])
+                                      "--output", str(self.current_output),
+                                      *(["--diagnostics"] if self.diagnostics.isChecked() else [])])
 
     def read_log(self):
         self.log.appendPlainText(self.decoder.decode(bytes(self.process.readAllStandardOutput())))
@@ -376,6 +389,18 @@ class CamouflagePage(QWidget):
         elif code == 0 and all((self.current_output/name).is_file() for name in ("tracked.mp4", "tracks.csv", "tracks.json")):
             self.result_video = result
             self.status.setText("보호색 추적 완료 — 결과 영상·tracks.csv·설정 JSON을 저장했습니다. 정답 기반 정확도 평가는 아닙니다.")
+            if self.diagnostics.isChecked():
+                summary = self.current_output/"diagnostic_summary.json"
+                try:
+                    complete = json.loads(summary.read_text(encoding="utf-8")).get("status") == "completed"
+                    complete = complete and all((self.current_output/name).is_file() for name in ("diagnostic_report.html", "diagnostic.mp4"))
+                except (ValueError, OSError, AttributeError):
+                    complete = False
+                if complete:
+                    self.diagnostic_root = self.current_output
+                    self.status.setText("추적·진단 저장 완료 — 진단 영상과 요약에서 의심 구간을 확인하세요. 정확도 평가는 아닙니다.")
+                else:
+                    self.status.setText("추적 완료 · 진단 기록은 미완료 또는 누락 상태입니다.")
         else:
             self.status.setText(f"추적 실패 (종료 코드 {code}) — 아래 오류 로그를 확인하세요.")
         self.set_busy(False)
@@ -428,6 +453,16 @@ class CamouflagePage(QWidget):
             QDesktopServices.openUrl(QUrl.fromLocalFile(str(path)))
         else:
             self.status.setText("아직 저장된 추적 결과 폴더가 없습니다.")
+
+    def open_diagnostics(self):
+        if self.diagnostic_root:
+            QDesktopServices.openUrl(QUrl.fromLocalFile(str(self.diagnostic_root/"diagnostic_report.html")))
+
+    def play_diagnostic(self):
+        if self.diagnostic_root:
+            self.player.setSource(QUrl.fromLocalFile(str(self.diagnostic_root/"diagnostic.mp4")))
+            self.player.play()
+            self.video_info.setText("진단 영상: 왼쪽 NMS 후 검출·실제 연결 단계 / 오른쪽 추적 ID·궤적")
 
     def checked(self, action):
         try:

@@ -20,6 +20,7 @@ from PySide6.QtWidgets import (
 )
 
 import extensions
+from camouflage_tracking_page import CamouflagePage
 from pipeline import (MODEL_DIR, ROOT, TRACKABLE_CLASSES, PipelineConfig, available_weights,
                       default_weights, tracker_choices)
 from results_io import ResultWriter, load_results
@@ -157,15 +158,15 @@ class Window(QMainWindow):
         layout = QVBoxLayout(root)
         title = QLabel("지능형 객체 추적 시스템")
         title.setObjectName("title")
-        header = QHBoxLayout()
-        header.addWidget(title)
-        header.addStretch()
-        self.learning_button = self.button(header, "보호색 학습 비교", self.open_learning_comparison)
-        layout.addLayout(header)
+        layout.addWidget(title)
         self.tabs = QTabWidget()
         layout.addWidget(self.tabs)
         self.tabs.addTab(self.build_tracking_tab(), "실시간 추적")
         self.tabs.addTab(self.build_comparison_tab(), "성능 비교")
+        self.camouflage_page = CamouflagePage(self, on_learning=self.open_learning_comparison)
+        self.tabs.addTab(self.camouflage_page, "보호색 추적")
+        self.learning_button = self.camouflage_page.learning_button
+        self.camouflage_page.processing_finished.connect(self.camouflage_processing_finished)
         self.tabs.currentChanged.connect(lambda index: index == 1 and self.load_comparison())
 
         self.player = QMediaPlayer(self)
@@ -246,7 +247,7 @@ class Window(QMainWindow):
             self.extension_checks[key] = check
         model_bar.addStretch()
         main.addLayout(model_bar)
-        self.setting_widgets = [self.learning_button, self.model, self.model_file_button, self.tracker, self.mosaic_check,
+        self.setting_widgets = [self.model, self.model_file_button, self.tracker, self.mosaic_check,
                                 *self.class_checks.values(), *self.extension_checks.values()]
         self.set_settings_enabled(True)
 
@@ -355,6 +356,14 @@ class Window(QMainWindow):
         for widget in self.setting_widgets:
             widget.setEnabled(enabled and widget.property("available") is not False)
 
+    def notify_camouflage_busy(self):
+        """실시간 추적 탭이 영상을 처리하는 동안 보호색 탭의 추적 실행·학습 비교를 막습니다.
+
+        두 탭이 동시에 검출기를 돌리면 CPU를 나눠 써서 둘 다 느려지고, 학습 비교 창도 추적 중에는 열지 않습니다.
+        모드(원본 재생·결과 재생) 선택만으로는 막지 않습니다.
+        """
+        self.camouflage_page.set_external_busy(self.worker is not None)
+
     def enable_controls(self, enabled):
         for widget in (self.play_button, self.pause_button, self.stop_button, self.slider):
             widget.setEnabled(enabled)
@@ -381,10 +390,19 @@ class Window(QMainWindow):
     def open_learning_comparison(self):
         from camouflage_learning_gui import LearningRateDialog
 
+        if self.worker or self.camouflage_page.is_busy():
+            self.statusBar().showMessage("진행 중인 추적을 중지한 뒤 학습 비교를 열어 주세요.")
+            return
+        self.camouflage_page.player.pause()
         self.learning_dialog = LearningRateDialog(self)
+        self.camouflage_page.apply_learning_inputs(self.learning_dialog)
         self.learning_dialog.setAttribute(Qt.WA_DeleteOnClose)
         self.learning_dialog.setModal(True)
         self.learning_dialog.show()
+
+    def camouflage_processing_finished(self):
+        if self.closing:
+            self.close()
 
     def choose_model_file(self):
         path, _ = QFileDialog.getOpenFileName(self, "검출 가중치 선택", str(MODEL_DIR), "YOLO 가중치 (*.pt)")
@@ -429,6 +447,9 @@ class Window(QMainWindow):
             self.player.play()
             self.statusBar().showMessage("원본 영상 재생 중")
             return
+        if self.worker is None and self.camouflage_page.is_busy():
+            self.statusBar().showMessage("보호색 추적 탭의 처리가 끝난 뒤 시작해 주세요.")
+            return
         if self.worker:
             self.worker.set_paused(False)
             self.play_button.setEnabled(False)
@@ -460,6 +481,7 @@ class Window(QMainWindow):
         self.statusBar().showMessage("모델 준비 중 · 첫 실행 시 가중치를 다운로드할 수 있습니다."
                                      if mode == MODE_TRACK else "결과 재생 준비 중")
         self.worker.start()
+        self.notify_camouflage_busy()
 
     def pause(self):
         if self.worker and not self.stopping:
@@ -573,6 +595,7 @@ class Window(QMainWindow):
             self.result_meta["tracker_config"] = self.worker.tracker_config.to_dict()
         self.worker.deleteLater()
         self.worker = None
+        self.notify_camouflage_busy()
         if self.closing:
             self.close()
             return
@@ -758,11 +781,17 @@ class Window(QMainWindow):
         self.fill(self.speed, speed_rows)
 
     def closeEvent(self, event):
+        if self.camouflage_page.is_busy():
+            self.closing = True
+            self.camouflage_page.stop_processing()
+            event.ignore()
+            return
         if self.worker:
             self.closing = True
             self.stop()
             event.ignore()
             return
+        self.camouflage_page.player.stop()
         self.player.stop()
         super().closeEvent(event)
 

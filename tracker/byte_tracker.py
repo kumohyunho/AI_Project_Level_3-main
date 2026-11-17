@@ -249,11 +249,12 @@ class ByteTracker:
         return best
 
     # ------------------------------------------------------------------- update
-    def update(self, boxes, scores, classes, features=None, frame_size=None):
+    def update(self, boxes, scores, classes, features=None, frame_size=None, diagnostics=None):
         """한 프레임의 검출로 트랙을 갱신하고 현재 화면에 보이는 확정 트랙을 돌려줍니다.
 
         boxes: ``(N,4)`` x1y1x2y2, scores: ``(N,)``, classes: ``(N,)``,
         features: 길이 N의 외형 특징 목록 (없으면 ``None``), frame_size: ``(width, height)``.
+        diagnostics: 선택적 빈 dict. 실제 검출 인덱스·연결 단계·상태를 기록하며 할당 계산은 바꾸지 않습니다.
         """
         cfg = self.config
         self.frame_id += 1
@@ -267,9 +268,24 @@ class ByteTracker:
         keep = area >= cfg.min_box_area
         high = keep & (scores >= cfg.high_thresh)
         low = keep & (scores > cfg.low_thresh) & ~high
+        if diagnostics is not None:
+            diagnostics.clear()
+            diagnostics.update(tracker_frame=frame_id, detections=[dict(
+                index=i, box=boxes[i].tolist(), score=float(scores[i]), cls=int(classes[i]),
+                group="filtered_area" if not keep[i] else "high" if high[i] else "low" if low[i] else "filtered_confidence")
+                for i in range(len(boxes))], associations=[])
 
         det_high = [STrack(boxes[i], scores[i], classes[i], features[i]) for i in np.flatnonzero(high)]
         det_low = [STrack(boxes[i], scores[i], classes[i]) for i in np.flatnonzero(low)]
+        detection_indices = {}
+        if diagnostics is not None:
+            detection_indices.update((id(d), int(i)) for d, i in zip(det_high, np.flatnonzero(high)))
+            detection_indices.update((id(d), int(i)) for d, i in zip(det_low, np.flatnonzero(low)))
+
+        def record(track, detection, stage):
+            if diagnostics is not None:
+                diagnostics["associations"].append(dict(detection_index=detection_indices[id(detection)],
+                                                        track_id=int(track.track_id), stage=stage))
         if len(det_high) > 1:  # 다른 사람과 많이 겹친 박스의 외형은 섞여 있어 특징 갱신에 쓰지 않습니다.
             overlap = iou_matrix([d._box for d in det_high], [d._box for d in det_high])
             np.fill_diagonal(overlap, 0)
@@ -284,7 +300,7 @@ class ByteTracker:
 
         activated, refound, lost_now, removed_now = [], [], [], []
 
-        def accept(track, detection):
+        def accept(track, detection, stage):
             if track.state == TrackState.TRACKED:
                 track.update(self.kalman, detection, frame_id, cfg.feature_momentum)
                 activated.append(track)
@@ -292,19 +308,20 @@ class ByteTracker:
                 track.update(self.kalman, detection, frame_id, cfg.feature_momentum,
                              status=STATUS_REAPPEARED)
                 refound.append(track)
+            record(track, detection, stage)
 
         # 1차 연결: 높은 신뢰도 검출 ↔ 추적 중 + 잃어버린 트랙
         matches, unmatched_tracks, unmatched_high = linear_assignment(
             self._fused_cost(pool, det_high), cfg.match_thresh)
         for row, column in matches:
-            accept(pool[row], det_high[column])
+            accept(pool[row], det_high[column], "high")
 
         # 2차 연결: 남은 추적 중 트랙 ↔ 낮은 신뢰도 검출 (가려져 점수가 떨어진 사람)
         remaining = [pool[i] for i in unmatched_tracks if pool[i].state == TrackState.TRACKED]
         cost = class_gate(iou_distance(remaining, det_low), remaining, det_low)
         matches, unmatched_remaining, _ = linear_assignment(cost, cfg.second_match_thresh)
         for row, column in matches:
-            accept(remaining[row], det_low[column])
+            accept(remaining[row], det_low[column], "low")
         for index in unmatched_remaining:
             track = remaining[index]
             track.mark_lost(frame_id, frame_size)
@@ -318,7 +335,7 @@ class ByteTracker:
             matches, _, unmatched_det = linear_assignment(
                 self._recover_cost(waiting, detections), cfg.recover_thresh)
             for row, column in matches:
-                accept(waiting[row], detections[column])
+                accept(waiting[row], detections[column], "recover")
             detections = [detections[i] for i in unmatched_det]
 
         # 아직 확정되지 않은 트랙(직전 프레임에 생긴 트랙) ↔ 남은 검출
@@ -329,6 +346,7 @@ class ByteTracker:
         for row, column in matches:
             unconfirmed[row].update(self.kalman, detections[column], frame_id, cfg.feature_momentum)
             activated.append(unconfirmed[row])
+            record(unconfirmed[row], detections[column], "confirm")
         for index in unmatched_unconfirmed:
             unconfirmed[index].state = TrackState.REMOVED
             removed_now.append(unconfirmed[index])
@@ -345,10 +363,12 @@ class ByteTracker:
                 old.update(self.kalman, detection, frame_id, cfg.feature_momentum,
                            status=STATUS_REENTERED)
                 refound.append(old)
+                record(old, detection, "reenter")
                 continue
             detection.activate(self.kalman, frame_id, self.next_id)
             self.next_id += 1
             activated.append(detection)
+            record(detection, detection, "new")
 
         # 오래 잃어버린 트랙 삭제 (개선판은 외형을 갤러리에 보관)
         for track in self.lost + lost_now:
@@ -364,7 +384,18 @@ class ByteTracker:
         tracked = _unique(tracked + activated + refound)
         lost = _unique([t for t in self.lost + lost_now if t.state == TrackState.LOST])
         self.tracked, self.lost = _remove_duplicates(tracked, lost)
-        return [t for t in self.tracked if t.is_activated]
+        visible = [t for t in self.tracked if t.is_activated]
+        if diagnostics is not None:
+            visible_ids = {t.track_id for t in visible}
+            for association in diagnostics["associations"]:
+                association["visible"] = association["track_id"] in visible_ids
+            diagnostics["states"] = [dict(track_id=int(t.track_id), cls=int(t.cls), box=t.box.tolist(),
+                                          state=state, confirmed=bool(t.is_activated), status=t.status)
+                                     for state, tracks in (("tracked", self.tracked), ("lost", self.lost),
+                                                           ("removed", _unique(removed_now))) for t in tracks]
+            assigned = {a["detection_index"] for a in diagnostics["associations"]}
+            diagnostics["unassigned_indices"] = [i for i in range(len(boxes)) if i not in assigned]
+        return visible
 
     def lost_tracks(self):
         """가림·화면 이탈 상태로 기다리는 트랙 (GUI 표시용)."""
