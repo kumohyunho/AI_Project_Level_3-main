@@ -331,7 +331,8 @@ class CamouflagePage(QWidget):
             widget.setEnabled(not active)
         self.learning_button.setProperty("available", not active)
         self.learning_button.setEnabled(not active and not self.external_busy)
-        self.track_button.setEnabled(not active and self.video_path is not None and self.model_path is not None)
+        self.track_button.setEnabled(not active and not self.external_busy
+                                     and self.video_path is not None and self.model_path is not None)
         self.raw_button.setEnabled(not active and self.video_path is not None)
         self.result_button.setEnabled(not active and self.result_video is not None)
         self.diagnostic_button.setEnabled(not active and self.diagnostic_root is not None)
@@ -342,7 +343,7 @@ class CamouflagePage(QWidget):
         self.set_busy(self.is_busy())
 
     def start_tracking(self):
-        if self.is_busy() or not self.video_path or not self.model_path:
+        if self.is_busy() or self.external_busy or not self.video_path or not self.model_path:
             return
         self.player.stop()
         self.result_video = None
