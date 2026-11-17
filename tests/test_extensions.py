@@ -86,6 +86,42 @@ class DetectTrackExtensionTest(unittest.TestCase):
             Missing()
 
 
+class ExtensionOnlyPipelineTest(unittest.TestCase):
+    """추적 대상(사람)을 끄고 확장 기능만 켜면 기본 검출기 없이 확장 기능만 실행합니다."""
+
+    def test_extension_only_skips_main_detector(self):
+        from pipeline import TrackingPipeline
+
+        class OnlyExtension:
+            def __init__(self, device="cpu", fps=30.0):
+                self.calls = 0
+
+            def process(self, frame, frame_index):
+                self.calls += 1
+                return [TrackRow(1001, "단어", (1.0, 2.0, 3.0, 4.0), 1.0, "추적 중", "—", 0.0, 0.0, (),
+                                 source="hangul", label="한글")]
+
+            def close(self):
+                pass
+
+        detector = mock.Mock(side_effect=AssertionError("기본 검출기를 부르면 안 됩니다"))
+        with mock.patch("pipeline.Detector", detector), \
+                mock.patch("extensions.load", return_value=OnlyExtension):
+            pipeline = TrackingPipeline(PipelineConfig(classes=[], extensions=["hangul"], mosaic=False))
+            rows, waiting, timings = pipeline.process(np.zeros((60, 80, 3), dtype=np.uint8))
+        detector.assert_not_called()
+        self.assertEqual([(r.source, r.label) for r in rows], [("hangul", "한글")])
+        self.assertEqual(waiting, [])
+        self.assertEqual((timings["detect"], timings["track"]), (0.0, 0.0))
+        self.assertEqual(pipeline.extensions[0].calls, 1)
+
+    def test_nothing_selected_raises(self):
+        from pipeline import TrackingPipeline
+
+        with mock.patch("pipeline.Detector"), self.assertRaises(ValueError):
+            TrackingPipeline(PipelineConfig(classes=[], extensions=[], mosaic=False))
+
+
 class ResultFileTest(unittest.TestCase):
     def test_source_and_label_round_trip(self):
         writer = ResultWriter()

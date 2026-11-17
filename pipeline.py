@@ -158,8 +158,12 @@ def needs_features(config):
 class TrackingPipeline:
     def __init__(self, config, fps=30.0):
         self.config = config
+        if not config.classes and not config.extensions:
+            raise ValueError("추적 대상이나 확장 기능을 하나 이상 선택하세요.")
         self.tracker_config = tracker_config(config.tracker)
-        self.detector = Detector(config.weights, config.classes, config.imgsz, config.device)
+        # 추적 대상이 없으면 기본 검출기를 쓰지 않고 확장 기능만 실행합니다 (예: 한글 자모만).
+        self.detector = (Detector(config.weights, config.classes, config.imgsz, config.device)
+                         if config.classes else None)
         self.mosaic = None
         if config.mosaic and Path(config.face_weights).is_file():
             self.mosaic = FaceMosaic(config.face_weights, config.device)
@@ -177,21 +181,23 @@ class TrackingPipeline:
 
         반환: (보이는 트랙 목록, 가림·이탈 트랙 목록, 단계별 처리 시간(ms) 딕셔너리)
         """
-        timings = {}
-        started = perf_counter()
-        boxes, scores, classes = self.detector(frame, self.tracker_config.low_thresh)
-        timings["detect"] = (perf_counter() - started) * 1000
+        timings = {"detect": 0.0, "track": 0.0}
+        tracks = []
+        if self.detector is not None:
+            started = perf_counter()
+            boxes, scores, classes = self.detector(frame, self.tracker_config.low_thresh)
+            timings["detect"] = (perf_counter() - started) * 1000
 
-        started = perf_counter()
-        features = None
-        if needs_features(self.tracker_config):
-            high = scores >= self.tracker_config.high_thresh
-            features = [None] * len(boxes)
-            for index, feature in zip(np.flatnonzero(high), extract_features(frame, boxes[high])):
-                features[index] = feature
-        height, width = frame.shape[:2]
-        tracks = self.tracker.update(boxes, scores, classes, features, (width, height))
-        timings["track"] = (perf_counter() - started) * 1000
+            started = perf_counter()
+            features = None
+            if needs_features(self.tracker_config):
+                high = scores >= self.tracker_config.high_thresh
+                features = [None] * len(boxes)
+                for index, feature in zip(np.flatnonzero(high), extract_features(frame, boxes[high])):
+                    features[index] = feature
+            height, width = frame.shape[:2]
+            tracks = self.tracker.update(boxes, scores, classes, features, (width, height))
+            timings["track"] = (perf_counter() - started) * 1000
 
         # 확장 기능은 모자이크 전 원본 프레임을 봅니다.
         extension_rows = []
@@ -215,7 +221,7 @@ class TrackingPipeline:
                                  track.status, state.direction, state.distance, state.speed,
                                  tuple(state.trail)))
         waiting = []
-        for track in self.tracker.lost_tracks():
+        for track in (self.tracker.lost_tracks() if self.detector is not None else []):
             state = self.motion.states.get(track.track_id)
             waiting.append(TrackRow(track.track_id, self.detector.names[track.cls],
                                     tuple(float(v) for v in track.box), track.score, track.status,

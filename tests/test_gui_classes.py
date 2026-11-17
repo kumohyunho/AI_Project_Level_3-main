@@ -38,6 +38,20 @@ class GuiClassesTest(unittest.TestCase):
         self.assertEqual(list(window.class_checks), ["person"])
         self.assertEqual(window.pipeline_config().classes, ["person"])
 
+    def test_extension_only_without_person(self):
+        window = self.make_window()
+        window.class_checks["person"].setChecked(False)
+        for check in window.extension_checks.values():
+            check.setChecked(False)
+        with self.assertRaises(ValueError):
+            window.pipeline_config()
+        hangul = window.extension_checks["hangul"]
+        if not hangul.isEnabled():
+            self.skipTest("한글 자모 가중치가 없습니다.")
+        hangul.setChecked(True)
+        config = window.pipeline_config()
+        self.assertEqual((config.classes, config.extensions), ([], ["hangul"]))
+
     def test_old_settings_with_animals_load_person_only(self):
         window = self.make_window()
         config = window.pipeline_config().to_dict()
