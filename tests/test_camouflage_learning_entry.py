@@ -39,8 +39,15 @@ class LearningEntryTest(unittest.TestCase):
             self.assertTrue(window.learning_dialog.isModal())
             self.assertEqual(window.learning_dialog.weights.text(), str(window.camouflage_page.model_path))
             window.learning_dialog.close()
-            window.set_settings_enabled(False)
+            window.set_settings_enabled(False)   # 모드 변경만으로는 막지 않습니다.
+            self.assertTrue(window.learning_button.isEnabled())
+            window.worker = object()               # 실시간 추적 탭이 처리 중
+            window.notify_camouflage_busy()
             self.assertFalse(window.learning_button.isEnabled())
+            self.assertFalse(window.camouflage_page.track_button.isEnabled())
+            window.worker = None
+            window.notify_camouflage_busy()
+            self.assertTrue(window.learning_button.isEnabled())
             self.app.processEvents()
         finally:
             window.close()

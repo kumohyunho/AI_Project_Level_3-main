@@ -166,7 +166,6 @@ class Window(QMainWindow):
         self.camouflage_page = CamouflagePage(self, on_learning=self.open_learning_comparison)
         self.tabs.addTab(self.camouflage_page, "보호색 추적")
         self.learning_button = self.camouflage_page.learning_button
-        self.setting_widgets.append(self.learning_button)
         self.camouflage_page.processing_finished.connect(self.camouflage_processing_finished)
         self.tabs.currentChanged.connect(lambda index: index == 1 and self.load_comparison())
 
@@ -356,8 +355,14 @@ class Window(QMainWindow):
         """설정 위젯을 켜고 끕니다. 가중치가 없는 기능(available=False)은 항상 꺼 둡니다."""
         for widget in self.setting_widgets:
             widget.setEnabled(enabled and widget.property("available") is not False)
-        if hasattr(self, "camouflage_page"):
-            self.camouflage_page.set_external_busy(not enabled)
+
+    def notify_camouflage_busy(self):
+        """실시간 추적 탭이 영상을 처리하는 동안 보호색 탭의 추적 실행·학습 비교를 막습니다.
+
+        두 탭이 동시에 검출기를 돌리면 CPU를 나눠 써서 둘 다 느려지고, 학습 비교 창도 추적 중에는 열지 않습니다.
+        모드(원본 재생·결과 재생) 선택만으로는 막지 않습니다.
+        """
+        self.camouflage_page.set_external_busy(self.worker is not None)
 
     def enable_controls(self, enabled):
         for widget in (self.play_button, self.pause_button, self.stop_button, self.slider):
@@ -442,6 +447,9 @@ class Window(QMainWindow):
             self.player.play()
             self.statusBar().showMessage("원본 영상 재생 중")
             return
+        if self.worker is None and self.camouflage_page.is_busy():
+            self.statusBar().showMessage("보호색 추적 탭의 처리가 끝난 뒤 시작해 주세요.")
+            return
         if self.worker:
             self.worker.set_paused(False)
             self.play_button.setEnabled(False)
@@ -473,6 +481,7 @@ class Window(QMainWindow):
         self.statusBar().showMessage("모델 준비 중 · 첫 실행 시 가중치를 다운로드할 수 있습니다."
                                      if mode == MODE_TRACK else "결과 재생 준비 중")
         self.worker.start()
+        self.notify_camouflage_busy()
 
     def pause(self):
         if self.worker and not self.stopping:
@@ -586,6 +595,7 @@ class Window(QMainWindow):
             self.result_meta["tracker_config"] = self.worker.tracker_config.to_dict()
         self.worker.deleteLater()
         self.worker = None
+        self.notify_camouflage_busy()
         if self.closing:
             self.close()
             return
