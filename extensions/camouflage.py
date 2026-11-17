@@ -126,6 +126,21 @@ class CamouflageExtension(DetectTrackExtension):
         self.inference_config = configured or dict(nms_iou=0.7, max_det=300)
         if configured is not None:
             self.detector = CamouflageDetector(self.detector, configured["nms_iou"])
+        self.diagnostic_recorder = None
+
+    def enable_diagnostics(self, recorder):
+        from camouflage_diagnostics import TracedTracker
+
+        if self.diagnostic_recorder is not None:
+            raise RuntimeError("진단 기록이 이미 켜져 있습니다.")
+        self.byte_tracker = TracedTracker(self.byte_tracker)
+        self.diagnostic_recorder = recorder
+
+    def process(self, frame, frame_index):
+        rows = super().process(frame, frame_index)
+        if self.diagnostic_recorder is not None:
+            self.diagnostic_recorder.add(frame_index, self.byte_tracker.trace, rows)
+        return rows
 
     def describe(self, frame, row):
         return "보호색 동물"
