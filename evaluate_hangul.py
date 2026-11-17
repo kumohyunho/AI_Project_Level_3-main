@@ -367,6 +367,7 @@ def main(args):
         imgsz = args.imgsz
         verify = args.verify or HangulJamoExtension.verify
         verify_frames = args.verify_frames or HangulJamoExtension.verify_frames
+        vote_decay = args.vote_decay if args.vote_decay is not None else HangulJamoExtension.vote_decay
 
         @classmethod
         def weights_path(cls):
@@ -466,6 +467,7 @@ if __name__ == "__main__":
     parser.add_argument("--verify", choices=["off", "reentry", "all"],
                         help="ID 복원 시 자모 확인 방식 (기본: 확장 기능의 설정). off / reentry(재진입만) / all(재등장도)")
     parser.add_argument("--verify-frames", type=int, help="자모 확인에 쓰는 검출 횟수 (기본: 확장 기능의 설정)")
+    parser.add_argument("--vote-decay", type=float, help="다수결 표 감쇠 (1.0 = 전체 다수결, 기본: 확장 기능의 설정)")
     parser.add_argument("--summarize", nargs="+", metavar="NAME",
                         help="이미 실행한 평가들(results/hangul/<NAME>)을 표 하나로 모읍니다 → results/hangul/comparison.md")
     main(parser.parse_args())

@@ -1,0 +1,59 @@
+{
+  "words": [
+    "한글",
+    "객체추적"
+  ],
+  "fps": 30,
+  "frames": 930,
+  "width": 960,
+  "height": 540,
+  "font": "NanumSquareB.ttf",
+  "size": 96,
+  "glyph": 66.0,
+  "seed": 3,
+  "phases": [
+    {
+      "kind": "떠다님",
+      "start": 0,
+      "end": 149,
+      "word": null
+    },
+    {
+      "kind": "모임",
+      "start": 150,
+      "end": 239,
+      "word": "한글"
+    },
+    {
+      "kind": "멈춤",
+      "start": 240,
+      "end": 389,
+      "word": "한글"
+    },
+    {
+      "kind": "흩어짐",
+      "start": 390,
+      "end": 539,
+      "word": null
+    },
+    {
+      "kind": "모임",
+      "start": 540,
+      "end": 629,
+      "word": "객체추적"
+    },
+    {
+      "kind": "멈춤",
+      "start": 630,
+      "end": 779,
+      "word": "객체추적"
+    },
+    {
+      "kind": "흩어짐",
+      "start": 780,
+      "end": 929,
+      "word": null
+    }
+  ],
+  "note": "'멈춤' 단계에는 그 단어가 화면 가운데에 완성된 모양으로 있습니다. 확장 기능은 같은 단어가 8프레임 이어져야 표시하므로 '모임' 끝무렵부터 표시될 수 있습니다."
+}

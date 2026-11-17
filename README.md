@@ -119,12 +119,15 @@ MOT17 내려받기, 전처리, Fine-tuning 전 성능 측정, 학습, 학습 전
 
 화면을 떠다니는 한글 자음·모음을 하나씩 검출·추적하고 어떤 자모인지 표시하는 확장 기능입니다.
 `models/hangul_jamo.pt`가 있으면 GUI의 **확장 → 한글 자모** 체크박스로 켭니다 (화면 표시 예: `자3 ㄱ`).
+자모가 모여 글자 모양이 되면 **단어로 읽어 함께 표시**합니다 (예: `자1001 한글`).
+**시연**: GUI에서 `hangul_demo.mp4`를 열고 **확장 → 한글 자모**를 켠 뒤 시작하면, 떠다니던 자모가 "한글"과 "객체추적"으로 모였다 흩어집니다.
 설계와 진행 상황은 [`docs/HANGUL.md`](docs/HANGUL.md)에 있습니다. 학습·평가 데이터는 정답을 아는 **합성 데이터**를 직접 만듭니다.
 
 ```powershell
 python hangul_dataset.py --output datasets/hangul        # 검출 이미지 + 떠다니는 자모 영상 (40클래스, 회전 ±45°)
 python train_models.py hangul --data datasets/hangul/dataset.yaml --fliplr 0 --epochs 50 --install   # → models/hangul_jamo.pt
 python evaluate_hangul.py datasets/hangul/tracking/test --trackers baseline improved --name test      # 추적 지표 + 자모 분류 정확도
+python hangul_demo.py --words 한글 객체추적 --output my_demo.mp4                                        # 시연 영상 새로 만들기
 ```
 
 * 좌우를 뒤집으면 ㅏ가 ㅓ가 되므로 학습할 때 반드시 `--fliplr 0`을 줍니다.
