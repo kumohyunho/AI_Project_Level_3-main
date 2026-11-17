@@ -1,0 +1,45 @@
+{
+  "description": "improved 기반, val HOTA 최대 조합",
+  "created": "2026-11-16T16:10:50",
+  "weights": "experiments/mot17/person_mot17.pt",
+  "sequences": [
+    "MOT17-02-FRCNN",
+    "MOT17-04-FRCNN",
+    "MOT17-05-FRCNN",
+    "MOT17-09-FRCNN",
+    "MOT17-10-FRCNN",
+    "MOT17-11-FRCNN",
+    "MOT17-13-FRCNN"
+  ],
+  "best_params": {
+    "high_thresh": 0.5,
+    "match_thresh": 0.7,
+    "track_buffer": 90
+  },
+  "val_metrics": {
+    "HOTA": 49.92455102354743,
+    "IDF1": 60.768994736469416,
+    "MOTA": 44.53012048192772,
+    "IDSW": 94
+  },
+  "tracker": {
+    "high_thresh": 0.5,
+    "low_thresh": 0.1,
+    "new_track_thresh": 0.6,
+    "match_thresh": 0.7,
+    "second_match_thresh": 0.5,
+    "unconfirmed_match_thresh": 0.7,
+    "track_buffer": 90,
+    "min_box_area": 10.0,
+    "appearance": true,
+    "appearance_weight": 0.3,
+    "appearance_gate": 0.4,
+    "feature_momentum": 0.9,
+    "recover_lost": true,
+    "recover_thresh": 0.25,
+    "reid_buffer": 150,
+    "reid_thresh": 0.2,
+    "freeze_out_of_frame": true,
+    "damp_lost_velocity": false
+  }
+}

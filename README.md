@@ -4,6 +4,7 @@ YOLO11n으로 사람(및 고양이·개·새)을 검출하고, **직접 구현�
 다중 객체 추적 시스템입니다. 추적 결과·성능 비교는 PySide6 GUI로 확인합니다.
 
 * 과제 요구 사항 10개와 구현 대응표: [`docs/REQUIREMENTS.md`](docs/REQUIREMENTS.md)
+* MOT17 보행자 추적 결과: [`docs/MOT17_RESULTS.md`](docs/MOT17_RESULTS.md)
 * ByteTrack 원리와 개선 내용: [`docs/BYTETRACK.md`](docs/BYTETRACK.md)
 * 협업 규칙(두 사람·두 AI)과 확장 기능 만드는 법: [`docs/COLLABORATION.md`](docs/COLLABORATION.md), [`AGENTS.md`](AGENTS.md)
 
@@ -37,6 +38,7 @@ python -m venv .venv
 7. **성능 비교** 탭은 `run_mot.py`, `benchmark_speed.py`가 만든 비교표를 보여 줍니다.
 
 검출 모델 기본값은 `models/person.pt` → `models/coco.pt` → `yolo11n.pt` 순서로 고릅니다.
+`models/person.pt`는 MOT17로 학습한 **사람 전용** 모델입니다. 고양이·개·새를 함께 추적하려면 검출 모델을 `yolo11n.pt`로 바꾸세요.
 고양이·개·새는 COCO 클래스가 있는 가중치(`yolo11n.pt`, `models/coco.pt`)에서만 선택할 수 있습니다.
 
 ## 파일 구성
@@ -164,7 +166,8 @@ python -m unittest discover -s tests -t .
 * `metrics.py`의 HOTA·DetA·AssA·MOTA·IDF1·IDSW·Frag가 공식 TrackEval과 소수점 셋째 자리까지 같음을 합성 시퀀스로 확인했습니다.
 * 정답을 아는 합성 장면(교차·기둥 가림·화면 이탈 후 재진입)에서 개선판은 IDSW 1 → 0, IDF1 90.30 → 96.17, HOTA 84.00 → 87.23입니다.
   다만 이 장면에서 효과를 낸 것은 재진입 ID 복원뿐이었습니다. 외형 연결과 가림 후 재연결의 효과는 **MOT 데이터에서 확인해야 합니다.**
-* 공식 MOT17/MOT20, COCO, CrowdHuman, WIDER FACE 전체 학습·평가 수치는 아직 없습니다. 위 3)을 실행해 `results/comparison.md`의 표를 보고서에 사용하세요.
+* **MOT17 보행자 추적 결과**는 [`docs/MOT17_RESULTS.md`](docs/MOT17_RESULTS.md)에 있습니다. 검출기 Fine-tuning으로 test HOTA 40.88 → 51.46.
+  MOT20, COCO, CrowdHuman, WIDER FACE 전체 학습·평가 수치는 아직 없습니다.
 * ID는 영상 안에서만 유효한 번호입니다. 외형 특징은 색 히스토그램이라 옷 색이 비슷한 사람끼리는 구분력이 떨어집니다.
 * 얼굴 모자이크는 검출된 얼굴에만 적용되고, 원본 재생·결과 재생 모드에는 적용되지 않습니다.
 

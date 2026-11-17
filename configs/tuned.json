@@ -1,0 +1,45 @@
+{
+  "description": "improved 기반, val HOTA 최대 조합",
+  "created": "2026-11-16T15:12:57",
+  "weights": "yolo11n.pt",
+  "sequences": [
+    "MOT17-02-FRCNN",
+    "MOT17-04-FRCNN",
+    "MOT17-05-FRCNN",
+    "MOT17-09-FRCNN",
+    "MOT17-10-FRCNN",
+    "MOT17-11-FRCNN",
+    "MOT17-13-FRCNN"
+  ],
+  "best_params": {
+    "high_thresh": 0.4,
+    "match_thresh": 0.8,
+    "track_buffer": 60
+  },
+  "val_metrics": {
+    "HOTA": 40.2770859643321,
+    "IDF1": 45.304853318913075,
+    "MOTA": 28.978683966635778,
+    "IDSW": 57
+  },
+  "tracker": {
+    "high_thresh": 0.4,
+    "low_thresh": 0.1,
+    "new_track_thresh": 0.5,
+    "match_thresh": 0.8,
+    "second_match_thresh": 0.5,
+    "unconfirmed_match_thresh": 0.7,
+    "track_buffer": 60,
+    "min_box_area": 10.0,
+    "appearance": true,
+    "appearance_weight": 0.3,
+    "appearance_gate": 0.4,
+    "feature_momentum": 0.9,
+    "recover_lost": true,
+    "recover_thresh": 0.25,
+    "reid_buffer": 150,
+    "reid_thresh": 0.2,
+    "freeze_out_of_frame": true,
+    "damp_lost_velocity": false
+  }
+}

@@ -4,9 +4,9 @@
 사용 데이터셋은 **COCO**(사람·고양이·개·새 검출), **MOT17/MOT20**(보행자 추적 평가), **CrowdHuman**(붐비는 장면 사람 검출),
 **WIDER FACE**(얼굴 모자이크) 4가지입니다.
 
-> **수치에 대해**: 아래 "검증 결과"는 이 저장소에서 실제로 실행해 확인한 값입니다. 공식 MOT17/MOT20 데이터는
-> 개발 환경에서 내려받을 수 없어, MOT 수치 대신 **정답을 아는 합성 장면**(`tests/synthetic.py`)과 `sample.mp4`로 검증했습니다.
-> 보고서용 MOT 성능은 아래 "전체 실행 순서"를 실제 데이터로 실행해 채워야 합니다.
+> **수치에 대해**: 아래 "검증 결과"는 이 저장소에서 실제로 실행해 확인한 값입니다.
+> **실제 보행자 데이터(MOT17) 결과는 [`docs/MOT17_RESULTS.md`](MOT17_RESULTS.md)**에 있습니다
+> (검출기 Fine-tuning으로 test HOTA 40.88 → 51.46). 각 절의 합성 장면 수치는 정답을 아는 작은 장면에서 코드 동작을 확인한 것입니다.
 
 ## 1. 데이터 준비: 학습·검증·테스트 구분과 전처리
 
@@ -36,6 +36,9 @@ ID가 보존된 `gt.txt`와 `seqinfo.ini`가 생성되는 것을 확인했습니
 **검증**: `tests/test_core.py`의 칼만 예측, 클래스 분리, 상태 판정 테스트 통과. `sample.mp4` 150프레임에서 사람마다 ID가 붙어 유지됩니다.
 
 ## 3. 추적 모델 개선과 전후 비교
+
+> **MOT17 결과** (`docs/MOT17_RESULTS.md` 2절): 기본 검출기에서 기본판 HOTA 40.88 → 개선판 41.10 → 튜닝판 42.88.
+> 개선 항목 중 가림 후 재연결이 ID 변경을 44 → 36회로 줄였고, 외형 연결은 ID 변경을 늘렸습니다.
 
 개선판(`improved`)은 기본판에 다음을 추가했습니다. 자세한 내용은 `docs/BYTETRACK.md` 3절에 있습니다.
 
@@ -85,6 +88,10 @@ ID가 보존된 `gt.txt`와 `seqinfo.ini`가 생성되는 것을 확인했습니
 
 ## 6. Fine-tuning과 주요 파라미터 최적화
 
+> **MOT17 결과** (`docs/MOT17_RESULTS.md` 1·2절): YOLO11n을 MOT17 train 구간으로 30에폭 학습해 test mAP50 0.693 → 0.860,
+> 추적 HOTA 40.88 → 51.46. 학습 모델은 `models/person.pt`로 설치되어 기본 검출기가 됩니다.
+> 추적 파라미터는 val 구간 27개 조합에서 골랐습니다 (`configs/tuned.json`, `configs/tuned_person.json`).
+
 * **Fine-tuning** (`train_models.py`): COCO(4클래스) / CrowdHuman / MOT / WIDER FACE. AdamW, lr 0.0005, 앞 10개 레이어 고정이 기본이고,
   학습 후 val·test 분할로 mAP를 측정합니다. `--install`을 주면 `models/`에 설치하면서 학습 설정과 성능을 `.json`으로 함께 저장합니다.
 * **파라미터 탐색** (`tune_params.py`): 검출 임계값(`high_thresh`), 연관성 임계값(`match_thresh`), 추적 유지 시간(`track_buffer`)
@@ -95,6 +102,9 @@ ID가 보존된 `gt.txt`와 `seqinfo.ini`가 생성되는 것을 확인했습니
 (동작 확인용 데이터라 수치는 의미가 없어 기록하지 않았습니다.)
 
 ## 7. HOTA·IDF1·MOTA·IDSW로 성능 분석, 가림·교차 실패 사례 분석
+
+> **MOT17 결과** (`docs/MOT17_RESULTS.md` 3절): 보행자 ID 변경의 가장 큰 원인은 교차(44~48%)였습니다.
+> 사례 그림은 `results/failures/test`, `results/failures/test_finetuned`에 있습니다.
 
 * `metrics.py`: TrackEval(MotChallenge2DBox)의 계산 방식을 그대로 옮긴 HOTA(DetA·AssA·LocA), MOTA, IDF1, IDSW, Frag.
   외부 저장소 없이 평가·튜닝·GUI 비교가 동작합니다. 공식 도구 교차 확인용 `evaluate_mot.py`(TrackEval)도 유지했습니다.

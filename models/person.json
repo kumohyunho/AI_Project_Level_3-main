@@ -1,0 +1,35 @@
+{
+  "kind": "mot",
+  "base_weights": "yolo11n.pt",
+  "created": "2026-11-16T15:52:14",
+  "train_options": {
+    "data": "datasets/mot/dataset.yaml",
+    "epochs": 30,
+    "imgsz": 640,
+    "batch": 32,
+    "device": "0",
+    "workers": 4,
+    "project": "/content/AI_Project_Level_3/training_runs",
+    "name": "mot",
+    "seed": 42,
+    "optimizer": "AdamW",
+    "lr0": 0.0005,
+    "freeze": 10,
+    "mosaic": 1.0,
+    "patience": 10,
+    "fliplr": 0.5
+  },
+  "scores": {
+    "val": {
+      "mAP50": 0.895311208275062,
+      "mAP50-95": 0.5744431707053551
+    },
+    "test": {
+      "mAP50": 0.8597026427522222,
+      "mAP50-95": 0.547440438477263
+    }
+  },
+  "best": "/content/AI_Project_Level_3/training_runs/mot/weights/best.pt",
+  "installed_from": "experiments/mot17/person_mot17.pt (Colab T4에서 학습, 사용자 업로드)",
+  "note": "MOT17 FRCNN 7개 영상의 앞 50% 프레임(5프레임 간격 533장)으로 학습. test는 같은 영상의 마지막 25% 프레임."
+}
