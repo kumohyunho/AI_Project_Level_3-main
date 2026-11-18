@@ -1,6 +1,6 @@
 # 지능형 객체 추적 시스템
 
-YOLO11n으로 사람(및 고양이·개·새)을 검출하고, **직접 구현한 ByteTrack과 그 개선판**으로 프레임 간 같은 객체에 같은 ID를 유지하는
+YOLO11n으로 사람을 검출하고, **직접 구현한 ByteTrack과 그 개선판**으로 프레임 간 같은 객체에 같은 ID를 유지하는
 다중 객체 추적 시스템입니다. 추적 결과·성능 비교는 PySide6 GUI로 확인합니다.
 
 * 과제 요구 사항 10개와 구현 대응표: [`docs/REQUIREMENTS.md`](docs/REQUIREMENTS.md)
@@ -10,10 +10,10 @@ YOLO11n으로 사람(및 고양이·개·새)을 검출하고, **직접 구현�
 
 | 데이터셋 | 용도 | 결과 가중치 |
 |---|---|---|
-| [COCO](https://cocodataset.org/#download) | 사람·고양이·개·새 검출 | `models/coco.pt` |
-| [MOT17](https://motchallenge.net/data/MOT17/) · [MOT20](https://motchallenge.net/data/MOT20/) | 보행자 추적 평가(HOTA·IDF1·MOTA·IDSW), 파라미터 튜닝, 검출기 학습 | `models/person.pt` (선택) |
-| [CrowdHuman](https://www.crowdhuman.org/download.html) | 사람이 많이 겹치는 장면의 사람 검출 | `models/person.pt` |
-| [WIDER FACE](http://shuoyang1213.me/WIDERFACE/) | 얼굴 검출 → 자동 모자이크 (확장 기능) | `models/face.pt` |
+| [COCO](https://cocodataset.org/#download) | 사람·고양이·개·새 검출 학습 (선택, 전체 학습 미실행) | `models/coco.pt` (없음, GUI는 사람만 사용) |
+| [MOT17](https://motchallenge.net/data/MOT17/) · [MOT20](https://motchallenge.net/data/MOT20/) | 보행자 추적 평가(HOTA·IDF1·MOTA·IDSW), 파라미터 튜닝, 검출기 학습 | **`models/person.pt` (기본 검출기)**, MOT17로 학습. MOT20은 미실행 |
+| [CrowdHuman](https://www.crowdhuman.org/download.html) | 사람이 많이 겹치는 장면의 사람 검출 | `models/person_crowdhuman.pt` (96장 소량 실험, 기본 아님) |
+| [WIDER FACE](http://shuoyang1213.me/WIDERFACE/) | 얼굴 검출 → 자동 모자이크 (확장 기능) | `models/face.pt` (96장 소량 학습) |
 
 ## 설치와 실행 (Windows)
 
@@ -28,7 +28,7 @@ python -m venv .venv
 ## GUI 사용법
 
 1. **영상 열기**로 파일을 고르거나, 번호를 정하고 **카메라 연결**을 누릅니다.
-2. **검출 모델**, **추적기**(ByteTrack 기본 / 개선 / 튜닝 설정), **대상**(사람·고양이·개·새), **얼굴 모자이크**를 고르고 **▶ 시작**을 누릅니다.
+2. **대상**(사람), **검출 모델**, **추적기**(ByteTrack 기본 / 개선 / 튜닝 설정), **얼굴 모자이크**, **확장 기능**을 고르고 **▶ 시작**을 누릅니다.
 3. 화면에 박스·ID·이동 궤적이 그려지고, 가려지거나 화면 밖으로 나간 객체는 점선 회색 박스로 표시됩니다.
    오른쪽 목록에서 객체별 상태(추적 중·가림·화면 이탈·재등장·재진입), 이동 방향, 누적 거리, 속도를 확인합니다.
    위쪽에는 현재 FPS, 평균 FPS·평균 ms, 단계별(검출·추적·모자이크) 시간이 나옵니다.
@@ -40,8 +40,12 @@ python -m venv .venv
    실시간 추적 탭이 영상을 처리하는 동안에는 보호색 탭의 추적 실행과 학습 비교가 잠기고, 반대로 보호색 탭이 처리하는 동안에는 실시간 추적을 시작하지 않습니다.
 
 검출 모델 기본값은 `models/person.pt` → `models/coco.pt` → `yolo11n.pt` 순서로 고릅니다.
-`models/person.pt`는 MOT17로 학습한 **사람 전용** 모델입니다. 고양이·개·새를 함께 추적하려면 검출 모델을 `yolo11n.pt`로 바꾸세요.
-고양이·개·새는 COCO 클래스가 있는 가중치(`yolo11n.pt`, `models/coco.pt`)에서만 선택할 수 있습니다.
+`models/person.pt`는 MOT17로 학습한 **사람 전용** 모델이라, 실시간 추적 탭의 추적 대상은 **사람**만 고를 수 있습니다.
+(예전에는 고양이·개·새도 화면에 있었지만 기본 모델에서는 시작할 때 오류가 나서 뺐습니다. 예전 설정 파일을 불러오면 사람만 적용됩니다.)
+**사람을 끄고 확장 기능만 켜면** 기본 검출기 없이 확장 기능만 실행합니다. 한글 자모 과제를 시연할 때는 사람을 끄고 **한글 자모**만 켜세요
+(`hangul_demo.mp4`, CPU: 사람 + 한글 자모 155 ms → 한글 자모만 50 ms/프레임, [#35](https://github.com/kumohyunho/AI_Project_Level_3-main/pull/35)).
+검출 모델 목록의 `hangul_jamo.pt`, `camouflage.pt`는 확장 기능 전용이라 실시간 추적 탭의 검출 모델로 고르면 "없는 클래스" 오류가 납니다.
+얼굴 모자이크는 처리 시간을 약 2배로 늘리므로 속도를 보여 줄 때는 끄고 실행하세요 (`sample.mp4`, CPU: 켬 약 100 ms, 끔 약 46 ms/프레임).
 
 ## 파일 구성
 
@@ -93,7 +97,7 @@ python prepare_dataset.py face --train-images datasets/raw/wider/WIDER_train/ima
 MOT20을 받지 않았으면 첫 줄에서 `datasets/raw/MOT20/train`을 빼세요.
 CrowdHuman은 `CrowdHuman_train01~03.zip`의 이미지를 `datasets/raw/crowd/train/Images` 하나에 모으고, `CrowdHuman_val.zip`은 `datasets/raw/crowd/val/Images`로 풉니다.
 COCO는 `--limit 5000`처럼 분할당 이미지 수를 제한해 빠르게 실험할 수 있습니다.
-기본 `yolo11n.pt`가 이미 COCO로 학습된 모델이므로, 사람·고양이·개·새 검출은 COCO 학습 없이도 동작합니다.
+기본 `yolo11n.pt`가 이미 COCO로 학습된 모델이므로 COCO 학습은 선택입니다. GUI는 사람만 추적합니다.
 
 ### 2) 검출기 Fine-tuning (요구 사항 6)
 
@@ -194,6 +198,10 @@ CrowdHuman 가중치(`models/person_crowdhuman.pt`)는 이 결과 때문에 기�
 COCO 사전학습 YOLO11n을 COD10K·MoCA 검출 정답으로 파인튜닝하며, ByteTrack은 검출 결과를 연결합니다.
 클래스는 **`0: camouflaged_animal` 하나**입니다. 개·고양이·새 등을 종별 클래스로 분류하지 않으며, 같은 클래스 안의 개체를 서로 다른 추적 ID로 구분합니다.
 
+> **보호색 영상 전용**: 보호색 동물 데이터에는 사람이 나오는 장면이 없어서, 사람이 나오는 일반 영상에서는 사람을 동물로 잘못 검출합니다.
+> `sample.mp4`(거리 보행자 영상)에서 실시간 추적 탭의 보호색 확장을 켜면 300프레임 중 292프레임에서 걷는 사람 무리를 `camouflaged_animal`로 표시했습니다(신뢰도 최대 0.82).
+> 그래서 보호색 추적은 **보호색 동물 영상에만** 쓰고, 일반 영상의 사람 추적과는 따로 시연합니다.
+
 ### 진행 현황 (2026-11-17)
 
 | 단계 | 현재 상태 | 근거·확인 범위 |
@@ -271,12 +279,11 @@ flowchart TD
 
 ### 코드·PR 위치
 
-2026-11-17 문서 갱신 시점의 main(`336c1a3`)에는 학습·검사·학습률 비교와 [#25 전용 화면](https://github.com/kumohyunho/AI_Project_Level_3-main/pull/25)이 포함되어 있습니다.
+main에는 학습·검사·학습률 비교, [#25 전용 화면](https://github.com/kumohyunho/AI_Project_Level_3-main/pull/25),
 [#26 탭 연결](https://github.com/kumohyunho/AI_Project_Level_3-main/pull/26),
 [#27 추적기 진단](https://github.com/kumohyunho/AI_Project_Level_3-main/pull/27),
-[#28 보호색 진단 저장](https://github.com/kumohyunho/AI_Project_Level_3-main/pull/28)은 **작업 브랜치로 병합된 상태이며, 이 시점의 main에는 아직 포함되지 않았습니다.**
-이 세 기능을 모두 확인하는 브랜치는 [`codex/camouflage-diagnostics-main`](https://github.com/kumohyunho/AI_Project_Level_3-main/tree/codex/camouflage-diagnostics-main)입니다.
-PR의 `Merged` 표시와 main 반영 여부는 별개이므로 실제 base·커밋 포함 관계를 확인하세요.
+[#28 보호색 진단 저장](https://github.com/kumohyunho/AI_Project_Level_3-main/pull/28)이 모두 들어 있습니다.
+#26~#28은 처음에 작업 브랜치끼리 합쳐졌고, [#32](https://github.com/kumohyunho/AI_Project_Level_3-main/pull/32)로 main에 반영했습니다.
 
 상세 절차: [전처리·학습·추적](docs/CAMOUFLAGE.md), [Colab 준비](docs/CAMOUFLAGE_COLAB.md),
 [데이터 검사](docs/CAMOUFLAGE_DATA_CHECK.md), [NMS 검증](docs/CAMOUFLAGE_NMS_VALIDATION.md),
