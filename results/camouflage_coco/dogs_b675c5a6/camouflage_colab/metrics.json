@@ -1,0 +1,116 @@
+{
+  "weights": "/content/drive/MyDrive/camouflage_learning/models/camouflage.pt",
+  "tracker": {
+    "high_thresh": 0.4,
+    "low_thresh": 0.05,
+    "new_track_thresh": 0.5,
+    "match_thresh": 0.8,
+    "second_match_thresh": 0.5,
+    "unconfirmed_match_thresh": 0.7,
+    "track_buffer": 60,
+    "min_box_area": 10.0,
+    "appearance": false,
+    "appearance_weight": 0.3,
+    "appearance_gate": 0.4,
+    "feature_momentum": 0.9,
+    "recover_lost": false,
+    "recover_thresh": 0.25,
+    "reid_buffer": 0,
+    "reid_thresh": 0.2,
+    "freeze_out_of_frame": false,
+    "damp_lost_velocity": false
+  },
+  "detection": {
+    "nms_iou": 0.7,
+    "max_det": 300
+  },
+  "metrics": {
+    "HOTA": 11.381346545473708,
+    "DetA": 6.0854300169726505,
+    "AssA": 21.398902054061097,
+    "LocA": 29.729878390498186,
+    "MOTA": -8.515482695810572,
+    "IDF1": 5.191786129407207,
+    "IDSW": 0,
+    "Frag": 6,
+    "FP": 286,
+    "FN": 2097,
+    "GT_Dets": 2196,
+    "IDs": 6,
+    "GT_IDs": 6
+  },
+  "sequences": [
+    {
+      "sequence": "dogs_b675c5a6",
+      "metrics": {
+        "HOTA": 11.381346545473708,
+        "DetA": 6.0854300169726505,
+        "AssA": 21.398902054061097,
+        "LocA": 29.729878390498186,
+        "MOTA": -8.515482695810572,
+        "IDF1": 5.191786129407207,
+        "IDSW": 0,
+        "Frag": 6,
+        "FP": 286,
+        "FN": 2097,
+        "GT_Dets": 2196,
+        "IDs": 6,
+        "GT_IDs": 6
+      },
+      "annotated_frames": 366,
+      "processed_frames": 366,
+      "processing_ms": 46.372824316939784
+    }
+  ],
+  "events": [
+    {
+      "sequence": "dogs_b675c5a6",
+      "type": "FRAG",
+      "frame": 30,
+      "gt_id": 2,
+      "old_id": 1,
+      "new_id": 1
+    },
+    {
+      "sequence": "dogs_b675c5a6",
+      "type": "FRAG",
+      "frame": 83,
+      "gt_id": 1,
+      "old_id": 1,
+      "new_id": 1
+    },
+    {
+      "sequence": "dogs_b675c5a6",
+      "type": "FRAG",
+      "frame": 89,
+      "gt_id": 2,
+      "old_id": 1,
+      "new_id": 1
+    },
+    {
+      "sequence": "dogs_b675c5a6",
+      "type": "FRAG",
+      "frame": 105,
+      "gt_id": 2,
+      "old_id": 1,
+      "new_id": 1
+    },
+    {
+      "sequence": "dogs_b675c5a6",
+      "type": "FRAG",
+      "frame": 138,
+      "gt_id": 1,
+      "old_id": 1,
+      "new_id": 1
+    },
+    {
+      "sequence": "dogs_b675c5a6",
+      "type": "FRAG",
+      "frame": 254,
+      "gt_id": 2,
+      "old_id": 1,
+      "new_id": 1
+    }
+  ],
+  "protocol": "전 프레임 추적, annotations.json의 주석 프레임만 평가. 보간 정답 생성 안 함."
+}

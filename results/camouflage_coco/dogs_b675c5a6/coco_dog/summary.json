@@ -1,0 +1,64 @@
+{
+  "sequence": "dogs_b675c5a6",
+  "weights": "yolo11n.pt",
+  "classes": [
+    "dog"
+  ],
+  "device": "cpu",
+  "tracker": {
+    "high_thresh": 0.4,
+    "low_thresh": 0.05,
+    "new_track_thresh": 0.5,
+    "match_thresh": 0.8,
+    "second_match_thresh": 0.5,
+    "unconfirmed_match_thresh": 0.7,
+    "track_buffer": 60,
+    "min_box_area": 10.0,
+    "appearance": false,
+    "appearance_weight": 0.3,
+    "appearance_gate": 0.4,
+    "feature_momentum": 0.9,
+    "recover_lost": false,
+    "recover_thresh": 0.25,
+    "reid_buffer": 0,
+    "reid_thresh": 0.2,
+    "freeze_out_of_frame": false,
+    "damp_lost_velocity": false
+  },
+  "ms_per_frame": 60.0943715273234,
+  "metrics": {
+    "HOTA": 2.788260062678538,
+    "DetA": 1.5242351920331842,
+    "AssA": 5.122200921941346,
+    "LocA": 24.16433852992026,
+    "MOTA": -4.599271402550098,
+    "IDF1": 0.26052974381241856,
+    "IDSW": 0.0,
+    "Frag": 0.0,
+    "FP": 104.0,
+    "FN": 2193.0,
+    "GT_Dets": 2196.0,
+    "IDs": 3.0,
+    "GT_IDs": 6.0
+  },
+  "grouping": {
+    "COCO (dog)": {
+      "frames": 366,
+      "truth_per_frame": 6.0,
+      "predicted_per_frame": 0.2923497267759563,
+      "predicted": 107,
+      "grouped": 104,
+      "grouped_ratio": 0.9719626168224299,
+      "area_ratio": 3.264428540643999
+    },
+    "보호색 모델(CPU)": {
+      "frames": 366,
+      "truth_per_frame": 6.0,
+      "predicted_per_frame": 1.0737704918032787,
+      "predicted": 393,
+      "grouped": 364,
+      "grouped_ratio": 0.926208651399491,
+      "area_ratio": 3.2662832109045135
+    }
+  }
+}

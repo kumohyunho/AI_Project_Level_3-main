@@ -1,0 +1,124 @@
+{
+  "weights": "models/camouflage.pt",
+  "tracker": {
+    "high_thresh": 0.4,
+    "low_thresh": 0.05,
+    "new_track_thresh": 0.5,
+    "match_thresh": 0.8,
+    "second_match_thresh": 0.5,
+    "unconfirmed_match_thresh": 0.7,
+    "track_buffer": 60,
+    "min_box_area": 10.0,
+    "appearance": false,
+    "appearance_weight": 0.3,
+    "appearance_gate": 0.4,
+    "feature_momentum": 0.9,
+    "recover_lost": false,
+    "recover_thresh": 0.25,
+    "reid_buffer": 0,
+    "reid_thresh": 0.2,
+    "freeze_out_of_frame": false,
+    "damp_lost_velocity": false
+  },
+  "detection": {
+    "nms_iou": 0.7,
+    "max_det": 300
+  },
+  "metrics": {
+    "HOTA": 11.110631307064093,
+    "DetA": 6.142323076967993,
+    "AssA": 20.158940743684813,
+    "LocA": 29.36721453571114,
+    "MOTA": -9.153005464480879,
+    "IDF1": 5.098493626882966,
+    "IDSW": 0,
+    "Frag": 7,
+    "FP": 297,
+    "FN": 2100,
+    "GT_Dets": 2196,
+    "IDs": 6,
+    "GT_IDs": 6
+  },
+  "sequences": [
+    {
+      "sequence": "dogs_b675c5a6",
+      "metrics": {
+        "HOTA": 11.110631307064093,
+        "DetA": 6.142323076967993,
+        "AssA": 20.158940743684813,
+        "LocA": 29.36721453571114,
+        "MOTA": -9.153005464480879,
+        "IDF1": 5.098493626882966,
+        "IDSW": 0,
+        "Frag": 7,
+        "FP": 297,
+        "FN": 2100,
+        "GT_Dets": 2196,
+        "IDs": 6,
+        "GT_IDs": 6
+      },
+      "annotated_frames": 366,
+      "processed_frames": 366,
+      "processing_ms": 47.920240857923055
+    }
+  ],
+  "events": [
+    {
+      "sequence": "dogs_b675c5a6",
+      "type": "FRAG",
+      "frame": 30,
+      "gt_id": 2,
+      "old_id": 1,
+      "new_id": 1
+    },
+    {
+      "sequence": "dogs_b675c5a6",
+      "type": "FRAG",
+      "frame": 58,
+      "gt_id": 1,
+      "old_id": 1,
+      "new_id": 1
+    },
+    {
+      "sequence": "dogs_b675c5a6",
+      "type": "FRAG",
+      "frame": 83,
+      "gt_id": 1,
+      "old_id": 1,
+      "new_id": 1
+    },
+    {
+      "sequence": "dogs_b675c5a6",
+      "type": "FRAG",
+      "frame": 89,
+      "gt_id": 2,
+      "old_id": 1,
+      "new_id": 1
+    },
+    {
+      "sequence": "dogs_b675c5a6",
+      "type": "FRAG",
+      "frame": 106,
+      "gt_id": 2,
+      "old_id": 1,
+      "new_id": 1
+    },
+    {
+      "sequence": "dogs_b675c5a6",
+      "type": "FRAG",
+      "frame": 138,
+      "gt_id": 1,
+      "old_id": 1,
+      "new_id": 1
+    },
+    {
+      "sequence": "dogs_b675c5a6",
+      "type": "FRAG",
+      "frame": 254,
+      "gt_id": 2,
+      "old_id": 1,
+      "new_id": 1
+    }
+  ],
+  "protocol": "전 프레임 추적, annotations.json의 주석 프레임만 평가. 보간 정답 생성 안 함."
+}
