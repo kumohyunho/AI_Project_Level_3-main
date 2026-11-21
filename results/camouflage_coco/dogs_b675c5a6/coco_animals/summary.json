@@ -1,0 +1,78 @@
+{
+  "sequence": "dogs_b675c5a6",
+  "weights": "yolo11n.pt",
+  "classes": [
+    "dog",
+    "horse",
+    "sheep",
+    "cow",
+    "cat",
+    "bear"
+  ],
+  "device": "cpu",
+  "tracker": {
+    "high_thresh": 0.4,
+    "low_thresh": 0.05,
+    "new_track_thresh": 0.5,
+    "match_thresh": 0.8,
+    "second_match_thresh": 0.5,
+    "unconfirmed_match_thresh": 0.7,
+    "track_buffer": 60,
+    "min_box_area": 10.0,
+    "appearance": false,
+    "appearance_weight": 0.3,
+    "appearance_gate": 0.4,
+    "feature_momentum": 0.9,
+    "recover_lost": false,
+    "recover_thresh": 0.25,
+    "reid_buffer": 0,
+    "reid_thresh": 0.2,
+    "freeze_out_of_frame": false,
+    "damp_lost_velocity": false
+  },
+  "ms_per_frame": 59.48187881694067,
+  "metrics": {
+    "HOTA": 7.753302274865661,
+    "DetA": 6.867971079211044,
+    "AssA": 9.139159462173238,
+    "LocA": 57.09305876182735,
+    "MOTA": -3.2331511839708504,
+    "IDF1": 9.621451104100947,
+    "IDSW": 3.0,
+    "Frag": 5.0,
+    "FP": 204.0,
+    "FN": 2060.0,
+    "GT_Dets": 2196.0,
+    "IDs": 9.0,
+    "GT_IDs": 6.0
+  },
+  "grouping": {
+    "COCO (dog, horse, sheep, cow, cat, bear)": {
+      "frames": 366,
+      "truth_per_frame": 6.0,
+      "predicted_per_frame": 0.9289617486338798,
+      "predicted": 340,
+      "grouped": 293,
+      "grouped_ratio": 0.861764705882353,
+      "area_ratio": 2.4797700848351045
+    },
+    "보호색 모델(Colab GPU)": {
+      "frames": 366,
+      "truth_per_frame": 6.0,
+      "predicted_per_frame": 1.0519125683060109,
+      "predicted": 385,
+      "grouped": 356,
+      "grouped_ratio": 0.9246753246753247,
+      "area_ratio": 3.217005109328657
+    },
+    "보호색 모델(CPU)": {
+      "frames": 366,
+      "truth_per_frame": 6.0,
+      "predicted_per_frame": 1.0737704918032787,
+      "predicted": 393,
+      "grouped": 364,
+      "grouped_ratio": 0.926208651399491,
+      "area_ratio": 3.2662832109045135
+    }
+  }
+}
