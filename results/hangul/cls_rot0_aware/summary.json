@@ -1,0 +1,1354 @@
+{
+  "name": "cls_rot0_aware",
+  "weights": "/home/user/ai_project_level_3-main/models/hangul_jamo.pt",
+  "sequences": [
+    "jamo-01",
+    "jamo-02",
+    "jamo-03",
+    "jamo-04"
+  ],
+  "det_ms": 45.51996327250062,
+  "class_aware": true,
+  "created": "2026-11-21T07:06:59",
+  "results": {
+    "baseline": {
+      "tracking": {
+        "HOTA": 56.80406639828279,
+        "DetA": 67.64610495261304,
+        "AssA": 47.926751871627225,
+        "LocA": 92.44090001914515,
+        "MOTA": 68.75684787189212,
+        "IDF1": 59.94250119789171,
+        "IDSW": 423,
+        "Frag": 370,
+        "FP": 212,
+        "FN": 3072,
+        "GT_Dets": 11865,
+        "IDs": 194,
+        "GT_IDs": 41
+      },
+      "classification": {
+        "gt_boxes": 11865,
+        "matched": 8792,
+        "detection_rate": 74.10029498525074,
+        "frame_accuracy": 92.41533396048918,
+        "shown_accuracy": 92.03821656050955,
+        "shown_accuracy_voting_frames": 92.48588899341486,
+        "voting_frames": 8504,
+        "final_accuracy": 92.03821656050955,
+        "tracks": 160,
+        "track_accuracy": 60.625,
+        "by_angle": {
+          "0~15°": {
+            "gt_boxes": 11865,
+            "detection_rate": 74.10029498525074,
+            "frame_accuracy": 92.41533396048918,
+            "shown_accuracy": 92.03821656050955
+          },
+          "15~30°": {
+            "gt_boxes": 0,
+            "detection_rate": NaN,
+            "frame_accuracy": NaN,
+            "shown_accuracy": NaN
+          },
+          "30~45°": {
+            "gt_boxes": 0,
+            "detection_rate": NaN,
+            "frame_accuracy": NaN,
+            "shown_accuracy": NaN
+          }
+        },
+        "by_visibility": {
+          "온전히 보임 (95% 이상)": {
+            "gt_boxes": 10415,
+            "detection_rate": 80.93134901584253,
+            "shown_accuracy": 92.66816941511449
+          },
+          "일부 가림·경계 (30~95%)": {
+            "gt_boxes": 882,
+            "detection_rate": 41.156462585034014,
+            "shown_accuracy": 77.41046831955923
+          },
+          "거의 안 보임 (30% 미만)": {
+            "gt_boxes": 568,
+            "detection_rate": 0.0,
+            "shown_accuracy": NaN
+          }
+        },
+        "by_kind": {
+          "자음": {
+            "gt_boxes": 4594,
+            "detection_rate": 77.97126686983022,
+            "shown_accuracy": 94.86320491345617
+          },
+          "모음": {
+            "gt_boxes": 7271,
+            "detection_rate": 71.65451794801265,
+            "shown_accuracy": 90.09596928982725
+          }
+        }
+      },
+      "track_ms": 0.6591525091672186,
+      "config": {
+        "high_thresh": 0.5,
+        "low_thresh": 0.1,
+        "new_track_thresh": 0.6,
+        "match_thresh": 0.8,
+        "second_match_thresh": 0.5,
+        "unconfirmed_match_thresh": 0.7,
+        "track_buffer": 30,
+        "min_box_area": 10.0,
+        "appearance": false,
+        "appearance_weight": 0.3,
+        "appearance_gate": 0.4,
+        "feature_momentum": 0.9,
+        "recover_lost": false,
+        "recover_thresh": 0.25,
+        "reid_buffer": 0,
+        "reid_thresh": 0.2,
+        "freeze_out_of_frame": false,
+        "damp_lost_velocity": false
+      },
+      "per_jamo": [
+        {
+          "char": "ㄴ",
+          "kind": "자음",
+          "gt_boxes": 560,
+          "detection_rate": 80.17857142857143,
+          "frame_accuracy": 100.0,
+          "shown_accuracy": 100.0
+        },
+        {
+          "char": "ㄷ",
+          "kind": "자음",
+          "gt_boxes": 567,
+          "detection_rate": 90.29982363315696,
+          "frame_accuracy": 97.98387096774194,
+          "shown_accuracy": 96.6796875
+        },
+        {
+          "char": "ㄹ",
+          "kind": "자음",
+          "gt_boxes": 600,
+          "detection_rate": 91.33333333333333,
+          "frame_accuracy": 96.7032967032967,
+          "shown_accuracy": 96.71532846715328
+        },
+        {
+          "char": "ㅂ",
+          "kind": "자음",
+          "gt_boxes": 600,
+          "detection_rate": 91.0,
+          "frame_accuracy": 99.08256880733946,
+          "shown_accuracy": 98.9010989010989
+        },
+        {
+          "char": "ㅅ",
+          "kind": "자음",
+          "gt_boxes": 551,
+          "detection_rate": 64.7912885662432,
+          "frame_accuracy": 97.62611275964392,
+          "shown_accuracy": 97.19887955182072
+        },
+        {
+          "char": "ㅇ",
+          "kind": "자음",
+          "gt_boxes": 300,
+          "detection_rate": 63.666666666666664,
+          "frame_accuracy": 100.0,
+          "shown_accuracy": 100.0
+        },
+        {
+          "char": "ㅈ",
+          "kind": "자음",
+          "gt_boxes": 516,
+          "detection_rate": 64.72868217054264,
+          "frame_accuracy": 65.01650165016501,
+          "shown_accuracy": 61.67664670658683
+        },
+        {
+          "char": "ㄸ",
+          "kind": "자음",
+          "gt_boxes": 300,
+          "detection_rate": 73.0,
+          "frame_accuracy": 100.0,
+          "shown_accuracy": 100.0
+        },
+        {
+          "char": "ㅆ",
+          "kind": "자음",
+          "gt_boxes": 600,
+          "detection_rate": 71.0,
+          "frame_accuracy": 98.26732673267327,
+          "shown_accuracy": 98.82629107981221
+        },
+        {
+          "char": "ㅕ",
+          "kind": "모음",
+          "gt_boxes": 1129,
+          "detection_rate": 81.48804251550044,
+          "frame_accuracy": 98.56985698569856,
+          "shown_accuracy": 98.47826086956522
+        },
+        {
+          "char": "ㅜ",
+          "kind": "모음",
+          "gt_boxes": 600,
+          "detection_rate": 74.83333333333333,
+          "frame_accuracy": 95.60185185185185,
+          "shown_accuracy": 95.5456570155902
+        },
+        {
+          "char": "ㅠ",
+          "kind": "모음",
+          "gt_boxes": 300,
+          "detection_rate": 64.66666666666667,
+          "frame_accuracy": 96.79144385026738,
+          "shown_accuracy": 96.90721649484536
+        },
+        {
+          "char": "ㅡ",
+          "kind": "모음",
+          "gt_boxes": 300,
+          "detection_rate": 5.333333333333333,
+          "frame_accuracy": 100.0,
+          "shown_accuracy": 100.0
+        },
+        {
+          "char": "ㅣ",
+          "kind": "모음",
+          "gt_boxes": 900,
+          "detection_rate": 72.22222222222223,
+          "frame_accuracy": 99.82964224872232,
+          "shown_accuracy": 99.38461538461539
+        },
+        {
+          "char": "ㅒ",
+          "kind": "모음",
+          "gt_boxes": 300,
+          "detection_rate": 56.0,
+          "frame_accuracy": 71.60493827160494,
+          "shown_accuracy": 72.61904761904762
+        },
+        {
+          "char": "ㅔ",
+          "kind": "모음",
+          "gt_boxes": 300,
+          "detection_rate": 61.666666666666664,
+          "frame_accuracy": 53.93939393939394,
+          "shown_accuracy": 56.75675675675676
+        },
+        {
+          "char": "ㅘ",
+          "kind": "모음",
+          "gt_boxes": 300,
+          "detection_rate": 72.33333333333333,
+          "frame_accuracy": 93.98148148148148,
+          "shown_accuracy": 93.54838709677419
+        },
+        {
+          "char": "ㅙ",
+          "kind": "모음",
+          "gt_boxes": 300,
+          "detection_rate": 85.0,
+          "frame_accuracy": 94.46640316205534,
+          "shown_accuracy": 94.50980392156863
+        },
+        {
+          "char": "ㅚ",
+          "kind": "모음",
+          "gt_boxes": 1175,
+          "detection_rate": 72.34042553191489,
+          "frame_accuracy": 69.8159509202454,
+          "shown_accuracy": 69.52941176470588
+        },
+        {
+          "char": "ㅢ",
+          "kind": "모음",
+          "gt_boxes": 1667,
+          "detection_rate": 78.34433113377325,
+          "frame_accuracy": 95.58823529411765,
+          "shown_accuracy": 95.48238897396631
+        }
+      ],
+      "failures": null,
+      "wrong_tracks": null,
+      "confusion_frame": [
+        [
+          "ㅚ",
+          "ㅘ",
+          242
+        ],
+        [
+          "ㅈ",
+          "ㅊ",
+          89
+        ],
+        [
+          "ㅔ",
+          "ㅖ",
+          76
+        ],
+        [
+          "ㅒ",
+          "ㅐ",
+          44
+        ],
+        [
+          "ㄹ",
+          "ㅌ",
+          18
+        ],
+        [
+          "ㅢ",
+          "ㅚ",
+          18
+        ],
+        [
+          "ㅜ",
+          "ㅠ",
+          17
+        ],
+        [
+          "ㅈ",
+          "ㅋ",
+          14
+        ],
+        [
+          "ㅢ",
+          "ㄱ",
+          11
+        ],
+        [
+          "ㅢ",
+          "ㅘ",
+          11
+        ],
+        [
+          "ㅢ",
+          "ㅆ",
+          11
+        ],
+        [
+          "ㅕ",
+          "ㅒ",
+          10
+        ],
+        [
+          "ㄷ",
+          "ㄴ",
+          10
+        ],
+        [
+          "ㅙ",
+          "ㅞ",
+          7
+        ],
+        [
+          "ㅅ",
+          "ㅆ",
+          7
+        ],
+        [
+          "ㅠ",
+          "ㄲ",
+          6
+        ],
+        [
+          "ㅘ",
+          "ㅗ",
+          5
+        ],
+        [
+          "ㅘ",
+          "ㅚ",
+          4
+        ],
+        [
+          "ㅙ",
+          "ㄸ",
+          4
+        ],
+        [
+          "ㅢ",
+          "ㅅ",
+          4
+        ],
+        [
+          "ㅚ",
+          "ㅙ",
+          3
+        ],
+        [
+          "ㅆ",
+          "ㅉ",
+          3
+        ],
+        [
+          "ㅘ",
+          "ㅏ",
+          3
+        ],
+        [
+          "ㅂ",
+          "ㅝ",
+          3
+        ],
+        [
+          "ㅙ",
+          "ㅆ",
+          2
+        ],
+        [
+          "ㅆ",
+          "ㅛ",
+          2
+        ],
+        [
+          "ㅂ",
+          "ㅕ",
+          2
+        ],
+        [
+          "ㅕ",
+          "ㅓ",
+          2
+        ],
+        [
+          "ㅈ",
+          "ㅡ",
+          2
+        ],
+        [
+          "ㅒ",
+          "ㅆ",
+          2
+        ],
+        [
+          "ㅢ",
+          "ㅗ",
+          2
+        ],
+        [
+          "ㅚ",
+          "ㅗ",
+          1
+        ],
+        [
+          "ㅜ",
+          "ㄸ",
+          1
+        ],
+        [
+          "ㅆ",
+          "ㅜ",
+          1
+        ],
+        [
+          "ㅘ",
+          "ㅛ",
+          1
+        ],
+        [
+          "ㅜ",
+          "ㄱ",
+          1
+        ],
+        [
+          "ㅙ",
+          "ㅐ",
+          1
+        ],
+        [
+          "ㅣ",
+          "ㅏ",
+          1
+        ],
+        [
+          "ㅕ",
+          "ㅘ",
+          1
+        ],
+        [
+          "ㅆ",
+          "ㅊ",
+          1
+        ],
+        [
+          "ㅅ",
+          "ㅑ",
+          1
+        ],
+        [
+          "ㅈ",
+          "ㅉ",
+          1
+        ]
+      ],
+      "confusion_shown": [
+        [
+          "ㅚ",
+          "ㅘ",
+          256
+        ],
+        [
+          "ㅈ",
+          "ㅊ",
+          107
+        ],
+        [
+          "ㅔ",
+          "ㅖ",
+          80
+        ],
+        [
+          "ㅒ",
+          "ㅐ",
+          46
+        ],
+        [
+          "ㄹ",
+          "ㅌ",
+          18
+        ],
+        [
+          "ㅢ",
+          "ㅚ",
+          18
+        ],
+        [
+          "ㅈ",
+          "ㅋ",
+          18
+        ],
+        [
+          "ㅜ",
+          "ㅠ",
+          17
+        ],
+        [
+          "ㄷ",
+          "ㄴ",
+          17
+        ],
+        [
+          "ㅢ",
+          "ㅆ",
+          12
+        ],
+        [
+          "ㅢ",
+          "ㄱ",
+          11
+        ],
+        [
+          "ㅢ",
+          "ㅘ",
+          11
+        ],
+        [
+          "ㅕ",
+          "ㅒ",
+          10
+        ],
+        [
+          "ㅅ",
+          "ㅆ",
+          8
+        ],
+        [
+          "ㅙ",
+          "ㅞ",
+          7
+        ],
+        [
+          "ㅘ",
+          "ㅗ",
+          6
+        ],
+        [
+          "ㅠ",
+          "ㄲ",
+          6
+        ],
+        [
+          "ㅘ",
+          "ㅚ",
+          4
+        ],
+        [
+          "ㅙ",
+          "ㄸ",
+          4
+        ],
+        [
+          "ㅣ",
+          "ㅏ",
+          4
+        ],
+        [
+          "ㅢ",
+          "ㅅ",
+          4
+        ],
+        [
+          "ㅚ",
+          "ㅙ",
+          3
+        ],
+        [
+          "ㅆ",
+          "ㅉ",
+          3
+        ],
+        [
+          "ㅂ",
+          "ㅕ",
+          3
+        ],
+        [
+          "ㅕ",
+          "ㅓ",
+          3
+        ],
+        [
+          "ㅘ",
+          "ㅏ",
+          3
+        ],
+        [
+          "ㅂ",
+          "ㅝ",
+          3
+        ],
+        [
+          "ㅈ",
+          "ㅡ",
+          3
+        ],
+        [
+          "ㅢ",
+          "ㅗ",
+          3
+        ],
+        [
+          "ㅜ",
+          "ㄸ",
+          2
+        ],
+        [
+          "ㅙ",
+          "ㅆ",
+          2
+        ],
+        [
+          "ㅆ",
+          "ㅛ",
+          2
+        ],
+        [
+          "ㅅ",
+          "ㅑ",
+          2
+        ],
+        [
+          "ㅘ",
+          "ㅛ",
+          1
+        ],
+        [
+          "ㅜ",
+          "ㄱ",
+          1
+        ],
+        [
+          "ㅙ",
+          "ㅐ",
+          1
+        ],
+        [
+          "ㅕ",
+          "ㅘ",
+          1
+        ]
+      ]
+    },
+    "baseline+recover_lost+reid_buffer+freeze_out_of_frame": {
+      "tracking": {
+        "HOTA": 65.52233823831385,
+        "DetA": 68.13855412988781,
+        "AssA": 63.2643830573185,
+        "LocA": 92.34071210715538,
+        "MOTA": 69.05183312262957,
+        "IDF1": 74.20262216924911,
+        "IDSW": 447,
+        "Frag": 361,
+        "FP": 235,
+        "FN": 2990,
+        "GT_Dets": 11865,
+        "IDs": 147,
+        "GT_IDs": 41
+      },
+      "classification": {
+        "gt_boxes": 11865,
+        "matched": 8874,
+        "detection_rate": 74.79140328697851,
+        "frame_accuracy": 92.07828518173346,
+        "shown_accuracy": 91.70610773044851,
+        "shown_accuracy_voting_frames": 92.13653308480895,
+        "voting_frames": 8584,
+        "final_accuracy": 91.70610773044851,
+        "tracks": 117,
+        "track_accuracy": 55.55555555555556,
+        "by_angle": {
+          "0~15°": {
+            "gt_boxes": 11865,
+            "detection_rate": 74.79140328697851,
+            "frame_accuracy": 92.07828518173346,
+            "shown_accuracy": 91.70610773044851
+          },
+          "15~30°": {
+            "gt_boxes": 0,
+            "detection_rate": NaN,
+            "frame_accuracy": NaN,
+            "shown_accuracy": NaN
+          },
+          "30~45°": {
+            "gt_boxes": 0,
+            "detection_rate": NaN,
+            "frame_accuracy": NaN,
+            "shown_accuracy": NaN
+          }
+        },
+        "by_visibility": {
+          "온전히 보임 (95% 이상)": {
+            "gt_boxes": 10415,
+            "detection_rate": 81.4306289006241,
+            "shown_accuracy": 92.41834689305506
+          },
+          "일부 가림·경계 (30~95%)": {
+            "gt_boxes": 882,
+            "detection_rate": 44.5578231292517,
+            "shown_accuracy": 76.33587786259542
+          },
+          "거의 안 보임 (30% 미만)": {
+            "gt_boxes": 568,
+            "detection_rate": 0.0,
+            "shown_accuracy": NaN
+          }
+        },
+        "by_kind": {
+          "자음": {
+            "gt_boxes": 4594,
+            "detection_rate": 78.49368741837179,
+            "shown_accuracy": 94.64780920687743
+          },
+          "모음": {
+            "gt_boxes": 7271,
+            "detection_rate": 72.45220739925732,
+            "shown_accuracy": 89.69248291571753
+          }
+        }
+      },
+      "track_ms": 0.6421749625003296,
+      "config": {
+        "high_thresh": 0.5,
+        "low_thresh": 0.1,
+        "new_track_thresh": 0.6,
+        "match_thresh": 0.8,
+        "second_match_thresh": 0.5,
+        "unconfirmed_match_thresh": 0.7,
+        "track_buffer": 30,
+        "min_box_area": 10.0,
+        "appearance": false,
+        "appearance_weight": 0.3,
+        "appearance_gate": 0.4,
+        "feature_momentum": 0.9,
+        "recover_lost": true,
+        "recover_thresh": 0.25,
+        "reid_buffer": 150,
+        "reid_thresh": 0.2,
+        "freeze_out_of_frame": true,
+        "damp_lost_velocity": false
+      },
+      "per_jamo": [
+        {
+          "char": "ㄴ",
+          "kind": "자음",
+          "gt_boxes": 560,
+          "detection_rate": 79.64285714285714,
+          "frame_accuracy": 100.0,
+          "shown_accuracy": 100.0
+        },
+        {
+          "char": "ㄷ",
+          "kind": "자음",
+          "gt_boxes": 567,
+          "detection_rate": 90.8289241622575,
+          "frame_accuracy": 97.79559118236473,
+          "shown_accuracy": 96.50485436893204
+        },
+        {
+          "char": "ㄹ",
+          "kind": "자음",
+          "gt_boxes": 600,
+          "detection_rate": 92.16666666666667,
+          "frame_accuracy": 96.00725952813067,
+          "shown_accuracy": 96.02169981916818
+        },
+        {
+          "char": "ㅂ",
+          "kind": "자음",
+          "gt_boxes": 600,
+          "detection_rate": 91.33333333333333,
+          "frame_accuracy": 99.08592321755027,
+          "shown_accuracy": 98.9051094890511
+        },
+        {
+          "char": "ㅅ",
+          "kind": "자음",
+          "gt_boxes": 551,
+          "detection_rate": 65.15426497277677,
+          "frame_accuracy": 97.6401179941003,
+          "shown_accuracy": 97.21448467966574
+        },
+        {
+          "char": "ㅇ",
+          "kind": "자음",
+          "gt_boxes": 300,
+          "detection_rate": 63.666666666666664,
+          "frame_accuracy": 100.0,
+          "shown_accuracy": 100.0
+        },
+        {
+          "char": "ㅈ",
+          "kind": "자음",
+          "gt_boxes": 516,
+          "detection_rate": 66.47286821705427,
+          "frame_accuracy": 64.95176848874598,
+          "shown_accuracy": 61.80758017492711
+        },
+        {
+          "char": "ㄸ",
+          "kind": "자음",
+          "gt_boxes": 300,
+          "detection_rate": 73.33333333333333,
+          "frame_accuracy": 100.0,
+          "shown_accuracy": 100.0
+        },
+        {
+          "char": "ㅆ",
+          "kind": "자음",
+          "gt_boxes": 600,
+          "detection_rate": 71.83333333333333,
+          "frame_accuracy": 98.2885085574572,
+          "shown_accuracy": 98.60788863109049
+        },
+        {
+          "char": "ㅕ",
+          "kind": "모음",
+          "gt_boxes": 1129,
+          "detection_rate": 81.84233835252435,
+          "frame_accuracy": 98.57612267250822,
+          "shown_accuracy": 98.48484848484848
+        },
+        {
+          "char": "ㅜ",
+          "kind": "모음",
+          "gt_boxes": 600,
+          "detection_rate": 75.5,
+          "frame_accuracy": 94.95412844036697,
+          "shown_accuracy": 94.92273730684327
+        },
+        {
+          "char": "ㅠ",
+          "kind": "모음",
+          "gt_boxes": 300,
+          "detection_rate": 65.33333333333333,
+          "frame_accuracy": 96.82539682539682,
+          "shown_accuracy": 96.93877551020408
+        },
+        {
+          "char": "ㅡ",
+          "kind": "모음",
+          "gt_boxes": 300,
+          "detection_rate": 5.666666666666667,
+          "frame_accuracy": 100.0,
+          "shown_accuracy": 100.0
+        },
+        {
+          "char": "ㅣ",
+          "kind": "모음",
+          "gt_boxes": 900,
+          "detection_rate": 72.44444444444444,
+          "frame_accuracy": 99.830220713073,
+          "shown_accuracy": 99.38650306748467
+        },
+        {
+          "char": "ㅒ",
+          "kind": "모음",
+          "gt_boxes": 300,
+          "detection_rate": 57.0,
+          "frame_accuracy": 70.3030303030303,
+          "shown_accuracy": 71.34502923976608
+        },
+        {
+          "char": "ㅔ",
+          "kind": "모음",
+          "gt_boxes": 300,
+          "detection_rate": 65.33333333333333,
+          "frame_accuracy": 56.0,
+          "shown_accuracy": 58.673469387755105
+        },
+        {
+          "char": "ㅘ",
+          "kind": "모음",
+          "gt_boxes": 300,
+          "detection_rate": 73.33333333333333,
+          "frame_accuracy": 93.15068493150685,
+          "shown_accuracy": 92.72727272727273
+        },
+        {
+          "char": "ㅙ",
+          "kind": "모음",
+          "gt_boxes": 300,
+          "detection_rate": 85.33333333333333,
+          "frame_accuracy": 94.48818897637796,
+          "shown_accuracy": 94.53125
+        },
+        {
+          "char": "ㅚ",
+          "kind": "모음",
+          "gt_boxes": 1175,
+          "detection_rate": 73.87234042553192,
+          "frame_accuracy": 68.42737094837935,
+          "shown_accuracy": 68.20276497695852
+        },
+        {
+          "char": "ㅢ",
+          "kind": "모음",
+          "gt_boxes": 1667,
+          "detection_rate": 78.88422315536893,
+          "frame_accuracy": 95.54189085318986,
+          "shown_accuracy": 95.43726235741445
+        }
+      ],
+      "failures": null,
+      "wrong_tracks": null,
+      "confusion_frame": [
+        [
+          "ㅚ",
+          "ㅘ",
+          254
+        ],
+        [
+          "ㅈ",
+          "ㅊ",
+          91
+        ],
+        [
+          "ㅔ",
+          "ㅖ",
+          77
+        ],
+        [
+          "ㅒ",
+          "ㅐ",
+          47
+        ],
+        [
+          "ㄹ",
+          "ㅌ",
+          22
+        ],
+        [
+          "ㅜ",
+          "ㅠ",
+          20
+        ],
+        [
+          "ㅢ",
+          "ㅚ",
+          18
+        ],
+        [
+          "ㅈ",
+          "ㅋ",
+          14
+        ],
+        [
+          "ㅢ",
+          "ㄱ",
+          12
+        ],
+        [
+          "ㅢ",
+          "ㅘ",
+          11
+        ],
+        [
+          "ㄷ",
+          "ㄴ",
+          11
+        ],
+        [
+          "ㅕ",
+          "ㅒ",
+          10
+        ],
+        [
+          "ㅢ",
+          "ㅆ",
+          10
+        ],
+        [
+          "ㅚ",
+          "ㅙ",
+          8
+        ],
+        [
+          "ㅙ",
+          "ㅞ",
+          7
+        ],
+        [
+          "ㅅ",
+          "ㅆ",
+          7
+        ],
+        [
+          "ㅘ",
+          "ㅚ",
+          6
+        ],
+        [
+          "ㅠ",
+          "ㄲ",
+          6
+        ],
+        [
+          "ㅘ",
+          "ㅗ",
+          5
+        ],
+        [
+          "ㅆ",
+          "ㅉ",
+          4
+        ],
+        [
+          "ㅙ",
+          "ㄸ",
+          4
+        ],
+        [
+          "ㅢ",
+          "ㅅ",
+          4
+        ],
+        [
+          "ㅘ",
+          "ㅏ",
+          3
+        ],
+        [
+          "ㅂ",
+          "ㅝ",
+          3
+        ],
+        [
+          "ㅙ",
+          "ㅆ",
+          2
+        ],
+        [
+          "ㅆ",
+          "ㅛ",
+          2
+        ],
+        [
+          "ㅂ",
+          "ㅕ",
+          2
+        ],
+        [
+          "ㅕ",
+          "ㅓ",
+          2
+        ],
+        [
+          "ㅈ",
+          "ㅡ",
+          2
+        ],
+        [
+          "ㅒ",
+          "ㅆ",
+          2
+        ],
+        [
+          "ㅢ",
+          "ㅗ",
+          2
+        ],
+        [
+          "ㅚ",
+          "ㅗ",
+          1
+        ],
+        [
+          "ㅜ",
+          "ㄸ",
+          1
+        ],
+        [
+          "ㅘ",
+          "ㅛ",
+          1
+        ],
+        [
+          "ㅜ",
+          "ㄱ",
+          1
+        ],
+        [
+          "ㅙ",
+          "ㅐ",
+          1
+        ],
+        [
+          "ㅣ",
+          "ㅏ",
+          1
+        ],
+        [
+          "ㅕ",
+          "ㅘ",
+          1
+        ],
+        [
+          "ㅢ",
+          "ㅓ",
+          1
+        ],
+        [
+          "ㅆ",
+          "ㅊ",
+          1
+        ],
+        [
+          "ㅈ",
+          "ㄹ",
+          1
+        ],
+        [
+          "ㅅ",
+          "ㅑ",
+          1
+        ],
+        [
+          "ㅈ",
+          "ㅉ",
+          1
+        ]
+      ],
+      "confusion_shown": [
+        [
+          "ㅚ",
+          "ㅘ",
+          268
+        ],
+        [
+          "ㅈ",
+          "ㅊ",
+          109
+        ],
+        [
+          "ㅔ",
+          "ㅖ",
+          81
+        ],
+        [
+          "ㅒ",
+          "ㅐ",
+          49
+        ],
+        [
+          "ㄹ",
+          "ㅌ",
+          22
+        ],
+        [
+          "ㅜ",
+          "ㅠ",
+          20
+        ],
+        [
+          "ㅢ",
+          "ㅚ",
+          18
+        ],
+        [
+          "ㅈ",
+          "ㅋ",
+          18
+        ],
+        [
+          "ㄷ",
+          "ㄴ",
+          18
+        ],
+        [
+          "ㅢ",
+          "ㄱ",
+          12
+        ],
+        [
+          "ㅢ",
+          "ㅘ",
+          11
+        ],
+        [
+          "ㅢ",
+          "ㅆ",
+          11
+        ],
+        [
+          "ㅕ",
+          "ㅒ",
+          10
+        ],
+        [
+          "ㅚ",
+          "ㅙ",
+          8
+        ],
+        [
+          "ㅅ",
+          "ㅆ",
+          8
+        ],
+        [
+          "ㅙ",
+          "ㅞ",
+          7
+        ],
+        [
+          "ㅘ",
+          "ㅚ",
+          6
+        ],
+        [
+          "ㅘ",
+          "ㅗ",
+          6
+        ],
+        [
+          "ㅠ",
+          "ㄲ",
+          6
+        ],
+        [
+          "ㅆ",
+          "ㅉ",
+          4
+        ],
+        [
+          "ㅙ",
+          "ㄸ",
+          4
+        ],
+        [
+          "ㅣ",
+          "ㅏ",
+          4
+        ],
+        [
+          "ㅢ",
+          "ㅅ",
+          4
+        ],
+        [
+          "ㅂ",
+          "ㅕ",
+          3
+        ],
+        [
+          "ㅕ",
+          "ㅓ",
+          3
+        ],
+        [
+          "ㅘ",
+          "ㅏ",
+          3
+        ],
+        [
+          "ㅂ",
+          "ㅝ",
+          3
+        ],
+        [
+          "ㅈ",
+          "ㅡ",
+          3
+        ],
+        [
+          "ㅢ",
+          "ㅗ",
+          3
+        ],
+        [
+          "ㅜ",
+          "ㄸ",
+          2
+        ],
+        [
+          "ㅙ",
+          "ㅆ",
+          2
+        ],
+        [
+          "ㅆ",
+          "ㅛ",
+          2
+        ],
+        [
+          "ㅅ",
+          "ㅑ",
+          2
+        ],
+        [
+          "ㅘ",
+          "ㅛ",
+          1
+        ],
+        [
+          "ㅜ",
+          "ㄱ",
+          1
+        ],
+        [
+          "ㅙ",
+          "ㅐ",
+          1
+        ],
+        [
+          "ㅕ",
+          "ㅘ",
+          1
+        ],
+        [
+          "ㅢ",
+          "ㅓ",
+          1
+        ],
+        [
+          "ㅈ",
+          "ㄹ",
+          1
+        ]
+      ]
+    }
+  }
+}

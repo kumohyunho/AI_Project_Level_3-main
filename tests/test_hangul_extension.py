@@ -81,6 +81,27 @@ class JamoTrackingTest(unittest.TestCase):
         self.assertGreater(extension.votes.disagree[1], 0)
         self.assertEqual(seen[-1].direction, "→")
 
+    def test_class_aware_breaks_id_on_class_flicker(self):
+        # 회전한 ㅏ가 여러 프레임 연속으로 ㅓ로 검출되는 경우입니다.
+        # 클래스 무관 연결(기본)은 ID 하나를 유지하고, 클래스별 연결(비교 실험)은 새 ID를 만듭니다.
+        # 한 프레임만 잘못 검출되면 새 트랙이 확정되기 전에 원래 트랙이 다시 이어져 둘 다 ID 하나입니다.
+        def script(index):
+            x = 20 + 6 * index
+            return [[x, 80, x + 40, 140]], [0.9], [EO if 11 <= index <= 15 else A]
+
+        def ids(class_aware):
+            extension = make_extension(script)
+            extension.class_aware = class_aware
+            extension.reset()
+            seen = []
+            for index in range(1, 31):
+                boxes, _, _ = script(index)
+                seen += extension.process(colored_frame(boxes, [(40, 40, 220)]), index)
+            return {row.track_id for row in seen}
+
+        self.assertEqual(ids(False), {1})
+        self.assertGreater(len(ids(True)), 1)
+
     def test_two_objects_get_separate_ids_and_labels(self):
         def script(index):
             return ([[20 + 5 * index, 30, 60 + 5 * index, 90], [400 - 5 * index, 150, 440 - 5 * index, 210]],
