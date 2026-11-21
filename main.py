@@ -225,7 +225,9 @@ class Window(QMainWindow):
         self.tracker = QComboBox()
         for name in tracker_choices():
             self.tracker.addItem(tracker_label(name), name)
-        self.tracker.setCurrentIndex(max(0, self.tracker.findData("improved")))
+        # 기본 검출기(person.pt)에서는 기본판이 MOT17 test HOTA 51.46으로 개선판(51.03)보다 높아 기본판을 기본값으로 둡니다
+        # (docs/MOT17_RESULTS.md 2절).
+        self.tracker.setCurrentIndex(max(0, self.tracker.findData("baseline")))
         model_bar.addWidget(self.tracker)
         model_bar.addWidget(QLabel("대상"))
         self.class_checks = {}

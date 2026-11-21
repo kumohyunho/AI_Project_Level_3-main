@@ -33,6 +33,11 @@ class GuiClassesTest(unittest.TestCase):
         self.addCleanup(window.close)
         return window
 
+    def test_default_tracker_is_baseline(self):
+        window = self.make_window()
+        self.assertEqual(window.tracker.currentData(), "baseline")
+        self.assertEqual(window.pipeline_config().tracker, "baseline")
+
     def test_only_person_can_be_selected(self):
         window = self.make_window()
         self.assertEqual(list(window.class_checks), ["person"])
