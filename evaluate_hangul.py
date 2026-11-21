@@ -368,6 +368,7 @@ def main(args):
         verify = args.verify or HangulJamoExtension.verify
         verify_frames = args.verify_frames or HangulJamoExtension.verify_frames
         vote_decay = args.vote_decay if args.vote_decay is not None else HangulJamoExtension.vote_decay
+        class_aware = args.class_aware
 
         @classmethod
         def weights_path(cls):
@@ -439,6 +440,7 @@ def main(args):
     print(write_report(folder, args.name, weights, sequences, results, det_ms))
     (folder / "summary.json").write_text(json.dumps(dict(
         name=args.name, weights=str(weights), sequences=[s.name for s in sequences], det_ms=det_ms,
+        class_aware=args.class_aware,
         created=datetime.now().isoformat(timespec="seconds"),
         results={t: dict(tracking=r["tracking"], classification=r["classification"], track_ms=r["track_ms"],
                          config=r["config"], per_jamo=r["per_jamo"],
@@ -468,6 +470,8 @@ if __name__ == "__main__":
                         help="ID 복원 시 자모 확인 방식 (기본: 확장 기능의 설정). off / reentry(재진입만) / all(재등장도)")
     parser.add_argument("--verify-frames", type=int, help="자모 확인에 쓰는 검출 횟수 (기본: 확장 기능의 설정)")
     parser.add_argument("--vote-decay", type=float, help="다수결 표 감쇠 (1.0 = 전체 다수결, 기본: 확장 기능의 설정)")
+    parser.add_argument("--class-aware", action="store_true",
+                        help="비교 실험: 검출 클래스를 그대로 추적기에 넘겨 클래스가 다른 검출끼리 연결하지 않음 (기본: 클래스 무관)")
     parser.add_argument("--summarize", nargs="+", metavar="NAME",
                         help="이미 실행한 평가들(results/hangul/<NAME>)을 표 하나로 모읍니다 → results/hangul/comparison.md")
     main(parser.parse_args())

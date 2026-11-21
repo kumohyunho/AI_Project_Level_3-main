@@ -99,6 +99,9 @@ class HangulJamoExtension(DetectTrackExtension):
     compose_frames = 8         # 같은 단어가 같은 자리에서 이만큼 이어져야 표시 (우연히 잠깐 맞물린 것은 버림)
     compose_speed = 0.35       # 이 속도(자모 크기/초)보다 느린, 즉 멈춰 있는 자모만 조합 (떠다니다 우연히 붙은 것 제외)
     vote_decay = 0.97          # 다수결 표의 감쇠 (JamoVotes 참고). 검증 영상에서 1.0·0.97·0.9 중 0.97이 가장 좋았음 (docs/HANGUL.md)
+    # (비교 실험용, 기본 꺼짐) True면 검출 클래스를 그대로 추적기에 넘겨, 클래스가 다른 검출끼리는 연결하지 않습니다.
+    # 기본(False)은 모든 검출을 같은 클래스로 넘기고 자모는 투표로 정합니다. 비교 결과는 docs/HANGUL.md 7절.
+    class_aware = False
 
     def __init__(self, device="cpu", fps=30.0):
         super().__init__(device, fps)
@@ -166,7 +169,10 @@ class HangulJamoExtension(DetectTrackExtension):
         from tracker.matching import iou_matrix
 
         # 추적기에는 모든 검출을 같은 클래스(0)로 넘깁니다. 클래스가 프레임마다 바뀌어도 ID가 끊기지 않습니다.
-        tracks = self.byte_tracker.update(boxes, scores, np.zeros(len(boxes), dtype=int), features, frame_size)
+        # (class_aware=True면 검출 클래스를 그대로 넘기는 비교 실험용 동작)
+        track_classes = (np.asarray(class_ids, dtype=int) if self.class_aware
+                         else np.zeros(len(boxes), dtype=int))
+        tracks = self.byte_tracker.update(boxes, scores, track_classes, features, frame_size)
         observed, observed_score = {}, {}
         if tracks and len(boxes):
             overlap = iou_matrix([t.box for t in tracks], boxes)
